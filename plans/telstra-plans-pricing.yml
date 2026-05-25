@@ -1,0 +1,76 @@
+plans: 0.1
+provider: telstra
+title: Telstra Messaging Commercial Plans
+description: |
+  Plans surface for the Telstra Messaging API as published on dev.telstra.com.
+  Telstra exposes a Free Trial tier and a Paid commercial tier. Pricing for the
+  Paid tier is negotiated under a Telstra commercial agreement; the Free Trial
+  offers a fixed quota of messages over a fixed window using Telstra-supplied
+  test numbers.
+sources:
+  - https://dev.telstra.com
+  - https://github.com/telstra/MessagingAPI-SDK-python
+plans:
+  - id: free-trial
+    name: Free Trial
+    description: |
+      Sandbox-style trial for evaluating the Messaging API. Includes a fixed
+      message allowance dispatched from Telstra-supplied trial numbers; replies
+      are restricted to whitelisted recipient numbers.
+    entries:
+      - geo: AU
+        label: Trial Messages
+        price: 0
+        unit: 1000
+        metric: message
+        timeFrame: trial
+        description: Approximately 1000 free messages during the trial period.
+      - geo: AU
+        label: Trial Period
+        price: 0
+        unit: 30
+        metric: day
+        timeFrame: trial
+        description: 30 day trial window.
+    elements:
+      - name: Send SMS to whitelisted Australian numbers
+      - name: Send MMS to whitelisted Australian numbers
+      - name: Receive replies on Telstra-supplied trial number
+      - name: Delivery status callbacks
+  - id: paid
+    name: Paid (Commercial)
+    description: |
+      Production tier with negotiated per-message pricing under a Telstra
+      commercial agreement. Includes provisioned dedicated virtual numbers,
+      international reach, and SLA-backed delivery.
+    entries:
+      - geo: AU
+        label: SMS — Australia
+        price: Negotiated
+        unit: 1
+        metric: message
+        timeFrame: usage
+      - geo: AU
+        label: MMS — Australia
+        price: Negotiated
+        unit: 1
+        metric: message
+        timeFrame: usage
+      - geo: International
+        label: SMS — International
+        price: Negotiated
+        unit: 1
+        metric: message
+        timeFrame: usage
+      - geo: AU
+        label: Dedicated Virtual Number
+        price: Negotiated
+        unit: 1
+        metric: number
+        timeFrame: month
+    elements:
+      - name: Dedicated virtual mobile number subscription
+      - name: Two-way SMS and MMS
+      - name: International outbound SMS coverage
+      - name: Production rate limits negotiated per agreement
+      - name: SLA-backed delivery

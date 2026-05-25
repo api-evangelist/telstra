@@ -1,0 +1,155 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Telstra Messaging API — SMS
+  description: 'Telstra Messaging API — SMS. 4 operations: send SMS, get replies, check status, healthcheck.
+    Self-contained Naftiko capability covering the SMS business surface of Telstra Messaging.'
+  tags:
+  - Telstra
+  - Messaging
+  - SMS
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    TELSTRA_ACCESS_TOKEN: TELSTRA_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: messaging-sms
+    baseUri: https://tapi.telstra.com/v2
+    description: Telstra Messaging SMS surface. Bearer token from /oauth/token (NSMS scope).
+    resources:
+    - name: messages-sms
+      path: /messages/sms
+      operations:
+      - name: sendsms
+        method: POST
+        description: Telstra Send SMS
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: SMS request body.
+          required: true
+      - name: getsmsreplies
+        method: GET
+        description: Telstra Get SMS Replies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: messages-sms-status
+      path: /messages/sms/{messageId}/status
+      operations:
+      - name: getsmsstatus
+        method: GET
+        description: Telstra Get SMS Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: messageId
+          in: path
+          type: string
+          required: true
+    - name: messages-sms-healthcheck
+      path: /messages/sms/healthcheck
+      operations:
+      - name: smshealthcheck
+        method: GET
+        description: Telstra SMS Healthcheck
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      value: '{{env.TELSTRA_ACCESS_TOKEN}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: messaging-sms-rest
+    port: 8080
+    description: REST adapter for Telstra Messaging SMS.
+    resources:
+    - path: /v1/messages/sms
+      name: messages-sms
+      operations:
+      - method: POST
+        name: sendsms
+        description: Telstra Send SMS
+        call: messaging-sms.sendsms
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getsmsreplies
+        description: Telstra Get SMS Replies
+        call: messaging-sms.getsmsreplies
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/messages/sms/{messageId}/status
+      name: messages-sms-status
+      operations:
+      - method: GET
+        name: getsmsstatus
+        description: Telstra Get SMS Status
+        call: messaging-sms.getsmsstatus
+        with:
+          messageId: rest.path.messageId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: messaging-sms-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Telstra Messaging SMS.
+    tools:
+    - name: telstra-send-sms
+      description: Telstra Send SMS
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: messaging-sms.sendsms
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: telstra-get-sms-replies
+      description: Telstra Get SMS Replies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: messaging-sms.getsmsreplies
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: telstra-get-sms-status
+      description: Telstra Get SMS Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: messaging-sms.getsmsstatus
+      with:
+        messageId: tools.messageId
+      outputParameters:
+      - type: object
+        mapping: $.

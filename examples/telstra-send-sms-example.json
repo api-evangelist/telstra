@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://tapi.telstra.com/v2/messages/sms",
+    "headers": {
+      "Authorization": "Bearer <access_token>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "to": "+61412345678",
+      "body": "Your verification code is 482917.",
+      "from": "VERIFY",
+      "validity": 60,
+      "notifyURL": "https://example.com/telstra/callbacks",
+      "replyRequest": false,
+      "priority": false,
+      "userMsgRef": "order-9421"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "messages": [
+        {
+          "to": "+61412345678",
+          "deliveryStatus": "MessageWaiting",
+          "messageId": "F2C9D63A1B4641C2A4F60B6CF63B6E50",
+          "messageStatusURL": "https://tapi.telstra.com/v2/messages/sms/F2C9D63A1B4641C2A4F60B6CF63B6E50/status"
+        }
+      ],
+      "country": [{ "AU": 1 }],
+      "messageType": "SMS",
+      "numberSegments": 1,
+      "numberNationalDestinations": 1,
+      "numberInternationalDestinations": 0
+    }
+  }
+}

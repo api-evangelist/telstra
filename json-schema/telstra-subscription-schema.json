@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-subscription-schema.json",
+  "title": "Telstra Subscription",
+  "description": "Dedicated virtual number subscription provisioned through the Telstra Messaging Provisioning API.",
+  "type": "object",
+  "required": ["destinationAddress"],
+  "properties": {
+    "destinationAddress": {
+      "type": "string",
+      "description": "Dedicated virtual number assigned to the application (E.164)."
+    },
+    "activeDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1825,
+      "description": "Subscription lifetime in days."
+    },
+    "notifyURL": {
+      "type": "string",
+      "format": "uri"
+    },
+    "callbackData": {
+      "type": "string"
+    },
+    "expiryDate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,189 @@
+aid: telstra
+url: https://raw.githubusercontent.com/api-evangelist/telstra/refs/heads/main/apis.yml
+apis:
+- aid: telstra:telstra-messaging-api
+  name: Telstra Messaging API
+  tags:
+  - Messaging
+  - SMS
+  - MMS
+  - Telecommunications
+  - Mobile
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  properties:
+  - url: https://dev.telstra.com
+    type: Documentation
+  - url: openapi/telstra-messaging-api-openapi.yml
+    type: OpenAPI
+  - url: json-schema/telstra-message-schema.json
+    type: JSONSchema
+  - url: json-schema/telstra-subscription-schema.json
+    type: JSONSchema
+  - url: json-structure/telstra-message-structure.json
+    type: JSONStructure
+  - url: json-ld/telstra-context.jsonld
+    type: JSONLD
+  - url: examples/telstra-send-sms-example.json
+    type: Example
+  - url: examples/telstra-create-subscription-example.json
+    type: Example
+  - type: NaftikoCapability
+    url: capabilities/messaging-sms.yaml
+  - type: NaftikoCapability
+    url: capabilities/messaging-mms.yaml
+  - type: NaftikoCapability
+    url: capabilities/messaging-provisioning.yaml
+  - type: NaftikoCapability
+    url: capabilities/messaging-auth.yaml
+  - url: https://github.com/telstra/MessagingAPI-SDK-python
+    type: SDK
+    name: Python SDK
+  - url: https://github.com/telstra/MessagingAPI-SDK-node
+    type: SDK
+    name: Node.js SDK
+  - url: https://github.com/telstra/MessagingAPI-SDK-Java
+    type: SDK
+    name: Java SDK
+  - url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+    type: SDK
+    name: .NET SDK
+  - url: https://github.com/telstra/MessagingAPI-SDK-Go
+    type: SDK
+    name: Go SDK
+  description: Send and receive SMS and MMS messages programmatically across the Telstra mobile network. Supports
+    outbound delivery to Australian and international destinations, inbound replies on provisioned dedicated
+    virtual numbers, delivery status callbacks, scheduled delivery, and message validity windows. Authentication
+    uses OAuth 2.0 client credentials with the NSMS scope against /oauth/token.
+- aid: telstra:telstra-mobile-number-verification-api
+  name: Telstra Mobile Number Verification API
+  tags:
+  - Verification
+  - Identity
+  - Authentication
+  - Mobile
+  - Telecommunications
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v1
+  properties:
+  - url: https://dev.telstra.com
+    type: Documentation
+  - url: openapi/telstra-mobile-number-verification-api-openapi.yml
+    type: OpenAPI
+  - type: NaftikoCapability
+    url: capabilities/mobile-number-verification.yaml
+  description: Silent, in-network verification of a Telstra mobile customer's MSISDN against the device's active
+    mobile data session. Designed to replace SMS one-time-password flows for sign-in, account recovery, and
+    fraud-check workflows on the Telstra consumer network. Authentication uses OAuth 2.0 client credentials with
+    the MNV scope.
+name: Telstra
+tags:
+- Telecommunications
+- Telco
+- Mobile
+- Messaging
+- SMS
+- MMS
+- Networks
+- Australia
+- Verification
+kind: contract
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+common:
+- type: Portal
+  url: https://dev.telstra.com
+- type: Portal
+  url: https://www.telstra.com.au
+- type: Documentation
+  url: https://dev.telstra.com
+- type: SignUp
+  url: https://dev.telstra.com
+- type: GitHubOrganization
+  url: https://github.com/telstra
+- type: StatusPage
+  url: https://crowdsupport.telstra.com.au/t5/network-coverage/ct-p/Networkcoverage
+- type: TermsOfService
+  url: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+- type: PrivacyPolicy
+  url: https://www.telstra.com.au/privacy
+- type: LinkedIn
+  url: https://www.linkedin.com/company/telstra
+- type: Blog
+  url: https://exchange.telstra.com.au
+- type: Support
+  url: https://www.telstra.com.au/support
+- type: Forum
+  url: https://crowdsupport.telstra.com.au
+- type: GitHub
+  url: https://github.com/telstra
+- url: https://github.com/telstra/MessagingAPI-SDK-python
+  name: Python SDK
+  type: SDK
+- url: https://github.com/telstra/MessagingAPI-SDK-node
+  name: Node.js SDK
+  type: SDK
+- url: https://github.com/telstra/MessagingAPI-SDK-Java
+  name: Java SDK
+  type: SDK
+- url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  name: .NET SDK
+  type: SDK
+- url: https://github.com/telstra/MessagingAPI-SDK-Go
+  name: Go SDK
+  type: SDK
+- url: https://github.com/telstra/tdev-doc-license
+  name: Telstra Dev Documentation License
+  type: License
+- url: https://github.com/telstra/Cat-1-Development-Kit
+  name: Telstra Cat-1 Development Kit (Arduino)
+  type: Tool
+- url: https://github.com/telstra/Cat-M1-Dev-Board
+  name: Telstra Cat-M1 Development Board (Arduino)
+  type: Tool
+- url: plans/telstra-plans-pricing.yml
+  type: Plans
+- url: rate-limits/telstra-rate-limits.yml
+  type: RateLimits
+- url: finops/telstra-finops.yml
+  type: FinOps
+- url: rules/telstra-rules.yml
+  type: SpectralRuleset
+- url: vocabulary/telstra-vocabulary.yml
+  type: Vocabulary
+- type: Features
+  data:
+  - SMS messaging (single, multi-recipient) over the Telstra mobile network
+  - MMS messaging with multipart payloads (image, audio, video, SMIL, vCard)
+  - Inbound replies on Telstra-provisioned dedicated virtual numbers
+  - Delivery status notifications via push callbacks (notifyURL) and pull status endpoint
+  - Scheduled delivery and validity-period controls
+  - Priority message flag and per-message user reference
+  - OAuth 2.0 client credentials grant with NSMS scope (3599 second bearer tokens)
+  - Free Trial tier with Telstra-supplied trial numbers and whitelisted recipients
+  - Commercial Paid tier with negotiated per-message pricing and SLA
+  - International SMS reach beyond Australia
+  - Official SDKs in Python, Node.js, Java, .NET, and Go
+  - Service healthchecks for SMS and MMS surfaces
+  - Mobile Number Verification — silent MSISDN match on the Telstra data network (separate API)
+  - Arduino development kits for Cat-1 and Cat-M1 IoT modules on the Telstra network
+  sources:
+  - https://dev.telstra.com
+  - https://github.com/telstra
+  - https://github.com/telstra/MessagingAPI-SDK-python
+  updated: '2026-05-25'
+created: '2026-05-25T00:00:00.000Z'
+modified: '2026-05-25'
+position: Consuming
+description: Telstra is Australia's largest telecommunications and mobile network operator, providing fixed
+  broadband, mobile voice and data, enterprise networking, and IoT connectivity across Australia and into Asia.
+  Telstra exposes a developer programme at dev.telstra.com fronting carrier-grade Messaging (SMS / MMS) and Mobile
+  Number Verification APIs, with official SDKs in Python, Node.js, Java, .NET, and Go, and Arduino libraries for
+  the Telstra Cat-1 and Cat-M1 IoT development kits. APIs are reached at tapi.telstra.com behind OAuth 2.0 client
+  credentials with the NSMS or MNV scopes.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+  X: apievangelist
+  url: https://apievangelist.com
+specificationVersion: '0.16'

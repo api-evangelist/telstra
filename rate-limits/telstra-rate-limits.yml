@@ -1,0 +1,53 @@
+rateLimits: 0.1
+provider: telstra
+title: Telstra Messaging API Rate Limits
+description: |
+  Rate limit policies for the Telstra Messaging API. Published trial limits
+  apply to the Free Trial tier; production limits are negotiated per
+  commercial agreement. The Telstra Messaging API enforces rate limits at the
+  client_id level, with HTTP 429 returned when limits are exceeded.
+sources:
+  - https://dev.telstra.com
+policies:
+  - id: trial-throughput
+    scope: Free Trial
+    applies-to: ["/messages/sms", "/messages/mms"]
+    limit:
+      requests: 100
+      window: minute
+    description: |
+      Free Trial accounts are limited to approximately 100 messages per
+      minute per client_id and capped at the trial message allowance.
+  - id: production-throughput
+    scope: Paid (Commercial)
+    applies-to: ["/messages/sms", "/messages/mms"]
+    limit:
+      requests: negotiated
+      window: minute
+    description: |
+      Production limits are negotiated as part of the commercial agreement
+      and tuned to the customer's expected sending profile.
+  - id: oauth-throughput
+    scope: All
+    applies-to: ["/oauth/token"]
+    limit:
+      requests: 10
+      window: minute
+    description: |
+      Token issuance is rate limited; clients should cache the bearer token
+      for the full expires_in window (~3599 seconds).
+  - id: status-polling
+    scope: All
+    applies-to: ["/messages/sms/{messageId}/status", "/messages/mms/{messageId}/status"]
+    limit:
+      requests: 60
+      window: minute
+    description: |
+      Status polling is rate limited; prefer push-based notifyURL callbacks
+      over polling.
+errorResponse:
+  status: 429
+  body:
+    status: "429"
+    code: "Too Many Requests"
+    message: "Rate limit exceeded"

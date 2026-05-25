@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions",
+    "headers": {
+      "Authorization": "Bearer <access_token>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "activeDays": 30,
+      "notifyURL": "https://example.com/telstra/inbound",
+      "callbackData": "campaign-spring-2026"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "destinationAddress": "+61428111222",
+      "activeDays": 30,
+      "notifyURL": "https://example.com/telstra/inbound",
+      "expiryDate": "2026-06-24T00:00:00Z"
+    }
+  }
+}

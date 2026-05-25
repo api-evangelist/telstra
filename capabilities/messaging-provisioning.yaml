@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Telstra Messaging API — Provisioning
+  description: 'Telstra Messaging API — Provisioning. 3 operations covering dedicated virtual number subscription
+    lifecycle. Self-contained Naftiko capability.'
+  tags:
+  - Telstra
+  - Messaging
+  - Provisioning
+  - VirtualNumber
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+- namespace: env
+  keys:
+    TELSTRA_ACCESS_TOKEN: TELSTRA_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: messaging-provisioning
+    baseUri: https://tapi.telstra.com/v2
+    description: Telstra Messaging provisioning surface. Bearer token from /oauth/token (NSMS scope).
+    resources:
+    - name: provisioning-subscriptions
+      path: /messages/provisioning/subscriptions
+      operations:
+      - name: createsubscription
+        method: POST
+        description: Telstra Create Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+      - name: getsubscription
+        method: GET
+        description: Telstra Get Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletesubscription
+        method: DELETE
+        description: Telstra Delete Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+    authentication:
+      type: bearer
+      value: '{{env.TELSTRA_ACCESS_TOKEN}}'
+      placement: header
+  exposes:
+  - type: mcp
+    namespace: messaging-provisioning-mcp
+    port: 9092
+    transport: http
+    description: MCP adapter for Telstra Messaging provisioning.
+    tools:
+    - name: telstra-create-subscription
+      description: Telstra Create Subscription
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: messaging-provisioning.createsubscription
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: telstra-get-subscription
+      description: Telstra Get Subscription
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: messaging-provisioning.getsubscription
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: telstra-delete-subscription
+      description: Telstra Delete Subscription
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: messaging-provisioning.deletesubscription
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

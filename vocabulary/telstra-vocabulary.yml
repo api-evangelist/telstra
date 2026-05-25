@@ -1,0 +1,57 @@
+vocabulary: 0.1
+namespace: telstra
+title: Telstra Vocabulary
+description: |
+  Canonical concepts, services, tools and standards represented in the
+  Telstra catalog entry. Anchors are referenced from apis.yml and from
+  generated artifacts.
+concepts:
+  - id: SMS
+    label: SMS
+    description: Short Message Service — outbound and inbound text messaging over the cellular network.
+  - id: MMS
+    label: MMS
+    description: Multimedia Messaging Service — image, audio, video, vCard, or SMIL multipart content.
+  - id: VirtualNumber
+    label: Virtual Number
+    description: Telstra-provisioned dedicated mobile number for two-way messaging applications.
+  - id: DeliveryReceipt
+    label: Delivery Receipt
+    description: Carrier-issued status callback indicating the lifecycle stage of a sent message.
+  - id: NSMS
+    label: NSMS Scope
+    description: OAuth scope authorising the Telstra Messaging API surfaces.
+  - id: MNV
+    label: Mobile Number Verification
+    description: Silent network-side verification of a Telstra mobile customer's MSISDN.
+  - id: Carrier
+    label: Mobile Carrier
+    description: Network operator routing the message; Telstra is the originating carrier.
+services:
+  - id: messaging
+    label: Telstra Messaging API
+    description: SMS and MMS messaging plus provisioning, with bearer-token OAuth.
+  - id: mnv
+    label: Telstra Mobile Number Verification API
+    description: In-network silent verification of mobile customer MSISDNs.
+tools:
+  - id: messaging-sdk-java
+    label: MessagingAPI-SDK-Java
+  - id: messaging-sdk-python
+    label: MessagingAPI-SDK-python
+  - id: messaging-sdk-node
+    label: MessagingAPI-SDK-node
+  - id: messaging-sdk-dotnet
+    label: MessagingAPI-SDK-dotnet
+  - id: messaging-sdk-go
+    label: MessagingAPI-SDK-Go
+standards:
+  - id: oauth2
+    label: OAuth 2.0 Client Credentials Grant
+    url: https://www.rfc-editor.org/rfc/rfc6749#section-4.4
+  - id: e164
+    label: E.164
+    url: https://www.itu.int/rec/T-REC-E.164
+  - id: smil
+    label: SMIL 3.0
+    url: https://www.w3.org/TR/SMIL3/

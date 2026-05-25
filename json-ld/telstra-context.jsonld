@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "telstra": "https://tapi.telstra.com/v2/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "Message": {
+      "@id": "telstra:Message",
+      "@context": {
+        "to": { "@id": "telstra:Message/to", "@type": "xsd:string" },
+        "from": { "@id": "telstra:Message/from", "@type": "xsd:string" },
+        "body": { "@id": "schema:text", "@type": "xsd:string" },
+        "subject": { "@id": "schema:headline", "@type": "xsd:string" },
+        "messageId": { "@id": "schema:identifier", "@type": "xsd:string" },
+        "deliveryStatus": { "@id": "telstra:Message/deliveryStatus", "@type": "xsd:string" },
+        "sentTimestamp": { "@id": "schema:dateSent", "@type": "xsd:dateTime" },
+        "receivedTimestamp": { "@id": "schema:dateReceived", "@type": "xsd:dateTime" },
+        "notifyURL": { "@id": "telstra:Message/notifyURL", "@type": "xsd:anyURI" }
+      }
+    },
+    "Subscription": {
+      "@id": "telstra:Subscription",
+      "@context": {
+        "destinationAddress": { "@id": "schema:telephone", "@type": "xsd:string" },
+        "activeDays": { "@id": "telstra:Subscription/activeDays", "@type": "xsd:integer" },
+        "notifyURL": { "@id": "telstra:Subscription/notifyURL", "@type": "xsd:anyURI" },
+        "expiryDate": { "@id": "schema:expires", "@type": "xsd:dateTime" }
+      }
+    },
+    "OAuthToken": {
+      "@id": "telstra:OAuthToken",
+      "@context": {
+        "access_token": { "@id": "telstra:OAuthToken/accessToken", "@type": "xsd:string" },
+        "expires_in": { "@id": "telstra:OAuthToken/expiresIn", "@type": "xsd:string" },
+        "token_type": { "@id": "telstra:OAuthToken/tokenType", "@type": "xsd:string" }
+      }
+    },
+    "VerificationResult": {
+      "@id": "telstra:VerificationResult",
+      "@context": {
+        "verified": { "@id": "telstra:VerificationResult/verified", "@type": "xsd:boolean" },
+        "carrier": { "@id": "telstra:VerificationResult/carrier", "@type": "xsd:string" },
+        "clientReference": { "@id": "schema:identifier", "@type": "xsd:string" },
+        "timestamp": { "@id": "schema:dateCreated", "@type": "xsd:dateTime" }
+      }
+    },
+    "ErrorResponse": {
+      "@id": "telstra:ErrorResponse",
+      "@context": {
+        "status": { "@id": "telstra:ErrorResponse/status", "@type": "xsd:string" },
+        "code": { "@id": "telstra:ErrorResponse/code", "@type": "xsd:string" },
+        "message": { "@id": "schema:description", "@type": "xsd:string" }
+      }
+    }
+  }
+}

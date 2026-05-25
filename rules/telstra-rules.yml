@@ -1,0 +1,44 @@
+extends:
+  - spectral:oas
+rules:
+  telstra-operation-summary-title-case:
+    description: Operation summaries should be in Title Case and prefixed with "Telstra ".
+    severity: warn
+    given: $.paths.*[get,post,put,delete,patch].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^Telstra [A-Z][A-Za-z0-9]*( [A-Z][A-Za-z0-9]*)*$'
+  telstra-bearer-or-oauth-only:
+    description: Every operation must use OAuth2ClientCredentials with the NSMS or MNV scope, except the token endpoint.
+    severity: error
+    given: $.paths[?(@property != '/oauth/token')]..security[*]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [OAuth2ClientCredentials]
+  telstra-error-response-shape:
+    description: 4xx and 5xx responses should reference the canonical ErrorResponse schema.
+    severity: warn
+    given: $.paths.*.*.responses.[4??,5??].content.application/json.schema
+    then:
+      field: $ref
+      function: pattern
+      functionOptions:
+        match: '#/components/schemas/ErrorResponse$'
+  telstra-host-must-be-tapi:
+    description: Server URL must use tapi.telstra.com.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://tapi\.telstra\.com'
+  telstra-info-contact:
+    description: Spec must include Telstra Developer support contact.
+    severity: warn
+    given: $.info.contact
+    then:
+      function: truthy

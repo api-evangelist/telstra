@@ -1,0 +1,51 @@
+{
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-structure/telstra-message-structure.json",
+  "title": "Telstra Message Structure",
+  "description": "JSON Structure summary of the Telstra Messaging API message lifecycle.",
+  "entities": {
+    "Message": {
+      "produces": [
+        "Inbound MSISDN reply via /messages/sms or /messages/mms (GET)",
+        "Status report via /messages/{sms|mms}/{messageId}/status"
+      ],
+      "consumes": [
+        "POST /messages/sms",
+        "POST /messages/mms"
+      ],
+      "callbacks": [
+        "notifyURL receives delivery status events",
+        "notifyURL receives inbound reply events when replyRequest=true or a provisioned virtual number is in use"
+      ],
+      "lifecycle": [
+        "MessageWaiting",
+        "DeliveredToNetwork",
+        "MessageBuffered",
+        "DeliveredToTerminal",
+        "DeliveryImpossible",
+        "Rejected"
+      ]
+    },
+    "Subscription": {
+      "produces": [
+        "Virtual number assignment (destinationAddress)"
+      ],
+      "consumes": [
+        "POST /messages/provisioning/subscriptions"
+      ],
+      "lifecycle": [
+        "Created",
+        "Active",
+        "Expired",
+        "Released"
+      ]
+    },
+    "Token": {
+      "produces": [
+        "Bearer access_token, expires_in (~3599s)"
+      ],
+      "consumes": [
+        "POST /oauth/token (client_credentials, scope=NSMS or scope=MNV)"
+      ]
+    }
+  }
+}

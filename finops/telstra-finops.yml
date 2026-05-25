@@ -1,0 +1,69 @@
+finops: 0.1
+provider: telstra
+title: Telstra Messaging FinOps Surface
+description: |
+  FinOps view of the Telstra Messaging API aligned with the FOCUS data
+  specification. The Telstra Messaging product is billed per message
+  (SMS / MMS), per provisioned virtual number, and per international
+  destination, under a commercial agreement.
+sources:
+  - https://www.telstra.com.au/business-enterprise
+  - https://dev.telstra.com
+billingSurfaces:
+  - id: messaging-sms-domestic
+    service: Telstra Messaging
+    sku: SMS-AU
+    chargeCategory: Usage
+    pricingUnit: 1 message
+    geography: AU
+    description: Per-message charge for Australian outbound SMS.
+  - id: messaging-sms-international
+    service: Telstra Messaging
+    sku: SMS-INTL
+    chargeCategory: Usage
+    pricingUnit: 1 message
+    geography: International
+    description: Per-message charge for international outbound SMS.
+  - id: messaging-mms-domestic
+    service: Telstra Messaging
+    sku: MMS-AU
+    chargeCategory: Usage
+    pricingUnit: 1 message
+    geography: AU
+    description: Per-message charge for Australian outbound MMS.
+  - id: messaging-virtual-number
+    service: Telstra Messaging
+    sku: VNUMBER
+    chargeCategory: Subscription
+    pricingUnit: 1 number-month
+    geography: AU
+    description: Monthly rental for each provisioned dedicated virtual number.
+  - id: mnv-verification
+    service: Telstra Mobile Number Verification
+    sku: MNV-VERIFY
+    chargeCategory: Usage
+    pricingUnit: 1 verification
+    geography: AU
+    description: Per-verification charge for silent MSISDN verification.
+focus:
+  - column: ServiceName
+    value: Telstra Messaging
+  - column: ServiceCategory
+    value: Communication
+  - column: BillingPeriodStart
+    derivedFrom: Telstra invoice cycle (calendar month).
+  - column: PricingUnit
+    valueExamples: ["1 message", "1 number-month", "1 verification"]
+  - column: ChargeCategory
+    valueExamples: ["Usage", "Subscription"]
+  - column: BilledCurrency
+    value: AUD
+  - column: PricingQuantity
+    derivedFrom: Number of messages or numbers in the billing window.
+  - column: BillingAccountId
+    derivedFrom: Telstra account number tied to the client_id.
+notes:
+  - Telstra does not currently publish a programmatic usage/billing API for
+    Messaging; customers reconcile usage via the Telstra Business Portal
+    and the monthly invoice.
+  - Free Trial usage is not billed.

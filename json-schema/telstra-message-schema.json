@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-message-schema.json",
+  "title": "Telstra Message",
+  "description": "Representation of an outbound SMS or MMS message sent through the Telstra Messaging API.",
+  "type": "object",
+  "required": ["to", "deliveryStatus", "messageId"],
+  "properties": {
+    "to": {
+      "type": "string",
+      "description": "Destination MSISDN in E.164 format."
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender ID or provisioned dedicated virtual number."
+    },
+    "body": {
+      "type": "string",
+      "description": "Message body (SMS only); MMS uses MMSContent parts."
+    },
+    "subject": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "MMS subject line."
+    },
+    "deliveryStatus": {
+      "type": "string",
+      "enum": [
+        "MessageWaiting",
+        "DeliveredToNetwork",
+        "MessageBuffered",
+        "DeliveredToTerminal",
+        "DeliveryImpossible",
+        "Rejected"
+      ]
+    },
+    "messageId": {
+      "type": "string"
+    },
+    "messageStatusURL": {
+      "type": "string",
+      "format": "uri"
+    },
+    "sentTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "receivedTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "userMsgRef": {
+      "type": "string"
+    },
+    "scheduledDelivery": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1440
+    },
+    "validity": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1440
+    },
+    "notifyURL": {
+      "type": "string",
+      "format": "uri"
+    },
+    "replyRequest": {
+      "type": "boolean"
+    },
+    "priority": {
+      "type": "boolean"
+    }
+  }
+}
