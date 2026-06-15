@@ -1,0 +1,228 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Telstra Messaging API",
+    "version": "2.2.10"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://tapi.telstra.com/v2/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Generate OAuth Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v2/oauth/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Generate an OAuth 2.0 bearer token using the client credentials grant with the NSMS scope."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Get SMS Replies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/sms"
+          },
+          "docs": "Retrieve queued inbound SMS replies for the authenticated dedicated virtual number."
+        },
+        {
+          "info": {
+            "name": "Telstra Send SMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v2/messages/sms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a single SMS message to one or more destination numbers. Returns a message ID per destination plus delivery and reply callback registrations."
+        },
+        {
+          "info": {
+            "name": "Telstra Get SMS Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/sms/:messageId/status",
+            "params": [
+              {
+                "name": "messageId",
+                "value": "",
+                "type": "path",
+                "description": "Server-issued message identifier returned from POST /messages/sms."
+              }
+            ]
+          },
+          "docs": "Retrieve the current delivery status for a previously sent SMS by message ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "HealthCheck",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra SMS Healthcheck",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/sms/healthcheck"
+          },
+          "docs": "Service availability indicator for SMS messaging."
+        },
+        {
+          "info": {
+            "name": "Telstra MMS Healthcheck",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/mms/healthcheck"
+          },
+          "docs": "Service availability indicator for MMS messaging."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Get MMS Replies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/mms"
+          },
+          "docs": "Retrieve queued inbound MMS replies for the authenticated dedicated virtual number."
+        },
+        {
+          "info": {
+            "name": "Telstra Send MMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v2/messages/mms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send an MMS containing one or more multimedia parts (image, audio, video, vCard, or text) to a destination number."
+        },
+        {
+          "info": {
+            "name": "Telstra Get MMS Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/mms/:messageId/status",
+            "params": [
+              {
+                "name": "messageId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the current delivery status for a previously sent MMS by message ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Provisioning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Get Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions"
+          },
+          "docs": "Retrieve the current dedicated virtual number subscription for the authenticated application."
+        },
+        {
+          "info": {
+            "name": "Telstra Create Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provision a dedicated virtual number subscription for the calling application, allowing inbound replies."
+        },
+        {
+          "info": {
+            "name": "Telstra Delete Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Release the dedicated virtual number subscription for the authenticated application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

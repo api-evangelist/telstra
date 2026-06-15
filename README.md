@@ -1,87 +1,120 @@
 # Telstra (telstra)
-Telstra is Australia's largest telecommunications and mobile network operator, providing fixed broadband, mobile voice and data, enterprise networking, and IoT connectivity across Australia and into Asia. Telstra exposes a developer programme at dev.telstra.com fronting carrier-grade Messaging (SMS / MMS) and Mobile Number Verification APIs, with official SDKs in Python, Node.js, Java, .NET, and Go, and Arduino libraries for the Telstra Cat-1 and Cat-M1 IoT development kits. APIs are reached at `tapi.telstra.com` behind OAuth 2.0 client credentials with the `NSMS` or `MNV` scopes.
 
-**URL:** [Visit APIs.json](https://raw.githubusercontent.com/api-evangelist/telstra/refs/heads/main/apis.yml)
+Telstra is Australia's largest telecommunications and mobile network operator, providing fixed broadband, mobile voice and data, enterprise networking, and IoT connectivity across Australia and into Asia. Telstra exposes a developer programme at dev.telstra.com fronting carrier-grade Messaging (SMS / MMS) and Mobile Number Verification APIs, with official SDKs in Python, Node.js, Java, .NET, and Go, and Arduino libraries for the Telstra Cat-1 and Cat-M1 IoT development kits. APIs are reached at tapi.telstra.com behind OAuth 2.0 client credentials with the NSMS or MNV scopes.
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/telstra/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/telstra/refs/heads/main/apis.yml)
+
+## Scope
+
+- **Position:** Consuming
+- **Access:** 3rd-Party
 
 ## Tags
 
- - Telecommunications, Telco, Mobile, Messaging, SMS, MMS, Networks, Australia, Verification
+- Telecommunications
+- Telco
+- Mobile
+- Messaging
+- SMS
+- MMS
+- Networks
+- Australia
+- Verification
 
 ## Timestamps
 
-- **Created:** 2026-05-25
+- **Created:** 2026-05-25T00:00:00.000Z
 - **Modified:** 2026-05-25
 
 ## APIs
 
 ### Telstra Messaging API
-Send and receive SMS and MMS messages programmatically across the Telstra mobile network. Outbound delivery to Australian and international destinations, inbound replies on provisioned dedicated virtual numbers, delivery status callbacks, scheduled delivery, and message validity windows. OAuth 2.0 client credentials with the `NSMS` scope.
 
-**Base URL:** `https://tapi.telstra.com/v2`
+Send and receive SMS and MMS messages programmatically across the Telstra mobile network. Supports outbound delivery to Australian and international destinations, inbound replies on provisioned dedicated virtual numbers, delivery status callbacks, scheduled delivery, and message validity windows. Authentication uses OAuth 2.0 client credentials with the NSMS scope against /oauth/token.
 
-**Human URL:** [https://dev.telstra.com](https://dev.telstra.com)
+- **Human URL:** [https://dev.telstra.com](https://dev.telstra.com)
+- **Base URL:** `https://tapi.telstra.com/v2`
 
-- [OpenAPI](openapi/telstra-messaging-api-openapi.yml)
-- [JSON Schema — Message](json-schema/telstra-message-schema.json)
-- [JSON Schema — Subscription](json-schema/telstra-subscription-schema.json)
-- [JSON Structure — Message](json-structure/telstra-message-structure.json)
-- [JSON-LD Context](json-ld/telstra-context.jsonld)
-- [Example — Send SMS](examples/telstra-send-sms-example.json)
-- [Example — OAuth Token](examples/telstra-oauth-token-example.json)
-- [Example — Create Subscription](examples/telstra-create-subscription-example.json)
-- [Naftiko Capability — SMS](capabilities/messaging-sms.yaml)
-- [Naftiko Capability — MMS](capabilities/messaging-mms.yaml)
-- [Naftiko Capability — Provisioning](capabilities/messaging-provisioning.yaml)
-- [Naftiko Capability — Auth](capabilities/messaging-auth.yaml)
+#### Tags
+
+- Messaging
+- SMS
+- MMS
+- Telecommunications
+- Mobile
+
+#### Properties
+
+- [Documentation](https://dev.telstra.com)
+- [OpenAPI](openapi/telstra-messaging-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/telstra-messaging-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/telstra-messaging-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/telstra-message-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/telstra-subscription-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/telstra-message-structure.json)
+- [JSON-LD](json-ld/telstra-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [Example](examples/telstra-send-sms-example.json)
+- [Example](examples/telstra-create-subscription-example.json)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-python)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-node)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-Java)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-dotnet)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-Go)
 
 ### Telstra Mobile Number Verification API
-Silent, in-network verification of a Telstra mobile customer's MSISDN against the device's active mobile data session. Designed to replace SMS one-time-password flows. OAuth 2.0 client credentials with the `MNV` scope.
 
-**Base URL:** `https://tapi.telstra.com/v1`
+Silent, in-network verification of a Telstra mobile customer's MSISDN against the device's active mobile data session. Designed to replace SMS one-time-password flows for sign-in, account recovery, and fraud-check workflows on the Telstra consumer network. Authentication uses OAuth 2.0 client credentials with the MNV scope.
 
-**Human URL:** [https://dev.telstra.com](https://dev.telstra.com)
+- **Human URL:** [https://dev.telstra.com](https://dev.telstra.com)
+- **Base URL:** `https://tapi.telstra.com/v1`
 
-- [OpenAPI](openapi/telstra-mobile-number-verification-api-openapi.yml)
-- [Naftiko Capability — Mobile Number Verification](capabilities/mobile-number-verification.yaml)
+#### Tags
 
-## SDKs
+- Verification
+- Identity
+- Authentication
+- Mobile
+- Telecommunications
 
-| Language | Repository |
-|---|---|
-| Python | [telstra/MessagingAPI-SDK-python](https://github.com/telstra/MessagingAPI-SDK-python) |
-| Node.js | [telstra/MessagingAPI-SDK-node](https://github.com/telstra/MessagingAPI-SDK-node) |
-| Java | [telstra/MessagingAPI-SDK-Java](https://github.com/telstra/MessagingAPI-SDK-Java) |
-| .NET | [telstra/MessagingAPI-SDK-dotnet](https://github.com/telstra/MessagingAPI-SDK-dotnet) |
-| Go | [telstra/MessagingAPI-SDK-Go](https://github.com/telstra/MessagingAPI-SDK-Go) |
+#### Properties
 
-## IoT Tools
+- [Documentation](https://dev.telstra.com)
+- [OpenAPI](openapi/telstra-mobile-number-verification-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/telstra-mobile-number-verification-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/telstra-mobile-number-verification-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-- [Cat-1-Development-Kit](https://github.com/telstra/Cat-1-Development-Kit) — Arduino library for the Telstra Cat-1 development kit.
-- [Cat-M1-Dev-Board](https://github.com/telstra/Cat-M1-Dev-Board) — Arduino library for the Telstra Cat-M1 development board.
+## Common Properties
 
-## Commercial Surface
-
-- [Plans & Pricing](plans/telstra-plans-pricing.yml) — Free Trial tier and Paid (commercial) tier.
-- [Rate Limits](rate-limits/telstra-rate-limits.yml) — Per-client_id throughput limits.
-- [FinOps](finops/telstra-finops.yml) — Billing surfaces aligned with FOCUS.
-- [Spectral Rules](rules/telstra-rules.yml) — Internal API conventions for Telstra specs.
-- [Vocabulary](vocabulary/telstra-vocabulary.yml) — Concepts, services, tools, standards.
-
-## Common Resources
-
-- Developer Portal: [https://dev.telstra.com](https://dev.telstra.com)
-- Corporate Site: [https://www.telstra.com.au](https://www.telstra.com.au)
-- GitHub: [https://github.com/telstra](https://github.com/telstra)
-- LinkedIn: [https://www.linkedin.com/company/telstra](https://www.linkedin.com/company/telstra)
-- Telstra Exchange (blog): [https://exchange.telstra.com.au](https://exchange.telstra.com.au)
-- CrowdSupport (forum): [https://crowdsupport.telstra.com.au](https://crowdsupport.telstra.com.au)
-- Terms of Service: [https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service](https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service)
-- Privacy: [https://www.telstra.com.au/privacy](https://www.telstra.com.au/privacy)
+- [Portal](https://dev.telstra.com)
+- [Portal](https://www.telstra.com.au)
+- [Documentation](https://dev.telstra.com)
+- [Sign Up](https://dev.telstra.com)
+- [GitHub Organization](https://github.com/telstra)
+- [Status Page](https://crowdsupport.telstra.com.au/t5/network-coverage/ct-p/Networkcoverage)
+- [Terms of Service](https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service)
+- [Privacy Policy](https://www.telstra.com.au/privacy)
+- [LinkedIn](https://www.linkedin.com/company/telstra)
+- [Blog](https://exchange.telstra.com.au)
+- [Support](https://www.telstra.com.au/support)
+- [Forum](https://crowdsupport.telstra.com.au)
+- [Git Hub](https://github.com/telstra)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-python)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-node)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-Java)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-dotnet)
+- [SDK](https://github.com/telstra/MessagingAPI-SDK-Go)
+- [License](https://github.com/telstra/tdev-doc-license)
+- [Tool](https://github.com/telstra/Cat-1-Development-Kit)
+- [Tool](https://github.com/telstra/Cat-M1-Dev-Board)
+- [Plans](plans/telstra-plans-pricing.yml)
+- [Rate Limits](rate-limits/telstra-rate-limits.yml)
+- [Fin Ops](finops/telstra-finops.yml)
+- [Spectral Ruleset](rules/telstra-rules.yml)
+- [Vocabulary](vocabulary/telstra-vocabulary.yml)
+- [Features](undefined)
 
 ## Maintainers
 
-| FN | Email | URL |
-|---|---|---|
-| Kin Lane | info@apievangelist.com | [apievangelist.com](https://apievangelist.com) |
+**FN:** Kin Lane
+**Email:** info@apievangelist.com
+**URL:** https://apievangelist.com

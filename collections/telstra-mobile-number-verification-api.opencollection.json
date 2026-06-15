@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Telstra Mobile Number Verification API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://tapi.telstra.com/v2/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Verification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Verify Mobile Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v1/mobile-number-verification/verify",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Issue a verification request for a Telstra-network MSISDN. The device must initiate the request from a Telstra mobile data session for a successful match."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
