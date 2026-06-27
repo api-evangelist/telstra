@@ -25,23 +25,23 @@ apis:
       - url: json-ld/telstra-context.jsonld
         type: JSONLD
       - url: examples/telstra-send-sms-example.json
-        type: Example
+        type: Examples
       - url: examples/telstra-create-subscription-example.json
-        type: Example
+        type: Examples
       - url: https://github.com/telstra/MessagingAPI-SDK-python
-        type: SDK
+        type: SDKs
         name: Python SDK
       - url: https://github.com/telstra/MessagingAPI-SDK-node
-        type: SDK
+        type: SDKs
         name: Node.js SDK
       - url: https://github.com/telstra/MessagingAPI-SDK-Java
-        type: SDK
+        type: SDKs
         name: Java SDK
       - url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-        type: SDK
+        type: SDKs
         name: .NET SDK
       - url: https://github.com/telstra/MessagingAPI-SDK-Go
-        type: SDK
+        type: SDKs
         name: Go SDK
     description: >-
       Send and receive SMS and MMS messages programmatically across the Telstra mobile network. Supports outbound
@@ -88,7 +88,7 @@ common:
     url: https://www.telstra.com.au
   - type: Documentation
     url: https://dev.telstra.com
-  - type: SignUp
+  - type: Signup
     url: https://dev.telstra.com
   - type: GitHubOrganization
     url: https://github.com/telstra
@@ -104,34 +104,34 @@ common:
     url: https://exchange.telstra.com.au
   - type: Support
     url: https://www.telstra.com.au/support
-  - type: Forum
+  - type: Forums
     url: https://crowdsupport.telstra.com.au
   - type: GitHub
     url: https://github.com/telstra
   - url: https://github.com/telstra/MessagingAPI-SDK-python
     name: Python SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/telstra/MessagingAPI-SDK-node
     name: Node.js SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/telstra/MessagingAPI-SDK-Java
     name: Java SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/telstra/MessagingAPI-SDK-dotnet
     name: .NET SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/telstra/MessagingAPI-SDK-Go
     name: Go SDK
-    type: SDK
+    type: SDKs
   - url: https://github.com/telstra/tdev-doc-license
     name: Telstra Dev Documentation License
     type: License
   - url: https://github.com/telstra/Cat-1-Development-Kit
     name: Telstra Cat-1 Development Kit (Arduino)
-    type: Tool
+    type: Tools
   - url: https://github.com/telstra/Cat-M1-Dev-Board
     name: Telstra Cat-M1 Development Board (Arduino)
-    type: Tool
+    type: Tools
   - url: plans/telstra-plans-pricing.yml
     type: Plans
   - url: rate-limits/telstra-rate-limits.yml
