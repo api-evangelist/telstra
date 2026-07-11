@@ -82,6 +82,10 @@ kind: contract
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 common:
+  - type: Authentication
+    url: authentication/telstra-authentication.yml
+  - type: OAuthScopes
+    url: scopes/telstra-scopes.yml
   - type: Portal
     url: https://dev.telstra.com
   - type: Portal

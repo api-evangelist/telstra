@@ -1,0 +1,29 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/telstra-messaging-api-openapi.yml, openapi/telstra-mobile-number-verification-api-openapi.yml
+schemes:
+- name: OAuth2ClientCredentials
+  source: openapi/telstra-messaging-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://tapi.telstra.com/v2/oauth/token
+  description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token
+    with the NSMS scope.
+- name: OAuth2ClientCredentials
+  source: openapi/telstra-mobile-number-verification-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://tapi.telstra.com/v2/oauth/token
+scopes:
+- scope: MNV
+  description: Mobile Number Verification.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-mobile-number-verification-api-openapi.yml
+- scope: NSMS
+  description: Send and receive SMS/MMS through Telstra Messaging.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
