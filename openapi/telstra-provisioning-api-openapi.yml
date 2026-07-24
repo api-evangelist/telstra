@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: Telstra Messaging Authentication Provisioning API
+  description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
+
+    services in Australia and select international destinations. Built on
+
+    the Telstra mobile network, the API supports outbound and inbound
+
+    SMS/MMS, delivery status callbacks, virtual numbers, and provisioning
+
+    workflows. Authentication uses OAuth 2.0 client credentials with the
+
+    NSMS scope.
+
+    '
+  version: 2.2.10
+  contact:
+    name: Telstra Developer Support
+    url: https://dev.telstra.com
+  termsOfService: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+  license:
+    name: Telstra Developer License
+    url: https://github.com/telstra/tdev-doc-license
+  x-logo:
+    url: https://www.telstra.com.au/etc/designs/telstrav8/clientlibs/img/Telstra_Symbol.svg
+servers:
+- url: https://tapi.telstra.com/v2
+  description: Production Server
+security:
+- OAuth2ClientCredentials:
+  - NSMS
+tags:
+- name: Provisioning
+  description: Create, retrieve, and delete dedicated number subscriptions.
+paths:
+  /messages/provisioning/subscriptions:
+    post:
+      summary: Telstra Create Subscription
+      description: Provision a dedicated virtual number subscription for the calling application, allowing inbound replies.
+      operationId: createSubscription
+      tags:
+      - Provisioning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionRequest'
+      responses:
+        '201':
+          description: Subscription provisioned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      summary: Telstra Get Subscription
+      description: Retrieve the current dedicated virtual number subscription for the authenticated application.
+      operationId: getSubscription
+      tags:
+      - Provisioning
+      responses:
+        '200':
+          description: Current subscription details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Telstra Delete Subscription
+      description: Release the dedicated virtual number subscription for the authenticated application.
+      operationId: deleteSubscription
+      tags:
+      - Provisioning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emptyArr:
+                  type: integer
+                  description: Sentinel field required by the API; pass 0 to confirm deletion.
+      responses:
+        '204':
+          description: Subscription released.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Subscription:
+      type: object
+      required:
+      - destinationAddress
+      properties:
+        destinationAddress:
+          type: string
+          description: The dedicated virtual number assigned to the application.
+        activeDays:
+          type: integer
+        notifyURL:
+          type: string
+          format: uri
+        expiryDate:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    CreateSubscriptionRequest:
+      type: object
+      properties:
+        activeDays:
+          type: integer
+          description: How many days the dedicated number remains active (1 to 1825).
+          minimum: 1
+          maximum: 1825
+          default: 30
+        notifyURL:
+          type: string
+          format: uri
+          description: HTTPS callback URL for inbound message notifications.
+        callbackData:
+          type: string
+          description: Optional opaque value passed through to the notify URL.
+  responses:
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token with the NSMS scope.
+      flows:
+        clientCredentials:
+          tokenUrl: https://tapi.telstra.com/v2/oauth/token
+          scopes:
+            NSMS: Send and receive SMS/MMS through Telstra Messaging.

@@ -1,0 +1,91 @@
+openapi: 3.1.0
+info:
+  title: Telstra Messaging Authentication HealthCheck API
+  description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
+
+    services in Australia and select international destinations. Built on
+
+    the Telstra mobile network, the API supports outbound and inbound
+
+    SMS/MMS, delivery status callbacks, virtual numbers, and provisioning
+
+    workflows. Authentication uses OAuth 2.0 client credentials with the
+
+    NSMS scope.
+
+    '
+  version: 2.2.10
+  contact:
+    name: Telstra Developer Support
+    url: https://dev.telstra.com
+  termsOfService: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+  license:
+    name: Telstra Developer License
+    url: https://github.com/telstra/tdev-doc-license
+  x-logo:
+    url: https://www.telstra.com.au/etc/designs/telstrav8/clientlibs/img/Telstra_Symbol.svg
+servers:
+- url: https://tapi.telstra.com/v2
+  description: Production Server
+security:
+- OAuth2ClientCredentials:
+  - NSMS
+tags:
+- name: HealthCheck
+  description: Service health checks for SMS and MMS messaging surfaces.
+paths:
+  /messages/sms/healthcheck:
+    get:
+      summary: Telstra SMS Healthcheck
+      description: Service availability indicator for SMS messaging.
+      operationId: smsHealthcheck
+      tags:
+      - HealthCheck
+      security: []
+      responses:
+        '200':
+          description: Service is operational.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+        '503':
+          description: Service is degraded or unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+  /messages/mms/healthcheck:
+    get:
+      summary: Telstra MMS Healthcheck
+      description: Service availability indicator for MMS messaging.
+      operationId: mmsHealthcheck
+      tags:
+      - HealthCheck
+      security: []
+      responses:
+        '200':
+          description: Service is operational.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+components:
+  schemas:
+    HealthCheckResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - up
+          - down
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token with the NSMS scope.
+      flows:
+        clientCredentials:
+          tokenUrl: https://tapi.telstra.com/v2/oauth/token
+          scopes:
+            NSMS: Send and receive SMS/MMS through Telstra Messaging.

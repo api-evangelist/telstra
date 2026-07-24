@@ -1,0 +1,135 @@
+openapi: 3.1.0
+info:
+  title: Telstra Messaging Authentication Verification API
+  description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
+
+    services in Australia and select international destinations. Built on
+
+    the Telstra mobile network, the API supports outbound and inbound
+
+    SMS/MMS, delivery status callbacks, virtual numbers, and provisioning
+
+    workflows. Authentication uses OAuth 2.0 client credentials with the
+
+    NSMS scope.
+
+    '
+  version: 2.2.10
+  contact:
+    name: Telstra Developer Support
+    url: https://dev.telstra.com
+  termsOfService: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+  license:
+    name: Telstra Developer License
+    url: https://github.com/telstra/tdev-doc-license
+  x-logo:
+    url: https://www.telstra.com.au/etc/designs/telstrav8/clientlibs/img/Telstra_Symbol.svg
+servers:
+- url: https://tapi.telstra.com/v2
+  description: Production Server
+security:
+- OAuth2ClientCredentials:
+  - NSMS
+tags:
+- name: Verification
+  description: Mobile number verification operations.
+paths:
+  /mobile-number-verification/verify:
+    post:
+      summary: Telstra Verify Mobile Number
+      description: Issue a verification request for a Telstra-network MSISDN. The device must initiate the request from a Telstra mobile data session for a successful match.
+      operationId: verifyMobileNumber
+      tags:
+      - Verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyRequest'
+      responses:
+        '200':
+          description: Verification result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    VerifyResponse:
+      type: object
+      required:
+      - verified
+      properties:
+        verified:
+          type: boolean
+          description: True if the device's network session matches the supplied MSISDN.
+        carrier:
+          type: string
+          description: Reported carrier (typically Telstra).
+        clientReference:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    VerifyRequest:
+      type: object
+      required:
+      - msisdn
+      properties:
+        msisdn:
+          type: string
+          description: Claimed MSISDN in E.164 format (e.g. +61412345678).
+        consentToken:
+          type: string
+          description: Optional opaque token attesting the end-user has consented to verification.
+        clientReference:
+          type: string
+          description: Application-supplied correlation identifier echoed in the response.
+  responses:
+    RateLimited:
+      description: Too Many Requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token with the NSMS scope.
+      flows:
+        clientCredentials:
+          tokenUrl: https://tapi.telstra.com/v2/oauth/token
+          scopes:
+            NSMS: Send and receive SMS/MMS through Telstra Messaging.

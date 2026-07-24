@@ -1,0 +1,282 @@
+openapi: 3.1.0
+info:
+  title: Telstra Messaging Authentication MMS API
+  description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
+
+    services in Australia and select international destinations. Built on
+
+    the Telstra mobile network, the API supports outbound and inbound
+
+    SMS/MMS, delivery status callbacks, virtual numbers, and provisioning
+
+    workflows. Authentication uses OAuth 2.0 client credentials with the
+
+    NSMS scope.
+
+    '
+  version: 2.2.10
+  contact:
+    name: Telstra Developer Support
+    url: https://dev.telstra.com
+  termsOfService: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+  license:
+    name: Telstra Developer License
+    url: https://github.com/telstra/tdev-doc-license
+  x-logo:
+    url: https://www.telstra.com.au/etc/designs/telstrav8/clientlibs/img/Telstra_Symbol.svg
+servers:
+- url: https://tapi.telstra.com/v2
+  description: Production Server
+security:
+- OAuth2ClientCredentials:
+  - NSMS
+tags:
+- name: MMS
+  description: Send, retrieve, and check status of MMS messages.
+paths:
+  /messages/mms:
+    post:
+      summary: Telstra Send MMS
+      description: Send an MMS containing one or more multimedia parts (image, audio, video, vCard, or text) to a destination number.
+      operationId: sendMms
+      tags:
+      - MMS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMmsRequest'
+      responses:
+        '201':
+          description: MMS accepted for delivery.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          description: Payload too large.
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    get:
+      summary: Telstra Get MMS Replies
+      description: Retrieve queued inbound MMS replies for the authenticated dedicated virtual number.
+      operationId: getMmsReplies
+      tags:
+      - MMS
+      responses:
+        '200':
+          description: Inbound MMS payload (empty if no replies queued).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundMessage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /messages/mms/{messageId}/status:
+    get:
+      summary: Telstra Get MMS Status
+      description: Retrieve the current delivery status for a previously sent MMS by message ID.
+      operationId: getMmsStatus
+      tags:
+      - MMS
+      parameters:
+      - name: messageId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current delivery status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    MessageReceipt:
+      type: object
+      required:
+      - to
+      - deliveryStatus
+      - messageId
+      properties:
+        to:
+          type: string
+        deliveryStatus:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
+        messageId:
+          type: string
+        messageStatusURL:
+          type: string
+          format: uri
+    InboundMessage:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - EMPTY
+          - RECEIVED
+        destinationAddress:
+          type: string
+        senderAddress:
+          type: string
+        message:
+          type: string
+        messageId:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        apiMsgId:
+          type: string
+    SendMessageResponse:
+      type: object
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReceipt'
+        country:
+          type: array
+          items:
+            type: object
+        messageType:
+          type: string
+        numberSegments:
+          type: integer
+        numberNationalDestinations:
+          type: integer
+        numberInternationalDestinations:
+          type: integer
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    MmsContentPart:
+      type: object
+      required:
+      - type
+      - payload
+      properties:
+        type:
+          type: string
+          description: MIME type (image/jpeg, image/png, image/gif, audio/amr, text/plain, application/smil).
+        filename:
+          type: string
+        payload:
+          type: string
+          format: byte
+          description: Base64-encoded content payload.
+    MessageStatus:
+      type: object
+      required:
+      - to
+      - sentTimestamp
+      - status
+      properties:
+        to:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        receivedTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
+    SendMmsRequest:
+      type: object
+      required:
+      - to
+      - subject
+      - MMSContent
+      properties:
+        to:
+          type: string
+          description: Destination MSISDN in E.164 format.
+        subject:
+          type: string
+          description: MMS subject line (max 64 chars).
+          maxLength: 64
+        from:
+          type: string
+        notifyURL:
+          type: string
+          format: uri
+        replyRequest:
+          type: boolean
+        priority:
+          type: boolean
+        MMSContent:
+          type: array
+          description: One or more MMS content parts; base64 encoded payloads.
+          items:
+            $ref: '#/components/schemas/MmsContentPart'
+  responses:
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too Many Requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token with the NSMS scope.
+      flows:
+        clientCredentials:
+          tokenUrl: https://tapi.telstra.com/v2/oauth/token
+          scopes:
+            NSMS: Send and receive SMS/MMS through Telstra Messaging.
