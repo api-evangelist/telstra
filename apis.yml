@@ -1,72 +1,210 @@
 aid: telstra
 url: https://raw.githubusercontent.com/api-evangelist/telstra/refs/heads/main/apis.yml
 apis:
-  - aid: telstra:telstra-messaging-api
-    name: Telstra Messaging API
-    tags:
-      - Messaging
-      - SMS
-      - MMS
-      - Telecommunications
-      - Mobile
-    humanURL: https://dev.telstra.com
-    baseURL: https://tapi.telstra.com/v2
-    properties:
-      - url: https://dev.telstra.com
-        type: Documentation
-      - url: openapi/telstra-messaging-api-openapi.yml
-        type: OpenAPI
-      - url: json-schema/telstra-message-schema.json
-        type: JSONSchema
-      - url: json-schema/telstra-subscription-schema.json
-        type: JSONSchema
-      - url: json-structure/telstra-message-structure.json
-        type: JSONStructure
-      - url: json-ld/telstra-context.jsonld
-        type: JSONLD
-      - url: examples/telstra-send-sms-example.json
-        type: Examples
-      - url: examples/telstra-create-subscription-example.json
-        type: Examples
-      - url: https://github.com/telstra/MessagingAPI-SDK-python
-        type: SDKs
-        name: Python SDK
-      - url: https://github.com/telstra/MessagingAPI-SDK-node
-        type: SDKs
-        name: Node.js SDK
-      - url: https://github.com/telstra/MessagingAPI-SDK-Java
-        type: SDKs
-        name: Java SDK
-      - url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-        type: SDKs
-        name: .NET SDK
-      - url: https://github.com/telstra/MessagingAPI-SDK-Go
-        type: SDKs
-        name: Go SDK
-    description: >-
-      Send and receive SMS and MMS messages programmatically across the Telstra mobile network. Supports outbound
-      delivery to Australian and international destinations, inbound replies on provisioned dedicated virtual numbers,
-      delivery status callbacks, scheduled delivery, and message validity windows. Authentication uses OAuth 2.0 client
-      credentials with the NSMS scope against /oauth/token.
-  - aid: telstra:telstra-mobile-number-verification-api
-    name: Telstra Mobile Number Verification API
-    tags:
-      - Verification
-      - Identity
-      - Authentication
-      - Mobile
-      - Telecommunications
-    humanURL: https://dev.telstra.com
-    baseURL: https://tapi.telstra.com/v1
-    properties:
-      - url: https://dev.telstra.com
-        type: Documentation
-      - url: openapi/telstra-mobile-number-verification-api-openapi.yml
-        type: OpenAPI
-    description: >-
-      Silent, in-network verification of a Telstra mobile customer's MSISDN against the device's active mobile data
-      session. Designed to replace SMS one-time-password flows for sign-in, account recovery, and fraud-check workflows
-      on the Telstra consumer network. Authentication uses OAuth 2.0 client credentials with the MNV scope.
+- aid: telstra:telstra-authentication-api
+  name: Telstra Authentication API
+  description: OAuth 2.0 client credentials token issuance.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+- aid: telstra:telstra-healthcheck-api
+  name: Telstra HealthCheck API
+  description: Service health checks for SMS and MMS messaging surfaces.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - HealthCheck
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-healthcheck-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+- aid: telstra:telstra-mms-api
+  name: Telstra MMS API
+  description: Send, retrieve, and check status of MMS messages.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - MMS
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-mms-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+- aid: telstra:telstra-provisioning-api
+  name: Telstra Provisioning API
+  description: Create, retrieve, and delete dedicated number subscriptions.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - Provisioning
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-provisioning-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+- aid: telstra:telstra-sms-api
+  name: Telstra SMS API
+  description: Send, retrieve, and check status of SMS messages.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - SMS
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-sms-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+- aid: telstra:telstra-verification-api
+  name: Telstra Verification API
+  description: Mobile number verification operations.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - Verification
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-verification-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
 name: Telstra
 tags:
   - Telecommunications
@@ -79,9 +217,24 @@ tags:
   - Australia
   - Verification
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: true
+  try_now: true
+  public: false
+  label: Freemium (free trial) · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/telstra.png
 access: 3rd-Party
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/telstra/overview
   - type: AgenticAccess
     url: agentic-access/telstra-agentic-access.yml
   - type: DomainSecurity
