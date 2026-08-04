@@ -1,0 +1,283 @@
+{
+  "info": {
+    "_postman_id": "46a14ec2-0e81-41c9-9951-a0a24a04d77c",
+    "name": "Telstra Messaging Authentication HealthCheck API",
+    "description": "The Telstra Messaging API provides programmatic SMS and MMS messaging\nservices in Australia and select international destinations. Built on\nthe Telstra mobile network, the API supports outbound and inbound\nSMS/MMS, delivery status callbacks, virtual numbers, and provisioning\nworkflows. Authentication uses OAuth 2.0 client credentials with the\nNSMS scope.\n\n\nContact Support:\n Name: Telstra Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:09:36.000Z",
+    "updatedAt": "2026-07-28T03:09:37.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-46a14ec2-0e81-41c9-9951-a0a24a04d77c"
+  },
+  "item": [
+    {
+      "name": "messages",
+      "item": [
+        {
+          "name": "sms",
+          "item": [
+            {
+              "name": "healthcheck",
+              "item": [
+                {
+                  "name": "Telstra SMS Healthcheck",
+                  "id": "2a8a5091-10b4-4461-83db-02dab26f0d13",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/sms/healthcheck",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "sms",
+                        "healthcheck"
+                      ]
+                    },
+                    "description": "Service availability indicator for SMS messaging."
+                  },
+                  "response": [
+                    {
+                      "id": "7ef22af4-be27-4d27-b05b-b7ce321e5fe4",
+                      "name": "Service is operational.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/sms/healthcheck",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "sms",
+                            "healthcheck"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"down\"\n}",
+                      "createdAt": "2026-07-28T03:09:37.000Z",
+                      "updatedAt": "2026-07-28T03:09:37.000Z",
+                      "uid": "35240-7ef22af4-be27-4d27-b05b-b7ce321e5fe4"
+                    },
+                    {
+                      "id": "7b3cd2f2-f4a2-4f5a-9fdd-4a934d5f3b12",
+                      "name": "Service is degraded or unavailable.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/sms/healthcheck",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "sms",
+                            "healthcheck"
+                          ]
+                        }
+                      },
+                      "status": "Service Unavailable",
+                      "code": 503,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"down\"\n}",
+                      "createdAt": "2026-07-28T03:09:37.000Z",
+                      "updatedAt": "2026-07-28T03:09:37.000Z",
+                      "uid": "35240-7b3cd2f2-f4a2-4f5a-9fdd-4a934d5f3b12"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:09:37.000Z",
+                  "updatedAt": "2026-07-28T03:09:37.000Z",
+                  "uid": "35240-2a8a5091-10b4-4461-83db-02dab26f0d13"
+                }
+              ],
+              "id": "b67b1212-0185-4d9b-bdd2-3e6921c88345",
+              "createdAt": "2026-07-28T03:09:37.000Z",
+              "updatedAt": "2026-07-28T03:09:37.000Z",
+              "uid": "35240-b67b1212-0185-4d9b-bdd2-3e6921c88345"
+            }
+          ],
+          "id": "1d79b1af-e528-442f-a246-e96729102079",
+          "createdAt": "2026-07-28T03:09:37.000Z",
+          "updatedAt": "2026-07-28T03:09:37.000Z",
+          "uid": "35240-1d79b1af-e528-442f-a246-e96729102079"
+        },
+        {
+          "name": "mms",
+          "item": [
+            {
+              "name": "healthcheck",
+              "item": [
+                {
+                  "name": "Telstra MMS Healthcheck",
+                  "id": "8dbb730a-6e3d-4032-9953-9d0c6cd15850",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms/healthcheck",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms",
+                        "healthcheck"
+                      ]
+                    },
+                    "description": "Service availability indicator for MMS messaging."
+                  },
+                  "response": [
+                    {
+                      "id": "d0559e99-ec54-4e06-820a-f0bc4fde18f3",
+                      "name": "Service is operational.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/mms/healthcheck",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "mms",
+                            "healthcheck"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"down\"\n}",
+                      "createdAt": "2026-07-28T03:09:37.000Z",
+                      "updatedAt": "2026-07-28T03:09:37.000Z",
+                      "uid": "35240-d0559e99-ec54-4e06-820a-f0bc4fde18f3"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:09:37.000Z",
+                  "updatedAt": "2026-07-28T03:09:37.000Z",
+                  "uid": "35240-8dbb730a-6e3d-4032-9953-9d0c6cd15850"
+                }
+              ],
+              "id": "5155bd3d-e9f7-4ad7-8562-a1fd2f27a3bb",
+              "createdAt": "2026-07-28T03:09:37.000Z",
+              "updatedAt": "2026-07-28T03:09:37.000Z",
+              "uid": "35240-5155bd3d-e9f7-4ad7-8562-a1fd2f27a3bb"
+            }
+          ],
+          "id": "b87f352f-2dcc-4620-b757-63eecce57fcd",
+          "createdAt": "2026-07-28T03:09:37.000Z",
+          "updatedAt": "2026-07-28T03:09:37.000Z",
+          "uid": "35240-b87f352f-2dcc-4620-b757-63eecce57fcd"
+        }
+      ],
+      "id": "aa578150-c4dd-4090-8706-2fb77af0fb20",
+      "createdAt": "2026-07-28T03:09:37.000Z",
+      "updatedAt": "2026-07-28T03:09:37.000Z",
+      "uid": "35240-aa578150-c4dd-4090-8706-2fb77af0fb20"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "NSMS",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://tapi.telstra.com/v2/oauth/token",
+        "type": "string"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://tapi.telstra.com/v2"
+    }
+  ]
+}

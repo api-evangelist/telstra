@@ -1,0 +1,665 @@
+{
+  "info": {
+    "_postman_id": "9df17058-87cb-4f5a-b8cf-b37a0e479d5d",
+    "name": "Telstra Messaging Authentication Provisioning API",
+    "description": "The Telstra Messaging API provides programmatic SMS and MMS messaging\nservices in Australia and select international destinations. Built on\nthe Telstra mobile network, the API supports outbound and inbound\nSMS/MMS, delivery status callbacks, virtual numbers, and provisioning\nworkflows. Authentication uses OAuth 2.0 client credentials with the\nNSMS scope.\n\n\nContact Support:\n Name: Telstra Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:09:39.000Z",
+    "updatedAt": "2026-07-28T03:09:39.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-9df17058-87cb-4f5a-b8cf-b37a0e479d5d"
+  },
+  "item": [
+    {
+      "name": "messages",
+      "item": [
+        {
+          "name": "provisioning",
+          "item": [
+            {
+              "name": "subscriptions",
+              "item": [
+                {
+                  "name": "Telstra Create Subscription",
+                  "id": "1abe5cf0-0d4e-44a3-8001-d6aa075cdd6b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"activeDays\": 30,\n  \"notifyURL\": \"<uri>\",\n  \"callbackData\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "provisioning",
+                        "subscriptions"
+                      ]
+                    },
+                    "description": "Provision a dedicated virtual number subscription for the calling application, allowing inbound replies."
+                  },
+                  "response": [
+                    {
+                      "id": "7f568730-e36c-4948-89bf-5fce8478e9f9",
+                      "name": "Subscription provisioned.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"activeDays\": 30,\n  \"notifyURL\": \"<uri>\",\n  \"callbackData\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"destinationAddress\": \"<string>\",\n  \"activeDays\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"expiryDate\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-7f568730-e36c-4948-89bf-5fce8478e9f9"
+                    },
+                    {
+                      "id": "07a85bbe-6591-430c-bc9f-c86c292450b4",
+                      "name": "Bad Request.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"activeDays\": 30,\n  \"notifyURL\": \"<uri>\",\n  \"callbackData\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-07a85bbe-6591-430c-bc9f-c86c292450b4"
+                    },
+                    {
+                      "id": "b710c6f7-5e1a-4135-a878-a828bfbc42bd",
+                      "name": "Unauthorized.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"activeDays\": 30,\n  \"notifyURL\": \"<uri>\",\n  \"callbackData\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-b710c6f7-5e1a-4135-a878-a828bfbc42bd"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:09:39.000Z",
+                  "updatedAt": "2026-07-28T03:09:39.000Z",
+                  "uid": "35240-1abe5cf0-0d4e-44a3-8001-d6aa075cdd6b"
+                },
+                {
+                  "name": "Telstra Get Subscription",
+                  "id": "f39c915d-1ad7-481b-b1a5-5c04c0d59f58",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "provisioning",
+                        "subscriptions"
+                      ]
+                    },
+                    "description": "Retrieve the current dedicated virtual number subscription for the authenticated application."
+                  },
+                  "response": [
+                    {
+                      "id": "4669357d-65e2-4649-a43c-54da323bc827",
+                      "name": "Current subscription details.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"destinationAddress\": \"<string>\",\n  \"activeDays\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"expiryDate\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-4669357d-65e2-4649-a43c-54da323bc827"
+                    },
+                    {
+                      "id": "765abe1e-7289-47e6-bbd4-51b8fe1ba9a9",
+                      "name": "Unauthorized.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-765abe1e-7289-47e6-bbd4-51b8fe1ba9a9"
+                    },
+                    {
+                      "id": "da1058aa-2783-4169-87fa-7f61cf461f91",
+                      "name": "Not Found.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-da1058aa-2783-4169-87fa-7f61cf461f91"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:09:39.000Z",
+                  "updatedAt": "2026-07-28T03:09:39.000Z",
+                  "uid": "35240-f39c915d-1ad7-481b-b1a5-5c04c0d59f58"
+                },
+                {
+                  "name": "Telstra Delete Subscription",
+                  "id": "573e5c49-819e-4c1f-bef3-4275c06e575a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"emptyArr\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "provisioning",
+                        "subscriptions"
+                      ]
+                    },
+                    "description": "Release the dedicated virtual number subscription for the authenticated application."
+                  },
+                  "response": [
+                    {
+                      "id": "78c2c1f5-3700-4291-bc04-4c8b356d2002",
+                      "name": "Subscription released.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"emptyArr\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-78c2c1f5-3700-4291-bc04-4c8b356d2002"
+                    },
+                    {
+                      "id": "78d732cc-9c24-4d86-9c70-9645c49b8ea5",
+                      "name": "Unauthorized.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"emptyArr\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-78d732cc-9c24-4d86-9c70-9645c49b8ea5"
+                    },
+                    {
+                      "id": "3bd6e381-d8e7-4041-b7ac-1c2c07b6df57",
+                      "name": "Not Found.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: oauth2",
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"emptyArr\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/provisioning/subscriptions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "provisioning",
+                            "subscriptions"
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:09:39.000Z",
+                      "updatedAt": "2026-07-28T03:09:39.000Z",
+                      "uid": "35240-3bd6e381-d8e7-4041-b7ac-1c2c07b6df57"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:09:39.000Z",
+                  "updatedAt": "2026-07-28T03:09:39.000Z",
+                  "uid": "35240-573e5c49-819e-4c1f-bef3-4275c06e575a"
+                }
+              ],
+              "id": "e0186289-8d61-4bdb-9e45-3dfef3e89b16",
+              "createdAt": "2026-07-28T03:09:39.000Z",
+              "updatedAt": "2026-07-28T03:09:39.000Z",
+              "uid": "35240-e0186289-8d61-4bdb-9e45-3dfef3e89b16"
+            }
+          ],
+          "id": "ab3a3214-4c99-41d1-b395-e16cb9085164",
+          "createdAt": "2026-07-28T03:09:39.000Z",
+          "updatedAt": "2026-07-28T03:09:39.000Z",
+          "uid": "35240-ab3a3214-4c99-41d1-b395-e16cb9085164"
+        }
+      ],
+      "id": "1411e499-caf7-4f34-92af-537666fa53b5",
+      "createdAt": "2026-07-28T03:09:39.000Z",
+      "updatedAt": "2026-07-28T03:09:39.000Z",
+      "uid": "35240-1411e499-caf7-4f34-92af-537666fa53b5"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "NSMS",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://tapi.telstra.com/v2/oauth/token",
+        "type": "string"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://tapi.telstra.com/v2"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "provider": "telstra",
+  "sources": [
+    "telstra-authentication-api-openapi.yml",
+    "telstra-healthcheck-api-openapi.yml",
+    "telstra-mms-api-openapi.yml",
+    "telstra-provisioning-api-openapi.yml",
+    "telstra-sms-api-openapi.yml",
+    "telstra-verification-api-openapi.yml"
+  ],
+  "outputs": [
+    "telstra-authentication-api-openapi.yml",
+    "telstra-healthcheck-api-openapi.yml",
+    "telstra-mms-api-openapi.yml",
+    "telstra-provisioning-api-openapi.yml",
+    "telstra-sms-api-openapi.yml",
+    "telstra-verification-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

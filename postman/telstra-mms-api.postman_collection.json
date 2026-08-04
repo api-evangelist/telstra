@@ -1,0 +1,658 @@
+{
+  "info": {
+    "_postman_id": "1fedf9eb-4537-4214-b5f1-47ac42341e23",
+    "name": "Telstra Messaging Authentication MMS API",
+    "description": "The Telstra Messaging API provides programmatic SMS and MMS messaging\nservices in Australia and select international destinations. Built on\nthe Telstra mobile network, the API supports outbound and inbound\nSMS/MMS, delivery status callbacks, virtual numbers, and provisioning\nworkflows. Authentication uses OAuth 2.0 client credentials with the\nNSMS scope.\n\n\nContact Support:\n Name: Telstra Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:09:37.000Z",
+    "updatedAt": "2026-07-28T03:09:38.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-1fedf9eb-4537-4214-b5f1-47ac42341e23"
+  },
+  "item": [
+    {
+      "name": "messages",
+      "item": [
+        {
+          "name": "mms",
+          "item": [
+            {
+              "name": "{messageId}",
+              "item": [
+                {
+                  "name": "status",
+                  "item": [
+                    {
+                      "name": "Telstra Get MMS Status",
+                      "id": "71056485-3996-428d-9b99-c8a8dda776fa",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/messages/mms/:messageId/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "messages",
+                            "mms",
+                            ":messageId",
+                            "status"
+                          ],
+                          "variable": [
+                            {
+                              "id": "e3456e74-6155-44d4-a68b-9f0b2075ca69",
+                              "key": "messageId",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Retrieve the current delivery status for a previously sent MMS by message ID."
+                      },
+                      "response": [
+                        {
+                          "id": "57f9fedd-8f1e-4447-ba75-4042dbfacb50",
+                          "name": "Current delivery status.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: oauth2",
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/messages/mms/:messageId/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "messages",
+                                "mms",
+                                ":messageId",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "messageId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"to\": \"<string>\",\n  \"sentTimestamp\": \"<dateTime>\",\n  \"status\": \"Rejected\",\n  \"receivedTimestamp\": \"<dateTime>\"\n}",
+                          "createdAt": "2026-07-28T03:09:38.000Z",
+                          "updatedAt": "2026-07-28T03:09:38.000Z",
+                          "uid": "35240-57f9fedd-8f1e-4447-ba75-4042dbfacb50"
+                        },
+                        {
+                          "id": "f1416ac5-8cf8-4c07-b766-824587f6e793",
+                          "name": "Not Found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: oauth2",
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/messages/mms/:messageId/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "messages",
+                                "mms",
+                                ":messageId",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "messageId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:09:38.000Z",
+                          "updatedAt": "2026-07-28T03:09:38.000Z",
+                          "uid": "35240-f1416ac5-8cf8-4c07-b766-824587f6e793"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:09:38.000Z",
+                      "updatedAt": "2026-07-28T03:09:38.000Z",
+                      "uid": "35240-71056485-3996-428d-9b99-c8a8dda776fa"
+                    }
+                  ],
+                  "id": "239864e6-5f11-490c-bbf1-3be1b035a726",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-239864e6-5f11-490c-bbf1-3be1b035a726"
+                }
+              ],
+              "id": "720920da-38a9-4f4d-bc04-1c1270e86839",
+              "createdAt": "2026-07-28T03:09:38.000Z",
+              "updatedAt": "2026-07-28T03:09:38.000Z",
+              "uid": "35240-720920da-38a9-4f4d-bc04-1c1270e86839"
+            },
+            {
+              "name": "Telstra Send MMS",
+              "id": "136f8b46-6859-4560-86ab-3f095bac5589",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/messages/mms",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "mms"
+                  ]
+                },
+                "description": "Send an MMS containing one or more multimedia parts (image, audio, video, vCard, or text) to a destination number."
+              },
+              "response": [
+                {
+                  "id": "81abdc90-e959-4ccd-8394-911b4ce116ec",
+                  "name": "MMS accepted for delivery.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"messages\": [\n    {\n      \"to\": \"<string>\",\n      \"deliveryStatus\": \"MessageWaiting\",\n      \"messageId\": \"<string>\",\n      \"messageStatusURL\": \"<uri>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"deliveryStatus\": \"DeliveredToTerminal\",\n      \"messageId\": \"<string>\",\n      \"messageStatusURL\": \"<uri>\"\n    }\n  ],\n  \"messageType\": \"<string>\",\n  \"numberSegments\": \"<integer>\",\n  \"numberNationalDestinations\": \"<integer>\",\n  \"numberInternationalDestinations\": \"<integer>\"\n}",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-81abdc90-e959-4ccd-8394-911b4ce116ec"
+                },
+                {
+                  "id": "b7433984-e568-43ce-a5c6-ccc44743c544",
+                  "name": "Bad Request.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-b7433984-e568-43ce-a5c6-ccc44743c544"
+                },
+                {
+                  "id": "58e80f8a-7386-46ec-a1a5-827d047afb29",
+                  "name": "Unauthorized.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-58e80f8a-7386-46ec-a1a5-827d047afb29"
+                },
+                {
+                  "id": "bb7ef758-385b-457f-8e26-099c94ebc179",
+                  "name": "Payload too large.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "Request Entity Too Large",
+                  "code": 413,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-bb7ef758-385b-457f-8e26-099c94ebc179"
+                },
+                {
+                  "id": "a9e8d14d-f765-47f8-b263-00797bb93d77",
+                  "name": "Too Many Requests.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<string>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-a9e8d14d-f765-47f8-b263-00797bb93d77"
+                }
+              ],
+              "createdAt": "2026-07-28T03:09:38.000Z",
+              "updatedAt": "2026-07-28T03:09:38.000Z",
+              "uid": "35240-136f8b46-6859-4560-86ab-3f095bac5589"
+            },
+            {
+              "name": "Telstra Get MMS Replies",
+              "id": "a44fc167-03b6-4689-a243-80fc875c34d2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/messages/mms",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "mms"
+                  ]
+                },
+                "description": "Retrieve queued inbound MMS replies for the authenticated dedicated virtual number."
+              },
+              "response": [
+                {
+                  "id": "beb90d36-7853-479c-84e0-c60b0043a193",
+                  "name": "Inbound MMS payload (empty if no replies queued).",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"EMPTY\",\n  \"destinationAddress\": \"<string>\",\n  \"senderAddress\": \"<string>\",\n  \"message\": \"<string>\",\n  \"messageId\": \"<string>\",\n  \"sentTimestamp\": \"<dateTime>\",\n  \"apiMsgId\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-beb90d36-7853-479c-84e0-c60b0043a193"
+                },
+                {
+                  "id": "ce2b0181-a0de-42d9-9f32-52b414917dbe",
+                  "name": "Unauthorized.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/messages/mms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "messages",
+                        "mms"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:38.000Z",
+                  "updatedAt": "2026-07-28T03:09:38.000Z",
+                  "uid": "35240-ce2b0181-a0de-42d9-9f32-52b414917dbe"
+                }
+              ],
+              "createdAt": "2026-07-28T03:09:38.000Z",
+              "updatedAt": "2026-07-28T03:09:38.000Z",
+              "uid": "35240-a44fc167-03b6-4689-a243-80fc875c34d2"
+            }
+          ],
+          "id": "86236fdb-be1f-44ff-9aab-31775429c00c",
+          "createdAt": "2026-07-28T03:09:38.000Z",
+          "updatedAt": "2026-07-28T03:09:38.000Z",
+          "uid": "35240-86236fdb-be1f-44ff-9aab-31775429c00c"
+        }
+      ],
+      "id": "24c5a343-0a30-4091-b941-5e722a1304e3",
+      "createdAt": "2026-07-28T03:09:38.000Z",
+      "updatedAt": "2026-07-28T03:09:38.000Z",
+      "uid": "35240-24c5a343-0a30-4091-b941-5e722a1304e3"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "NSMS",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://tapi.telstra.com/v2/oauth/token",
+        "type": "string"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://tapi.telstra.com/v2"
+    }
+  ]
+}

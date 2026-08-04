@@ -1,0 +1,332 @@
+{
+  "info": {
+    "_postman_id": "2f843c43-fdad-4f0f-a30c-317491bbd96a",
+    "name": "Telstra Messaging Authentication Verification API",
+    "description": "The Telstra Messaging API provides programmatic SMS and MMS messaging\nservices in Australia and select international destinations. Built on\nthe Telstra mobile network, the API supports outbound and inbound\nSMS/MMS, delivery status callbacks, virtual numbers, and provisioning\nworkflows. Authentication uses OAuth 2.0 client credentials with the\nNSMS scope.\n\n\nContact Support:\n Name: Telstra Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:09:40.000Z",
+    "updatedAt": "2026-07-28T03:09:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2f843c43-fdad-4f0f-a30c-317491bbd96a"
+  },
+  "item": [
+    {
+      "name": "mobile-number-verification",
+      "item": [
+        {
+          "name": "verify",
+          "item": [
+            {
+              "name": "Telstra Verify Mobile Number",
+              "id": "f0059670-b1a0-4c88-b0bc-f33f95b77d09",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"msisdn\": \"<string>\",\n  \"consentToken\": \"<string>\",\n  \"clientReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/mobile-number-verification/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "mobile-number-verification",
+                    "verify"
+                  ]
+                },
+                "description": "Issue a verification request for a Telstra-network MSISDN. The device must initiate the request from a Telstra mobile data session for a successful match."
+              },
+              "response": [
+                {
+                  "id": "95d71e3a-4801-4271-b69d-6c0dbb9f87cc",
+                  "name": "Verification result.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"msisdn\": \"<string>\",\n  \"consentToken\": \"<string>\",\n  \"clientReference\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/mobile-number-verification/verify",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "mobile-number-verification",
+                        "verify"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"verified\": \"<boolean>\",\n  \"carrier\": \"<string>\",\n  \"clientReference\": \"<string>\",\n  \"timestamp\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-07-28T03:09:41.000Z",
+                  "updatedAt": "2026-07-28T03:09:41.000Z",
+                  "uid": "35240-95d71e3a-4801-4271-b69d-6c0dbb9f87cc"
+                },
+                {
+                  "id": "0c615497-bbce-4bd0-9bed-bb539a2e2fd6",
+                  "name": "Bad Request.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"msisdn\": \"<string>\",\n  \"consentToken\": \"<string>\",\n  \"clientReference\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/mobile-number-verification/verify",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "mobile-number-verification",
+                        "verify"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:41.000Z",
+                  "updatedAt": "2026-07-28T03:09:41.000Z",
+                  "uid": "35240-0c615497-bbce-4bd0-9bed-bb539a2e2fd6"
+                },
+                {
+                  "id": "be9e92e2-a313-48b0-a894-a15e66e6a001",
+                  "name": "Unauthorized.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"msisdn\": \"<string>\",\n  \"consentToken\": \"<string>\",\n  \"clientReference\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/mobile-number-verification/verify",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "mobile-number-verification",
+                        "verify"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:41.000Z",
+                  "updatedAt": "2026-07-28T03:09:41.000Z",
+                  "uid": "35240-be9e92e2-a313-48b0-a894-a15e66e6a001"
+                },
+                {
+                  "id": "1a769b43-91e6-4b59-8b94-71c42f951ffc",
+                  "name": "Too Many Requests.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"msisdn\": \"<string>\",\n  \"consentToken\": \"<string>\",\n  \"clientReference\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/mobile-number-verification/verify",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "mobile-number-verification",
+                        "verify"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<string>\",\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:09:41.000Z",
+                  "updatedAt": "2026-07-28T03:09:41.000Z",
+                  "uid": "35240-1a769b43-91e6-4b59-8b94-71c42f951ffc"
+                }
+              ],
+              "createdAt": "2026-07-28T03:09:41.000Z",
+              "updatedAt": "2026-07-28T03:09:41.000Z",
+              "uid": "35240-f0059670-b1a0-4c88-b0bc-f33f95b77d09"
+            }
+          ],
+          "id": "025ee644-3bd1-4bba-8da6-097d96c2f38a",
+          "createdAt": "2026-07-28T03:09:41.000Z",
+          "updatedAt": "2026-07-28T03:09:41.000Z",
+          "uid": "35240-025ee644-3bd1-4bba-8da6-097d96c2f38a"
+        }
+      ],
+      "id": "710ebad5-9b36-4e29-a873-89e310a71d6b",
+      "createdAt": "2026-07-28T03:09:41.000Z",
+      "updatedAt": "2026-07-28T03:09:41.000Z",
+      "uid": "35240-710ebad5-9b36-4e29-a873-89e310a71d6b"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "NSMS",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://tapi.telstra.com/v2/oauth/token",
+        "type": "string"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://tapi.telstra.com/v2"
+    }
+  ]
+}
