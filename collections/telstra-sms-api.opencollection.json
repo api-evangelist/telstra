@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Telstra Messaging Authentication SMS API",
+    "version": "2.2.10"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://tapi.telstra.com/v2/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Get SMS Replies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/sms"
+          },
+          "docs": "Retrieve queued inbound SMS replies for the authenticated dedicated virtual number."
+        },
+        {
+          "info": {
+            "name": "Telstra Send SMS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v2/messages/sms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a single SMS message to one or more destination numbers. Returns a message ID per destination plus delivery and reply callback registrations."
+        },
+        {
+          "info": {
+            "name": "Telstra Get SMS Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/sms/:messageId/status",
+            "params": [
+              {
+                "name": "messageId",
+                "value": "",
+                "type": "path",
+                "description": "Server-issued message identifier returned from POST /messages/sms."
+              }
+            ]
+          },
+          "docs": "Retrieve the current delivery status for a previously sent SMS by message ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

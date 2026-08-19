@@ -1,0 +1,690 @@
+{
+  "item": [
+    {
+      "id": "6dc24d12-b4bb-47ea-a0ac-90ec1cd732ac",
+      "name": "SMS",
+      "description": {
+        "content": "Send, retrieve, and check status of SMS messages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d8e66fe-c62b-43d7-abc5-1d99c2b26e79",
+          "name": "Telstra Send SMS",
+          "request": {
+            "name": "Telstra Send SMS",
+            "description": {
+              "content": "Send a single SMS message to one or more destination numbers. Returns a message ID per destination plus delivery and reply callback registrations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "sms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"<string>\",\n  \"body\": \"<string>\",\n  \"from\": \"<string>\",\n  \"validity\": \"<integer>\",\n  \"scheduledDelivery\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\",\n  \"receiptOff\": \"<boolean>\",\n  \"userMsgRef\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4f42d6e1-d1a7-406d-934c-51476e37f865",
+              "name": "SMS accepted for delivery.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"body\": \"<string>\",\n  \"from\": \"<string>\",\n  \"validity\": \"<integer>\",\n  \"scheduledDelivery\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\",\n  \"receiptOff\": \"<boolean>\",\n  \"userMsgRef\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"messages\": [\n    {\n      \"to\": \"string\",\n      \"deliveryStatus\": \"DeliveredToTerminal\",\n      \"messageId\": \"string\",\n      \"messageStatusURL\": \"http://UTTlxOnRTHwnNAHuUhQDawXAzoKOyC.iagzlukyhTQD1B+sfslGE\"\n    },\n    {\n      \"to\": \"string\",\n      \"deliveryStatus\": \"MessageWaiting\",\n      \"messageId\": \"string\",\n      \"messageStatusURL\": \"https://lWGkEglBCDILZyJFR.vzRT12AaDYtFIyaslhs-ntAsjTnebhnIw\"\n    }\n  ],\n  \"messageType\": \"string\",\n  \"numberSegments\": 1719,\n  \"numberNationalDestinations\": 818,\n  \"numberInternationalDestinations\": 4212\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f60eeb70-50b8-46a3-91ef-8121532606df",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"body\": \"<string>\",\n  \"from\": \"<string>\",\n  \"validity\": \"<integer>\",\n  \"scheduledDelivery\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\",\n  \"receiptOff\": \"<boolean>\",\n  \"userMsgRef\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eae8ec2b-a6ef-4a24-a4c5-e948e30c3634",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"body\": \"<string>\",\n  \"from\": \"<string>\",\n  \"validity\": \"<integer>\",\n  \"scheduledDelivery\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\",\n  \"receiptOff\": \"<boolean>\",\n  \"userMsgRef\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a480df10-8738-4de1-966c-34b109fa0769",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"body\": \"<string>\",\n  \"from\": \"<string>\",\n  \"validity\": \"<integer>\",\n  \"scheduledDelivery\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\",\n  \"receiptOff\": \"<boolean>\",\n  \"userMsgRef\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e19db9a-9b72-4682-b1d4-899d9351e936",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"body\": \"<string>\",\n  \"from\": \"<string>\",\n  \"validity\": \"<integer>\",\n  \"scheduledDelivery\": \"<integer>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\",\n  \"receiptOff\": \"<boolean>\",\n  \"userMsgRef\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "415da800-f6cb-4a43-b5b1-82f329afcf5c",
+          "name": "Telstra Get SMS Replies",
+          "request": {
+            "name": "Telstra Get SMS Replies",
+            "description": {
+              "content": "Retrieve queued inbound SMS replies for the authenticated dedicated virtual number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "sms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9822d5c2-9a2b-49b4-8272-43fbaa121003",
+              "name": "Reply payload (empty if no replies are queued).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"RECEIVED\",\n  \"destinationAddress\": \"string\",\n  \"senderAddress\": \"string\",\n  \"message\": \"string\",\n  \"messageId\": \"string\",\n  \"sentTimestamp\": \"2025-09-06T03:54:51.132Z\",\n  \"apiMsgId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b08b533-095b-41cc-aead-12e9abcf5b19",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ad6fad62-a50e-475a-a3ab-220d45016fe5",
+          "name": "Telstra Get SMS Status",
+          "request": {
+            "name": "Telstra Get SMS Status",
+            "description": {
+              "content": "Retrieve the current delivery status for a previously sent SMS by message ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "sms",
+                ":messageId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "messageId",
+                  "description": "(Required) Server-issued message identifier returned from POST /messages/sms."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5998cebf-231b-480c-a940-0c9241d66a68",
+              "name": "Current delivery status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms",
+                    ":messageId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "messageId",
+                      "description": "(Required) Server-issued message identifier returned from POST /messages/sms."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"to\": \"string\",\n  \"sentTimestamp\": \"1954-07-14T13:06:33.102Z\",\n  \"status\": \"DeliveredToTerminal\",\n  \"receivedTimestamp\": \"2001-11-05T09:31:15.031Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "777e426e-f446-417c-9903-54dd2159070e",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms",
+                    ":messageId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "messageId",
+                      "description": "(Required) Server-issued message identifier returned from POST /messages/sms."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "39c6ef79-c610-4320-8083-67ad11e3adba",
+              "name": "Not Found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "sms",
+                    ":messageId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "messageId",
+                      "description": "(Required) Server-issued message identifier returned from POST /messages/sms."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://tapi.telstra.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "NSMS"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://tapi.telstra.com/v2/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3296193e-b589-4f81-a93f-73a481eff5ca",
+    "name": "Telstra Messaging Authentication SMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Telstra Messaging API provides programmatic SMS and MMS messaging\nservices in Australia and select international destinations. Built on\nthe Telstra mobile network, the API supports outbound and inbound\nSMS/MMS, delivery status callbacks, virtual numbers, and provisioning\nworkflows. Authentication uses OAuth 2.0 client credentials with the\nNSMS scope.\n\n\nContact Support:\n Name: Telstra Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

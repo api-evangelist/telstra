@@ -1,0 +1,632 @@
+{
+  "item": [
+    {
+      "id": "944fd4b6-3648-4699-a3e3-8a29b5fa2f4a",
+      "name": "MMS",
+      "description": {
+        "content": "Send, retrieve, and check status of MMS messages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "911d9f8c-cbee-481c-90cd-43f5ebf40d1f",
+          "name": "Telstra Send MMS",
+          "request": {
+            "name": "Telstra Send MMS",
+            "description": {
+              "content": "Send an MMS containing one or more multimedia parts (image, audio, video, vCard, or text) to a destination number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "mms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<byte>\",\n      \"filename\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"payload\": \"<byte>\",\n      \"filename\": \"<string>\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "06f0c35c-b0ea-4324-beb9-1d4af897a997",
+              "name": "MMS accepted for delivery.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"messages\": [\n    {\n      \"to\": \"string\",\n      \"deliveryStatus\": \"DeliveryImpossible\",\n      \"messageId\": \"string\",\n      \"messageStatusURL\": \"http://ENcJYETBPPqhBMIKPX.slwg0nwfX.gmLQEyaEhT.LA3iALMdLlU9xbIlaL0x9Iyx6I9\"\n    },\n    {\n      \"to\": \"string\",\n      \"deliveryStatus\": \"Rejected\",\n      \"messageId\": \"string\",\n      \"messageStatusURL\": \"https://UsIQMHulwjZTrQrgTwMKodRzAEfQpe.wvxPeRN\"\n    }\n  ],\n  \"messageType\": \"string\",\n  \"numberSegments\": 273,\n  \"numberNationalDestinations\": 7795,\n  \"numberInternationalDestinations\": 9583\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7c36717-055b-446c-b190-f4b70ace53b6",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f60e52a-fe0b-4fa5-add2-f34fe46d296a",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4de7b6e1-2c72-4ae4-b4b7-69b266570eee",
+              "name": "Payload too large.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0fc0aa6d-5061-4df7-89fe-ef96cb7f2ed1",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"MMSContent\": [\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"payload\": \"string\",\n      \"filename\": \"string\"\n    }\n  ],\n  \"from\": \"<string>\",\n  \"notifyURL\": \"<uri>\",\n  \"replyRequest\": \"<boolean>\",\n  \"priority\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a5ae3be6-2d3c-449a-9c7f-29cc551cadc0",
+          "name": "Telstra Get MMS Replies",
+          "request": {
+            "name": "Telstra Get MMS Replies",
+            "description": {
+              "content": "Retrieve queued inbound MMS replies for the authenticated dedicated virtual number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "mms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e0a031ef-2166-4b54-a06a-0524a4b028a7",
+              "name": "Inbound MMS payload (empty if no replies queued).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"EMPTY\",\n  \"destinationAddress\": \"string\",\n  \"senderAddress\": \"string\",\n  \"message\": \"string\",\n  \"messageId\": \"string\",\n  \"sentTimestamp\": \"1990-12-27T00:43:25.924Z\",\n  \"apiMsgId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "979e413a-327b-47c3-9c5a-c3888b5c97c7",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "09e5865a-599f-4379-a787-6195dbb277e5",
+          "name": "Telstra Get MMS Status",
+          "request": {
+            "name": "Telstra Get MMS Status",
+            "description": {
+              "content": "Retrieve the current delivery status for a previously sent MMS by message ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                "mms",
+                ":messageId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "messageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "31d0df12-5224-4e7f-aebf-753cdb86ea0d",
+              "name": "Current delivery status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms",
+                    ":messageId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "messageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"to\": \"string\",\n  \"sentTimestamp\": \"2014-02-22T22:51:26.087Z\",\n  \"status\": \"MessageBuffered\",\n  \"receivedTimestamp\": \"2000-05-19T18:37:00.533Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30a7717f-14d7-48a8-ba5d-c190fded39a9",
+              "name": "Not Found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    "mms",
+                    ":messageId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "messageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://tapi.telstra.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "NSMS"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://tapi.telstra.com/v2/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8ccf504c-044b-4c0b-a045-c2ad974228af",
+    "name": "Telstra Messaging Authentication MMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Telstra Messaging API provides programmatic SMS and MMS messaging\nservices in Australia and select international destinations. Built on\nthe Telstra mobile network, the API supports outbound and inbound\nSMS/MMS, delivery status callbacks, virtual numbers, and provisioning\nworkflows. Authentication uses OAuth 2.0 client credentials with the\nNSMS scope.\n\n\nContact Support:\n Name: Telstra Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

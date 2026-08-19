@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Telstra Messaging Authentication Provisioning API",
+    "version": "2.2.10"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://tapi.telstra.com/v2/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Provisioning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Telstra Get Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions"
+          },
+          "docs": "Retrieve the current dedicated virtual number subscription for the authenticated application."
+        },
+        {
+          "info": {
+            "name": "Telstra Create Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provision a dedicated virtual number subscription for the calling application, allowing inbound replies."
+        },
+        {
+          "info": {
+            "name": "Telstra Delete Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://tapi.telstra.com/v2/messages/provisioning/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Release the dedicated virtual number subscription for the authenticated application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
