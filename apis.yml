@@ -41,6 +41,8 @@ apis:
   humanURL: https://dev.telstra.com
   baseURL: https://tapi.telstra.com/v2
   tags:
+  - Health Check
+  tags_raw:
   - HealthCheck
   properties:
   - type: OpenAPI
