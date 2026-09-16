@@ -35,42 +35,6 @@ apis:
     url: https://github.com/telstra/MessagingAPI-SDK-dotnet
   - type: SDKs
     url: https://github.com/telstra/MessagingAPI-SDK-Go
-- aid: telstra:telstra-healthcheck-api
-  name: Telstra HealthCheck API
-  description: Service health checks for SMS and MMS messaging surfaces.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - Health Check
-  tags_raw:
-  - HealthCheck
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-healthcheck-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
 - aid: telstra:telstra-mms-api
   name: Telstra MMS API
   description: Send, retrieve, and check status of MMS messages.
@@ -183,6 +147,40 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/telstra-verification-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+- aid: telstra:telstra-health-check-api
+  name: Telstra Health Check API
+  description: Service health checks for SMS and MMS messaging surfaces.
+  humanURL: https://dev.telstra.com
+  baseURL: https://tapi.telstra.com/v2
+  tags:
+  - Health Check
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-health-check-api-openapi.yml
   - type: Documentation
     url: https://dev.telstra.com
   - type: JSONSchema
