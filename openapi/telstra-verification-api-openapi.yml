@@ -1,35 +1,27 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Telstra Messaging Authentication Verification API
-  description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
+  title: Telstra Mobile Number Verification API
+  description: 'Telstra Mobile Number Verification (formerly Mobile Origin Verification)
 
-    services in Australia and select international destinations. Built on
+    provides silent, friction-free verification that the device making a
 
-    the Telstra mobile network, the API supports outbound and inbound
+    request is on the Telstra mobile data network, and that the SIM
 
-    SMS/MMS, delivery status callbacks, virtual numbers, and provisioning
+    associated with the data session matches the MSISDN supplied by the
 
-    workflows. Authentication uses OAuth 2.0 client credentials with the
+    customer. Designed to replace SMS OTP for in-app sign-in, account
 
-    NSMS scope.
-
-    '
-  version: 2.2.10
+    recovery, and fraud checks on the Telstra consumer mobile network.'
+  version: 1.0.0
   contact:
     name: Telstra Developer Support
     url: https://dev.telstra.com
-  termsOfService: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
-  license:
-    name: Telstra Developer License
-    url: https://github.com/telstra/tdev-doc-license
-  x-logo:
-    url: https://www.telstra.com.au/etc/designs/telstrav8/clientlibs/img/Telstra_Symbol.svg
 servers:
-- url: https://tapi.telstra.com/v2
+- url: https://tapi.telstra.com/v1
   description: Production Server
 security:
 - OAuth2ClientCredentials:
-  - NSMS
+  - MNV
 tags:
 - name: Verification
   description: Mobile number verification operations.
@@ -78,19 +70,6 @@ components:
         timestamp:
           type: string
           format: date-time
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
     VerifyRequest:
       type: object
       required:
@@ -105,6 +84,19 @@ components:
         clientReference:
           type: string
           description: Application-supplied correlation identifier echoed in the response.
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
   responses:
     RateLimited:
       description: Too Many Requests.
@@ -127,9 +119,8 @@ components:
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2
-      description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token with the NSMS scope.
       flows:
         clientCredentials:
           tokenUrl: https://tapi.telstra.com/v2/oauth/token
           scopes:
-            NSMS: Send and receive SMS/MMS through Telstra Messaging.
+            MNV: Mobile Number Verification.

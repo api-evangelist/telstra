@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Telstra Messaging Authentication API
   description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
@@ -11,9 +11,7 @@ info:
 
     workflows. Authentication uses OAuth 2.0 client credentials with the
 
-    NSMS scope.
-
-    '
+    NSMS scope.'
   version: 2.2.10
   contact:
     name: Telstra Developer Support
@@ -61,6 +59,19 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
     OAuthTokenResponse:
       type: object
       required:
@@ -78,19 +89,6 @@ components:
           type: string
           enum:
           - Bearer
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
     OAuthTokenRequest:
       type: object
       required:

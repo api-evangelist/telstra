@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Telstra Messaging Authentication SMS API
+  title: Telstra Messaging SMS API
   description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
 
     services in Australia and select international destinations. Built on
@@ -11,9 +11,7 @@ info:
 
     workflows. Authentication uses OAuth 2.0 client credentials with the
 
-    NSMS scope.
-
-    '
+    NSMS scope.'
   version: 2.2.10
   contact:
     name: Telstra Developer Support
@@ -103,140 +101,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Forbidden:
-      description: Forbidden.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not Found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Too Many Requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    MessageReceipt:
-      type: object
-      required:
-      - to
-      - deliveryStatus
-      - messageId
-      properties:
-        to:
-          type: string
-        deliveryStatus:
-          type: string
-          enum:
-          - MessageWaiting
-          - DeliveredToNetwork
-          - MessageBuffered
-          - DeliveredToTerminal
-          - DeliveryImpossible
-          - Rejected
-        messageId:
-          type: string
-        messageStatusURL:
-          type: string
-          format: uri
-    InboundMessage:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - EMPTY
-          - RECEIVED
-        destinationAddress:
-          type: string
-        senderAddress:
-          type: string
-        message:
-          type: string
-        messageId:
-          type: string
-        sentTimestamp:
-          type: string
-          format: date-time
-        apiMsgId:
-          type: string
-    SendMessageResponse:
-      type: object
-      required:
-      - messages
-      properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageReceipt'
-        country:
-          type: array
-          items:
-            type: object
-        messageType:
-          type: string
-        numberSegments:
-          type: integer
-        numberNationalDestinations:
-          type: integer
-        numberInternationalDestinations:
-          type: integer
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
-    MessageStatus:
-      type: object
-      required:
-      - to
-      - sentTimestamp
-      - status
-      properties:
-        to:
-          type: string
-        sentTimestamp:
-          type: string
-          format: date-time
-        receivedTimestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - MessageWaiting
-          - DeliveredToNetwork
-          - MessageBuffered
-          - DeliveredToTerminal
-          - DeliveryImpossible
-          - Rejected
     SendSmsRequest:
       type: object
       required:
@@ -283,6 +148,139 @@ components:
         userMsgRef:
           type: string
           description: Application-supplied reference echoed back in callbacks and status retrieval.
+    MessageStatus:
+      type: object
+      required:
+      - to
+      - sentTimestamp
+      - status
+      properties:
+        to:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        receivedTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    MessageReceipt:
+      type: object
+      required:
+      - to
+      - deliveryStatus
+      - messageId
+      properties:
+        to:
+          type: string
+        deliveryStatus:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
+        messageId:
+          type: string
+        messageStatusURL:
+          type: string
+          format: uri
+    SendMessageResponse:
+      type: object
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReceipt'
+        country:
+          type: array
+          items:
+            type: object
+        messageType:
+          type: string
+        numberSegments:
+          type: integer
+        numberNationalDestinations:
+          type: integer
+        numberInternationalDestinations:
+          type: integer
+    InboundMessage:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - EMPTY
+          - RECEIVED
+        destinationAddress:
+          type: string
+        senderAddress:
+          type: string
+        message:
+          type: string
+        messageId:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        apiMsgId:
+          type: string
+  responses:
+    Forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too Many Requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2

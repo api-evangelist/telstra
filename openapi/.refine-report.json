@@ -1,12 +1,8 @@
 {
   "provider": "telstra",
   "sources": [
-    "telstra-authentication-api-openapi.yml",
-    "telstra-healthcheck-api-openapi.yml",
-    "telstra-mms-api-openapi.yml",
-    "telstra-provisioning-api-openapi.yml",
-    "telstra-sms-api-openapi.yml",
-    "telstra-verification-api-openapi.yml"
+    "_original/telstra-messaging-api-openapi.yml",
+    "_original/telstra-mobile-number-verification-api-openapi.yml"
   ],
   "outputs": [
     "telstra-authentication-api-openapi.yml",
@@ -16,9 +12,24 @@
     "telstra-sms-api-openapi.yml",
     "telstra-verification-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "telstra-messaging-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "telstra-mobile-number-verification-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: telstra-health-check-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 6 total)"
+  ],
+  "skipped": [
+    "telstra-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "telstra-health-check-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "telstra-mms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "telstra-provisioning-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "telstra-sms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "telstra-verification-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

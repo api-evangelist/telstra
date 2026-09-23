@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Telstra Messaging Authentication HealthCheck API
+  title: Telstra Messaging Health Check API
   description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
 
     services in Australia and select international destinations. Built on
@@ -11,9 +11,7 @@ info:
 
     workflows. Authentication uses OAuth 2.0 client credentials with the
 
-    NSMS scope.
-
-    '
+    NSMS scope.'
   version: 2.2.10
   contact:
     name: Telstra Developer Support
@@ -31,7 +29,7 @@ security:
 - OAuth2ClientCredentials:
   - NSMS
 tags:
-- name: HealthCheck
+- name: Health Check
   description: Service health checks for SMS and MMS messaging surfaces.
 paths:
   /messages/sms/healthcheck:
@@ -40,7 +38,7 @@ paths:
       description: Service availability indicator for SMS messaging.
       operationId: smsHealthcheck
       tags:
-      - HealthCheck
+      - Health Check
       security: []
       responses:
         '200':
@@ -61,7 +59,7 @@ paths:
       description: Service availability indicator for MMS messaging.
       operationId: mmsHealthcheck
       tags:
-      - HealthCheck
+      - Health Check
       security: []
       responses:
         '200':
