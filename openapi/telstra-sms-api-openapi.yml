@@ -102,6 +102,30 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    MessageStatus:
+      type: object
+      required:
+      - to
+      - sentTimestamp
+      - status
+      properties:
+        to:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        receivedTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
     SendSmsRequest:
       type: object
       required:
@@ -148,43 +172,6 @@ components:
         userMsgRef:
           type: string
           description: Application-supplied reference echoed back in callbacks and status retrieval.
-    MessageStatus:
-      type: object
-      required:
-      - to
-      - sentTimestamp
-      - status
-      properties:
-        to:
-          type: string
-        sentTimestamp:
-          type: string
-          format: date-time
-        receivedTimestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - MessageWaiting
-          - DeliveredToNetwork
-          - MessageBuffered
-          - DeliveredToTerminal
-          - DeliveryImpossible
-          - Rejected
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
     MessageReceipt:
       type: object
       required:
@@ -208,27 +195,6 @@ components:
         messageStatusURL:
           type: string
           format: uri
-    SendMessageResponse:
-      type: object
-      required:
-      - messages
-      properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageReceipt'
-        country:
-          type: array
-          items:
-            type: object
-        messageType:
-          type: string
-        numberSegments:
-          type: integer
-        numberNationalDestinations:
-          type: integer
-        numberInternationalDestinations:
-          type: integer
     InboundMessage:
       type: object
       properties:
@@ -250,6 +216,40 @@ components:
           format: date-time
         apiMsgId:
           type: string
+    SendMessageResponse:
+      type: object
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReceipt'
+        country:
+          type: array
+          items:
+            type: object
+        messageType:
+          type: string
+        numberSegments:
+          type: integer
+        numberNationalDestinations:
+          type: integer
+        numberInternationalDestinations:
+          type: integer
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
   responses:
     Forbidden:
       description: Forbidden.
@@ -257,8 +257,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Too Many Requests.
+    Unauthorized:
+      description: Unauthorized.
       content:
         application/json:
           schema:
@@ -269,14 +269,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not Found.
+    RateLimited:
+      description: Too Many Requests.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized.
+    NotFound:
+      description: Not Found.
       content:
         application/json:
           schema:

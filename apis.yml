@@ -208,6 +208,15 @@ apis:
 name: Telstra
 tags:
 - Telecommunications
+- Mobile
+- Messaging
+- SMS
+- MMS
+- Networks
+- Australia
+- Verification
+tags_raw:
+- Telecommunications
 - Telco
 - Mobile
 - Messaging
