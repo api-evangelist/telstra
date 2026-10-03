@@ -97,23 +97,26 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    Subscription:
-      type: object
-      required:
-      - destinationAddress
-      properties:
-        destinationAddress:
-          type: string
-          description: The dedicated virtual number assigned to the application.
-        activeDays:
-          type: integer
-        notifyURL:
-          type: string
-          format: uri
-        expiryDate:
-          type: string
-          format: date-time
     CreateSubscriptionRequest:
       type: object
       properties:
@@ -143,25 +146,22 @@ components:
           type: string
         message:
           type: string
-  responses:
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not Found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    Subscription:
+      type: object
+      required:
+      - destinationAddress
+      properties:
+        destinationAddress:
+          type: string
+          description: The dedicated virtual number assigned to the application.
+        activeDays:
+          type: integer
+        notifyURL:
+          type: string
+          format: uri
+        expiryDate:
+          type: string
+          format: date-time
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2

@@ -98,31 +98,32 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too Many Requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    MessageStatus:
-      type: object
-      required:
-      - to
-      - sentTimestamp
-      - status
-      properties:
-        to:
-          type: string
-        sentTimestamp:
-          type: string
-          format: date-time
-        receivedTimestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - MessageWaiting
-          - DeliveredToNetwork
-          - MessageBuffered
-          - DeliveredToTerminal
-          - DeliveryImpossible
-          - Rejected
     MmsContentPart:
       type: object
       required:
@@ -138,34 +139,6 @@ components:
           type: string
           format: byte
           description: Base64-encoded content payload.
-    SendMmsRequest:
-      type: object
-      required:
-      - to
-      - subject
-      - MMSContent
-      properties:
-        to:
-          type: string
-          description: Destination MSISDN in E.164 format.
-        subject:
-          type: string
-          description: MMS subject line (max 64 chars).
-          maxLength: 64
-        from:
-          type: string
-        notifyURL:
-          type: string
-          format: uri
-        replyRequest:
-          type: boolean
-        priority:
-          type: boolean
-        MMSContent:
-          type: array
-          description: One or more MMS content parts; base64 encoded payloads.
-          items:
-            $ref: '#/components/schemas/MmsContentPart'
     MessageReceipt:
       type: object
       required:
@@ -210,6 +183,71 @@ components:
           format: date-time
         apiMsgId:
           type: string
+    MessageStatus:
+      type: object
+      required:
+      - to
+      - sentTimestamp
+      - status
+      properties:
+        to:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        receivedTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
+    SendMmsRequest:
+      type: object
+      required:
+      - to
+      - subject
+      - MMSContent
+      properties:
+        to:
+          type: string
+          description: Destination MSISDN in E.164 format.
+        subject:
+          type: string
+          description: MMS subject line (max 64 chars).
+          maxLength: 64
+        from:
+          type: string
+        notifyURL:
+          type: string
+          format: uri
+        replyRequest:
+          type: boolean
+        priority:
+          type: boolean
+        MMSContent:
+          type: array
+          description: One or more MMS content parts; base64 encoded payloads.
+          items:
+            $ref: '#/components/schemas/MmsContentPart'
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
     SendMessageResponse:
       type: object
       required:
@@ -231,44 +269,6 @@ components:
           type: integer
         numberInternationalDestinations:
           type: integer
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
-  responses:
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Too Many Requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not Found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2

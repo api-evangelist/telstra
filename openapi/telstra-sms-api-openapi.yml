@@ -101,23 +101,48 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too Many Requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    MessageStatus:
+    MessageReceipt:
       type: object
       required:
       - to
-      - sentTimestamp
-      - status
+      - deliveryStatus
+      - messageId
       properties:
         to:
           type: string
-        sentTimestamp:
-          type: string
-          format: date-time
-        receivedTimestamp:
-          type: string
-          format: date-time
-        status:
+        deliveryStatus:
           type: string
           enum:
           - MessageWaiting
@@ -126,6 +151,11 @@ components:
           - DeliveredToTerminal
           - DeliveryImpossible
           - Rejected
+        messageId:
+          type: string
+        messageStatusURL:
+          type: string
+          format: uri
     SendSmsRequest:
       type: object
       required:
@@ -172,29 +202,6 @@ components:
         userMsgRef:
           type: string
           description: Application-supplied reference echoed back in callbacks and status retrieval.
-    MessageReceipt:
-      type: object
-      required:
-      - to
-      - deliveryStatus
-      - messageId
-      properties:
-        to:
-          type: string
-        deliveryStatus:
-          type: string
-          enum:
-          - MessageWaiting
-          - DeliveredToNetwork
-          - MessageBuffered
-          - DeliveredToTerminal
-          - DeliveryImpossible
-          - Rejected
-        messageId:
-          type: string
-        messageStatusURL:
-          type: string
-          format: uri
     InboundMessage:
       type: object
       properties:
@@ -215,6 +222,43 @@ components:
           type: string
           format: date-time
         apiMsgId:
+          type: string
+    MessageStatus:
+      type: object
+      required:
+      - to
+      - sentTimestamp
+      - status
+      properties:
+        to:
+          type: string
+        sentTimestamp:
+          type: string
+          format: date-time
+        receivedTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
           type: string
     SendMessageResponse:
       type: object
@@ -237,50 +281,6 @@ components:
           type: integer
         numberInternationalDestinations:
           type: integer
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
-  responses:
-    Forbidden:
-      description: Forbidden.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Too Many Requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not Found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2
