@@ -98,14 +98,14 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    NotFound:
-      description: Not Found.
+    BadRequest:
+      description: Bad Request.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request.
+    NotFound:
+      description: Not Found.
       content:
         application/json:
           schema:

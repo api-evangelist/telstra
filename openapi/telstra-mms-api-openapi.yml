@@ -99,8 +99,8 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    NotFound:
-      description: Not Found.
+    BadRequest:
+      description: Bad Request.
       content:
         application/json:
           schema:
@@ -111,8 +111,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request.
+    NotFound:
+      description: Not Found.
       content:
         application/json:
           schema:
@@ -124,21 +124,51 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    MmsContentPart:
+    SendMessageResponse:
       type: object
       required:
-      - type
-      - payload
+      - messages
       properties:
-        type:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReceipt'
+        country:
+          type: array
+          items:
+            type: object
+        messageType:
           type: string
-          description: MIME type (image/jpeg, image/png, image/gif, audio/amr, text/plain, application/smil).
-        filename:
+        numberSegments:
+          type: integer
+        numberNationalDestinations:
+          type: integer
+        numberInternationalDestinations:
+          type: integer
+    MessageStatus:
+      type: object
+      required:
+      - to
+      - sentTimestamp
+      - status
+      properties:
+        to:
           type: string
-        payload:
+        sentTimestamp:
           type: string
-          format: byte
-          description: Base64-encoded content payload.
+          format: date-time
+        receivedTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - MessageWaiting
+          - DeliveredToNetwork
+          - MessageBuffered
+          - DeliveredToTerminal
+          - DeliveryImpossible
+          - Rejected
     MessageReceipt:
       type: object
       required:
@@ -183,30 +213,19 @@ components:
           format: date-time
         apiMsgId:
           type: string
-    MessageStatus:
+    ErrorResponse:
       type: object
       required:
-      - to
-      - sentTimestamp
       - status
+      - code
+      - message
       properties:
-        to:
-          type: string
-        sentTimestamp:
-          type: string
-          format: date-time
-        receivedTimestamp:
-          type: string
-          format: date-time
         status:
           type: string
-          enum:
-          - MessageWaiting
-          - DeliveredToNetwork
-          - MessageBuffered
-          - DeliveredToTerminal
-          - DeliveryImpossible
-          - Rejected
+        code:
+          type: string
+        message:
+          type: string
     SendMmsRequest:
       type: object
       required:
@@ -235,40 +254,21 @@ components:
           description: One or more MMS content parts; base64 encoded payloads.
           items:
             $ref: '#/components/schemas/MmsContentPart'
-    ErrorResponse:
+    MmsContentPart:
       type: object
       required:
-      - status
-      - code
-      - message
+      - type
+      - payload
       properties:
-        status:
+        type:
           type: string
-        code:
+          description: MIME type (image/jpeg, image/png, image/gif, audio/amr, text/plain, application/smil).
+        filename:
           type: string
-        message:
+        payload:
           type: string
-    SendMessageResponse:
-      type: object
-      required:
-      - messages
-      properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageReceipt'
-        country:
-          type: array
-          items:
-            type: object
-        messageType:
-          type: string
-        numberSegments:
-          type: integer
-        numberNationalDestinations:
-          type: integer
-        numberInternationalDestinations:
-          type: integer
+          format: byte
+          description: Base64-encoded content payload.
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2
