@@ -58,37 +58,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    OAuthTokenResponse:
-      type: object
-      required:
-      - access_token
-      - expires_in
-      - token_type
-      properties:
-        access_token:
-          type: string
-          description: Bearer token for subsequent API calls.
-        expires_in:
-          type: string
-          description: Token lifetime in seconds (commonly 3599).
-        token_type:
-          type: string
-          enum:
-          - Bearer
     ErrorResponse:
       type: object
       required:
@@ -122,6 +92,36 @@ components:
         scope:
           type: string
           default: NSMS
+    OAuthTokenResponse:
+      type: object
+      required:
+      - access_token
+      - expires_in
+      - token_type
+      properties:
+        access_token:
+          type: string
+          description: Bearer token for subsequent API calls.
+        expires_in:
+          type: string
+          description: Token lifetime in seconds (commonly 3599).
+        token_type:
+          type: string
+          enum:
+          - Bearer
+  responses:
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2

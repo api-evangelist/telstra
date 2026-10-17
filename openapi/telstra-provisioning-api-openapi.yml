@@ -97,6 +97,52 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - code
+      - message
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    CreateSubscriptionRequest:
+      type: object
+      properties:
+        activeDays:
+          type: integer
+          description: How many days the dedicated number remains active (1 to 1825).
+          minimum: 1
+          maximum: 1825
+          default: 30
+        notifyURL:
+          type: string
+          format: uri
+          description: HTTPS callback URL for inbound message notifications.
+        callbackData:
+          type: string
+          description: Optional opaque value passed through to the notify URL.
+    Subscription:
+      type: object
+      required:
+      - destinationAddress
+      properties:
+        destinationAddress:
+          type: string
+          description: The dedicated virtual number assigned to the application.
+        activeDays:
+          type: integer
+        notifyURL:
+          type: string
+          format: uri
+        expiryDate:
+          type: string
+          format: date-time
   responses:
     BadRequest:
       description: Bad Request.
@@ -116,52 +162,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  schemas:
-    CreateSubscriptionRequest:
-      type: object
-      properties:
-        activeDays:
-          type: integer
-          description: How many days the dedicated number remains active (1 to 1825).
-          minimum: 1
-          maximum: 1825
-          default: 30
-        notifyURL:
-          type: string
-          format: uri
-          description: HTTPS callback URL for inbound message notifications.
-        callbackData:
-          type: string
-          description: Optional opaque value passed through to the notify URL.
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
-    Subscription:
-      type: object
-      required:
-      - destinationAddress
-      properties:
-        destinationAddress:
-          type: string
-          description: The dedicated virtual number assigned to the application.
-        activeDays:
-          type: integer
-        notifyURL:
-          type: string
-          format: uri
-        expiryDate:
-          type: string
-          format: date-time
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2

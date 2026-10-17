@@ -98,53 +98,20 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Too Many Requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not Found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    SendMessageResponse:
+    ErrorResponse:
       type: object
       required:
-      - messages
+      - status
+      - code
+      - message
       properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageReceipt'
-        country:
-          type: array
-          items:
-            type: object
-        messageType:
+        status:
           type: string
-        numberSegments:
-          type: integer
-        numberNationalDestinations:
-          type: integer
-        numberInternationalDestinations:
-          type: integer
+        code:
+          type: string
+        message:
+          type: string
     MessageStatus:
       type: object
       required:
@@ -169,6 +136,55 @@ components:
           - DeliveredToTerminal
           - DeliveryImpossible
           - Rejected
+    SendMmsRequest:
+      type: object
+      required:
+      - to
+      - subject
+      - MMSContent
+      properties:
+        to:
+          type: string
+          description: Destination MSISDN in E.164 format.
+        subject:
+          type: string
+          description: MMS subject line (max 64 chars).
+          maxLength: 64
+        from:
+          type: string
+        notifyURL:
+          type: string
+          format: uri
+        replyRequest:
+          type: boolean
+        priority:
+          type: boolean
+        MMSContent:
+          type: array
+          description: One or more MMS content parts; base64 encoded payloads.
+          items:
+            $ref: '#/components/schemas/MmsContentPart'
+    SendMessageResponse:
+      type: object
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReceipt'
+        country:
+          type: array
+          items:
+            type: object
+        messageType:
+          type: string
+        numberSegments:
+          type: integer
+        numberNationalDestinations:
+          type: integer
+        numberInternationalDestinations:
+          type: integer
     MessageReceipt:
       type: object
       required:
@@ -213,47 +229,6 @@ components:
           format: date-time
         apiMsgId:
           type: string
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
-    SendMmsRequest:
-      type: object
-      required:
-      - to
-      - subject
-      - MMSContent
-      properties:
-        to:
-          type: string
-          description: Destination MSISDN in E.164 format.
-        subject:
-          type: string
-          description: MMS subject line (max 64 chars).
-          maxLength: 64
-        from:
-          type: string
-        notifyURL:
-          type: string
-          format: uri
-        replyRequest:
-          type: boolean
-        priority:
-          type: boolean
-        MMSContent:
-          type: array
-          description: One or more MMS content parts; base64 encoded payloads.
-          items:
-            $ref: '#/components/schemas/MmsContentPart'
     MmsContentPart:
       type: object
       required:
@@ -269,6 +244,31 @@ components:
           type: string
           format: byte
           description: Base64-encoded content payload.
+  responses:
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too Many Requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2
