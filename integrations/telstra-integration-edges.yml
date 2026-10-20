@@ -1,0 +1,22 @@
+generated: '2026-10-19'
+method: searched
+checked:
+- https://azuremarketplace.microsoft.com/
+marketplace_apps: []
+edges:
+- partner_name: Microsoft Azure Marketplace
+  partner: microsoft-azure
+  partner_match: aggregator
+  type: marketplace
+  marketplace: azure-marketplace
+  channel: distribution
+  relationship: distribution-channel
+  direction: third-party
+  evidence: https://azuremarketplace.microsoft.com/en-us/marketplace/apps?search=Telstra%20Limited
+  listing_count: 2
+  apps:
+  - Managed Virtual Machines
+  - Telstra Azure Managed Services - Cloud Gateway
+  seller_name: Telstra Limited
+  detected_by: sweep-cloud-marketplaces.py
+  detected: '2026-10-19'
