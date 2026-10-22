@@ -15,3 +15,32 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: telstra-first-forum-of-incident-response-and-security-teams
+  label: FIRST (Forum of Incident Response and Security Teams)
+  partner_name: FIRST (Forum of Incident Response and Security Teams)
+  category: Incident response / PSIRT (FIRST member team)
+  type: register
+  channel: standard-directory
+  evidence: https://www.first.org/members/teams/telstra_t-cert
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: FIRST member teams (api.first.org/data/v1/teams, public JSON API)
+    standard: FIRST (Forum of Incident Response and Security Teams) membership
+    spec_file: null
+    role: first-member-team
+    registered_name: Telstra
+    matched_domain: telstra.com
+    matched_by: domain
+    teams:
+    - id: telstra_t-cert
+      team: Telstra T-CERT
+      team_type: CSIRT
+      member_since: January 2, 2013
+      country: AU
+    signal_note: FIRST full membership of an incident-response / product-security team = participation; team_type
+      names CSIRT / PSIRT / SOC; never a count
+    detected_by: sweep-vulnerability-disclosure-cna.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
