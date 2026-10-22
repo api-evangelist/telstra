@@ -1,211 +1,9 @@
 aid: telstra
+
 url: https://raw.githubusercontent.com/api-evangelist/telstra/refs/heads/main/apis.yml
-apis:
-- aid: telstra:telstra-authentication-api
-  name: Telstra Authentication API
-  description: OAuth 2.0 client credentials token issuance.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - Authentication
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-authentication-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
-- aid: telstra:telstra-mms-api
-  name: Telstra MMS API
-  description: Send, retrieve, and check status of MMS messages.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - MMS
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-mms-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
-- aid: telstra:telstra-provisioning-api
-  name: Telstra Provisioning API
-  description: Create, retrieve, and delete dedicated number subscriptions.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - Provisioning
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-provisioning-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
-- aid: telstra:telstra-sms-api
-  name: Telstra SMS API
-  description: Send, retrieve, and check status of SMS messages.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - SMS
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-sms-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
-- aid: telstra:telstra-verification-api
-  name: Telstra Verification API
-  description: Mobile number verification operations.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - Verification
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-verification-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
-- aid: telstra:telstra-health-check-api
-  name: Telstra Health Check API
-  description: Service health checks for SMS and MMS messaging surfaces.
-  humanURL: https://dev.telstra.com
-  baseURL: https://tapi.telstra.com/v2
-  tags:
-  - Health Check
-  properties:
-  - type: OpenAPI
-    url: openapi/telstra-health-check-api-openapi.yml
-  - type: Documentation
-    url: https://dev.telstra.com
-  - type: JSONSchema
-    url: json-schema/telstra-message-schema.json
-  - type: JSONSchema
-    url: json-schema/telstra-subscription-schema.json
-  - type: JSONStructure
-    url: json-structure/telstra-message-structure.json
-  - type: JSONLD
-    url: json-ld/telstra-context.jsonld
-  - type: Examples
-    url: examples/telstra-send-sms-example.json
-  - type: Examples
-    url: examples/telstra-create-subscription-example.json
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-python
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-node
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Java
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
-  - type: SDKs
-    url: https://github.com/telstra/MessagingAPI-SDK-Go
+
 name: Telstra
+
 tags:
 - Telecommunications
 - Mobile
@@ -215,17 +13,9 @@ tags:
 - Networks
 - Australia
 - Verification
-tags_raw:
-- Telecommunications
-- Telco
-- Mobile
-- Messaging
-- SMS
-- MMS
-- Networks
-- Australia
-- Verification
+
 kind: contract
+
 deliveryModel:
   model: saas
   license: Telstra Dev Documentation License
@@ -240,6 +30,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -253,11 +44,69 @@ accessModel:
   - authentication
   generated: '2026-07-22'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/telstra.png
+
 access: 3rd-Party
+
+created: '2026-05-25T00:00:00.000Z'
+
+modified: '2026-10-20'
+
+position: Consuming
+
+description: Telstra is Australia's largest telecommunications and mobile network operator, providing fixed broadband, mobile voice and data,
+  enterprise networking, and IoT connectivity across Australia and into Asia. Telstra exposes a developer programme at dev.telstra.com fronting
+  carrier-grade Messaging (SMS / MMS) and Mobile Number Verification APIs, with official SDKs in Python, Node.js, Java, .NET, and Go, and Arduino
+  libraries for the Telstra Cat-1 and Cat-M1 IoT development kits. The dev.telstra.com catalogue also lists SIM Swap, Device Swap, KYC Match,
+  KYC Tenure, Mobile Push Notifications, Bandwidth and Plan Modification, IoT Connectivity Service and Telstra Cloud Sight APIs, with a public
+  API status page. APIs are reached at tapi.telstra.com behind OAuth 2.0 client credentials with the NSMS or MNV scopes.
+
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+  X: apievangelist
+  url: https://apievangelist.com
+
+specificationVersion: '0.23'
+
 common:
+- type: SecurityTxt
+  url: well-known/telstra-tdev-security.txt
+- type: WellKnown
+  url: well-known/telstra-well-known.yml
+- type: Spectral
+  url: rules/telstra-rules.yml
+- type: Spectral
+  url: rules/telstra-jsonschema-spectral-rules.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/telstra-data-model.yml
+- type: Conventions
+  url: conventions/telstra-conventions.yml
+- type: Sandbox
+  url: sandbox/telstra-sandbox.yml
+- type: Lifecycle
+  url: lifecycle/telstra-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/telstra-error-codes.yml
+- type: ErrorCatalog
+  url: errors/telstra-problem-types.yml
+- type: Conformance
+  url: conformance/telstra-conformance.yml
+- type: Overlay
+  url: overlays/telstra-bandwidth-and-plan-modification-api-overlay.yaml
+- type: Hosts
+  url: hosts/telstra-hosts.yml
+- type: IntegrationEdges
+  url: integrations/telstra-integration-edges.yml
+- type: Vendors
+  url: vendors/telstra-vendors.yml
+- type: Packages
+  url: packages/telstra-packages.yml
 - type: Website
-  url: https://telstra.com
+  url: https://www.telstra.com.au
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/telstra/overview
 - type: AgenticAccess
@@ -270,28 +119,36 @@ common:
   url: scopes/telstra-scopes.yml
 - type: Portal
   url: https://dev.telstra.com
-- type: Portal
-  url: https://www.telstra.com.au
 - type: Documentation
-  url: https://dev.telstra.com
+  url: https://dev.telstra.com/apis
+- type: APIReference
+  url: https://dev.telstra.com/apis/messaging-api/Endpoints
+- type: GettingStarted
+  url: https://dev.telstra.com/apis/messaging-api/Tutorials
+- type: Pricing
+  url: https://dev.telstra.com/apis/messaging-api/Pricing
+- type: Postman
+  url: https://app.getpostman.com/run-collection/20937769-0dca2b10-fdeb-4508-a655-843f8ad4de15?action=collection%2Fimport
 - type: Signup
   url: https://dev.telstra.com
 - type: GitHubOrganization
   url: https://github.com/telstra
 - type: StatusPage
-  url: https://crowdsupport.telstra.com.au/t5/network-coverage/ct-p/Networkcoverage
+  url: https://dev.telstra.com/status
 - type: TermsOfService
-  url: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+  url: https://www.telstra.com.au/customer-terms/business-government
 - type: PrivacyPolicy
   url: https://www.telstra.com.au/privacy
 - type: LinkedIn
   url: https://www.linkedin.com/company/telstra
 - type: Blog
-  url: https://exchange.telstra.com.au
+  url: https://dev.telstra.com/blog
+- type: Newsroom
+  url: https://www.telstra.com.au/exchange/news
 - type: Support
+  url: https://dev.telstra.com/support
+- type: HelpCenter
   url: https://www.telstra.com.au/support
-- type: Forums
-  url: https://crowdsupport.telstra.com.au
 - type: GitHub
   url: https://github.com/telstra
 - url: https://github.com/telstra/MessagingAPI-SDK-python
@@ -349,18 +206,2576 @@ common:
   - https://github.com/telstra
   - https://github.com/telstra/MessagingAPI-SDK-python
   updated: '2026-05-25'
-created: '2026-05-25T00:00:00.000Z'
-modified: '2026-09-16'
-position: Consuming
-description: Telstra is Australia's largest telecommunications and mobile network operator, providing
-  fixed broadband, mobile voice and data, enterprise networking, and IoT connectivity across Australia
-  and into Asia. Telstra exposes a developer programme at dev.telstra.com fronting carrier-grade Messaging
-  (SMS / MMS) and Mobile Number Verification APIs, with official SDKs in Python, Node.js, Java, .NET,
-  and Go, and Arduino libraries for the Telstra Cat-1 and Cat-M1 IoT development kits. APIs are reached
-  at tapi.telstra.com behind OAuth 2.0 client credentials with the NSMS or MNV scopes.
-maintainers:
-- FN: Kin Lane
-  email: info@apievangelist.com
-  X: apievangelist
-  url: https://apievangelist.com
-specificationVersion: '0.23'
+
+apis:
+- aid: telstra:telstra-mobile-push-notifications
+  name: Telstra Mobile Push Notifications API
+  description: Send large scale mobile push notification campaigns to Android and iOS devices.
+  humanURL: https://dev.telstra.com/apis/mobile-push-notifications
+  tags:
+  - Mobile Push Notifications
+  properties:
+  - type: Documentation
+    url: https://dev.telstra.com/apis/mobile-push-notifications
+- aid: telstra:telstra-access-token-request-api
+  name: Telstra Access Token Request API
+  description: Request for access token to make the API request
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Access Token Request
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-access-token-request-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-authentication-api
+  name: Telstra Authentication API
+  description: The Authentication API from Telstra — 2 operation(s) for authentication.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-check-device-swap-api
+  name: Telstra Check Device Swap API
+  description: >-
+    Validate if the SIM of the end-user has been installed in a different device during a past period
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Check Device Swap
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-check-device-swap-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-check-subscriber-tenure-api
+  name: Telstra Check Subscriber Tenure API
+  description: >-
+    The Check Subscriber Tenure API from Telstra — 1 operation(s) for check subscriber tenure.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Check Subscriber Tenure
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-check-subscriber-tenure-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-field-workforce-partners-api-operations-api
+  name: Telstra Field Workforce Partners API Operations API
+  description: >-
+    The Field Workforce Partners API Operations API from Telstra — 10 operation(s) for field workforce
+    partners api operations.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Field Workforce Partners API Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-field-workforce-partners-api-operations-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-free-trial-numbers-api
+  name: Telstra free trial numbers API
+  description: The free trial numbers API from Telstra — 1 operation(s) for free trial numbers.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - free trial numbers
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-free-trial-numbers-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-health-check-api
+  name: Telstra health check API
+  description: The health check API from Telstra — 1 operation(s) for health check.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - health check
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-health-check-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-match-api
+  name: Telstra Match API
+  description: >-
+    Operations to match a customer identity against the account data bound to their phone number.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Match
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-match-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-messages-api
+  name: Telstra Messages API
+  description: The messages API from Telstra — 2 operation(s) for messages.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - messages
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-messages-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-modify-api
+  name: Telstra Modify API
+  description: Bandwidth/plan modification operations
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Modify
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-modify-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-oidc-access-token-request-api
+  name: Telstra OIDC Access Token Request API
+  description: Request for access token to make the API request
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - OIDC Access Token Request
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-oidc-access-token-request-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-oidc-authentication-request-api
+  name: Telstra OIDC Authentication Request API
+  description: Request authorisation grant
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - OIDC Authentication Request
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-oidc-authentication-request-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-our-website-api
+  name: Telstra Our website API
+  description: The Our website API from Telstra — 1 operation(s) for our website.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Our website
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-our-website-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-outage-service-api
+  name: Telstra Outage Service API
+  description: Retrieve the outage status for a specific subu`rb and state
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Outage Service
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-outage-service-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-phone-number-verify-api
+  name: Telstra Phone Number Verify API
+  description: >-
+    API operation to verify a phone number received as input. It can be received either in plain text
+    or hashed format.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Phone Number Verify
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-phone-number-verify-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-pricing-api
+  name: Telstra Pricing API
+  description: The Pricing API from Telstra — 1 operation(s) for pricing.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Pricing
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-pricing-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-reports-api
+  name: Telstra Reports API
+  description: The reports API from Telstra — 3 operation(s) for reports.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - reports
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-reports-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-retrieve-device-swap-date-api
+  name: Telstra Retrieve Device Swap Date API
+  description: Receive the last date in which the device of the end-user was swapped
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Retrieve Device Swap Date
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-retrieve-device-swap-date-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-sender-names-api
+  name: Telstra sender names API
+  description: The sender names API from Telstra — 1 operation(s) for sender names.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - sender names
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-sender-names-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-services-api
+  name: Telstra Services API
+  description: Retrieve services
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-services-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-status-api
+  name: Telstra Status API
+  description: Fetch status of requests
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-status-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+- aid: telstra:telstra-virtual-numbers-api
+  name: Telstra virtual numbers API
+  description: The virtual numbers API from Telstra — 3 operation(s) for virtual numbers.
+  humanURL: https://dev.telstra.com/apis/messaging-api
+  baseURL: https://products.api.telstra.com/messaging/v3
+  tags:
+  - virtual numbers
+  properties:
+  - type: OpenAPI
+    url: openapi/telstra-virtual-numbers-api-openapi.yml
+  - type: Documentation
+    url: https://dev.telstra.com/apis/messaging-api
+  - type: JSONSchema
+    url: json-schema/telstra-message-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-subscription-schema.json
+  - type: JSONStructure
+    url: json-structure/telstra-message-structure.json
+  - type: JSONLD
+    url: json-ld/telstra-context.jsonld
+  - type: Examples
+    url: examples/telstra-send-sms-example.json
+  - type: Examples
+    url: examples/telstra-create-subscription-example.json
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-python
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-node
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Java
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  - type: SDKs
+    url: https://github.com/telstra/MessagingAPI-SDK-Go
+  - type: Documentation
+    url: https://dev.telstra.com/apis/number-verification-api
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-number-verification-match-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/sim-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-sim-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-sim-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-sim-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/device-swap-api
+  - type: JSONSchema
+    url: json-schema/telstra-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-check-device-swap-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-check-device-swap-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-create-device-swap-date-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-match-api
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-kyc-match-request-body-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/kyc-tenure-api
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-info-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-tenure-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-connectivity-service-api
+  - type: JSONSchema
+    url: json-schema/telstra-service-sim-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-oauth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-service-sims-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/iot-outage-api
+  - type: JSONSchema
+    url: json-schema/telstra-outage-status-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/bandwidth-and-plan-modification-api
+  - type: JSONSchema
+    url: json-schema/telstra-fetch-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-list-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-services-page-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-afmodify-bandwidth-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-modify-bandwidth-request-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/field-workforce-partners-api
+  - type: JSONSchema
+    url: json-schema/telstra-task-retrieve-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-refernce-data-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-update-task-input-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-appointment-slot-enquiry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-get-partner-success-response-schema.json
+  - type: JSONSchema
+    url: json-schema/telstra-retrieve-task-list-success-response-schema.json
+  - type: Documentation
+    url: https://dev.telstra.com/apis/telstra-cloud-sight-api
+tags_raw:
+- Telecommunications
+- Telco
+- Mobile
+- Messaging
+- SMS
+- MMS
+- Networks
+- Australia
+- Verification
+
+x-coverage:
+  state: covered
+  reason: identity-verified
+  detail: Identity module 2026-10-20. telstra.com redirects to www.telstra.com.au (same company); developer pointers read from the rendered dev.telstra.com
+    navigation. Removed dead messaging-api ToS (404) and crowdsupport Forums/StatusPage (crowdsupport now redirects to www.telstra.com.au/support).
+  evidence:
+  - url: https://telstra.com
+    status: 200
+  - url: https://www.telstra.com.au
+    status: 200
+  - url: https://dev.telstra.com/apis
+    status: 200
+  - url: https://dev.telstra.com/apis/messaging-api/Endpoints
+    status: 200
+  - url: https://dev.telstra.com/apis/messaging-api/Pricing
+    status: 200
+  - url: https://dev.telstra.com/apis/messaging-api/Tutorials
+    status: 200
+  - url: https://dev.telstra.com/status
+    status: 200
+  - url: https://dev.telstra.com/support
+    status: 200
+  - url: https://dev.telstra.com/blog
+    status: 200
+  - url: https://www.telstra.com.au/customer-terms/business-government
+    status: 200
+  - url: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
+    status: 404
+  - url: https://crowdsupport.telstra.com.au
+    status: 200
+x-enrichment:
+  date: '2026-10-20'
+  status: enriched
+  artifacts_added: 83
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=anthropic,regulatory=anthropic

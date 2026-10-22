@@ -1,0 +1,40 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints
+standards:
+- id: oauth2
+  conforms: true
+  evidence: https://dev.telstra.com/apis/messaging-api/Endpoints — "Generate OAuth2 token ... The value for grant_type is client_credentials"
+- id: camara
+  conforms: true
+  domain_standard: true
+  evidence: 'openapi/telstra-sim-swap-api-openapi.yml info x-camara-commonalities: 0.4.0; openapi/telstra-device-swap-api-openapi.yml x-camara-commonalities:
+    0.6; openapi/telstra-kyc-match-api-openapi.yml x-camara-commonalities: 0.4.0; openapi/telstra-number-verification-api-openapi.yml cites camaraproject/NumberVerification
+    r1.3 (GSMA Open Gateway)'
+- id: rfc9457
+  conforms: false
+  evidence: 'https://dev.telstra.com/apis/messaging-api/Endpoints — error responses use {"errors": [ {} ]} with code/suggested_action, not problem+json'
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key documented or declared in openapi/
+- id: openapi-3.0
+  conforms: true
+  evidence: the document declares 3.0.0
+- id: openapi-3.0
+  conforms: true
+  evidence: the document declares 3.0.1
+- id: openapi-3.0
+  conforms: true
+  evidence: the document declares 3.0.3
+- id: swagger-2.0
+  conforms: true
+  evidence: the document declares swagger-2.0
+- id: oidc
+  conforms: true
+  evidence: an openIdConnect securityScheme is declared
+- id: pagination
+  conforms: true
+  evidence: list operations take limit, offset, page
+- id: ratelimit-headers
+  conforms: true
+  evidence: responses declare Retry-After

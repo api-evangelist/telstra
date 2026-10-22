@@ -1,29 +1,107 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/telstra-messaging-api-openapi.yml, openapi/telstra-mobile-number-verification-api-openapi.yml
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints; openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml,
+  openapi/telstra-field-workforce-partners-api-openapi.yml, openapi/telstra-iot-outage-api-openapi.yml, openapi/telstra-messaging-api-openapi.yml
 schemes:
 - name: OAuth2ClientCredentials
+  source: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token
+  description: OAuth2 client-credentials flow (Cat-1).
+- name: bearerAuth
+  source: openapi/telstra-field-workforce-partners-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://login.microsoftonline.com/1bd79572-bd51-4db0-a48b-490933792ad3/oauth2/v2.0/token
+- name: OAuth2
+  source: openapi/telstra-iot-outage-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/
+    tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-model/api/realms/network-auth/protocol/openid-connect/token
+  description: This API will use OAuth2 security with **client_credentials** grant type.
+- name: bearer_auth
   source: openapi/telstra-messaging-api-openapi.yml
   flows:
   - flow: clientCredentials
-    tokenUrl: https://tapi.telstra.com/v2/oauth/token
-  description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token
-    with the NSMS scope.
-- name: OAuth2ClientCredentials
-  source: openapi/telstra-mobile-number-verification-api-openapi.yml
-  flows:
-  - flow: clientCredentials
-    tokenUrl: https://tapi.telstra.com/v2/oauth/token
+    tokenUrl: https://products.api.telstra.com/v2/oauth/token
 scopes:
-- scope: MNV
-  description: Mobile Number Verification.
+- scope: api://<your-client_id-value>/.default
   flows:
   - clientCredentials
   sources:
-  - openapi/telstra-mobile-number-verification-api-openapi.yml
-- scope: NSMS
-  description: Send and receive SMS/MMS through Telstra Messaging.
+  - openapi/telstra-field-workforce-partners-api-openapi.yml
+- scope: fixed-connectivity:modify-bandwidth:modify
+  description: combined scope for all the end points in package
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+- scope: free-trial-numbers:read
+  description: read information for free trial numbers
   flows:
   - clientCredentials
   sources:
   - openapi/telstra-messaging-api-openapi.yml
+- scope: free-trial-numbers:write
+  description: write information for free trial numbers
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+- scope: iot-naap-outage:read
+  description: Read access for the IoT outage API.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/telstra-iot-outage-api-openapi.yml
+- scope: iot-naap-outage:write
+  description: Write access for the IoT outage API.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/telstra-iot-outage-api-openapi.yml
+- scope: messages:read
+  description: read information for messages
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+- scope: messages:write
+  description: write information for messages
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+- scope: reports:read
+  description: read information for reports
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+- scope: reports:write
+  description: write information for reports
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+- scope: virtual-numbers:read
+  description: read information for virtual-numbers
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+- scope: virtual-numbers:write
+  description: write information for virtual numbers
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/telstra-messaging-api-openapi.yml
+docs: https://dev.telstra.com/apis/messaging-api/Endpoints
+docs_notes:
+- 'Messaging API: "To generate an OAuth2 Authentication token, pass through your Client key and Client secret ...
+  grant_type is client_credentials and value for scope is free-trial-numbers:read free-trial-numbers:write messages:read
+  messages:write reports:read reports:write virtual-numbers:read virtual-numbers:write. The token will expire in
+  one hour."'
+- Keys are created in the Telstra Developer dashboard under View API Keys (Pricing page).

@@ -1,0 +1,461 @@
+generated: '2026-10-20'
+method: derived
+status: candidate
+name: Telstra MCP server (candidate)
+source: 'Derived from the operations in openapi/*.yml. No official Telstra MCP server was found: a web search for a Telstra
+  MCP server returned nothing naming Telstra, https://dev.telstra.com/llms.txt and /AGENTS.md return the portal HTML catch-all
+  (200 text/html, 62164 bytes, same body for any path), and the pre-flight dossier graded https://www.telstra.com.au/mcp as
+  opaque (403, control path also 403) which proves nothing either way.'
+deployment:
+  mode: none
+  auth: oauth
+  verified: derived
+evidence:
+- url: https://www.telstra.com.au/mcp
+  status: 403
+  note: 'pre-flight: control path also 403 (edge-level), opaque'
+- url: https://dev.telstra.com/llms.txt
+  status: 200
+  note: text/html catch-all, not an llms.txt
+auth_note: Telstra APIs use OAuth2 client credentials (Messaging, Bandwidth Modification, Field Workforce Partners) or OpenID
+  Connect / CIBA network-consent flows (Number Verification, SIM Swap, Device Swap, KYC Match, KYC Tenure). A server would
+  obtain tokens itself rather than expose the token operations as tools.
+tools:
+- name: list_customer_services
+  operationId: listCustomerServices
+  method: GET
+  path: /services
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  description: List services for a customer (by CIDN)
+  destructive: false
+  read_only: true
+- name: modify_bandwidth
+  operationId: modifyBandwidth
+  method: POST
+  path: /internet-direct/services/{serviceId}/bandwidth/modify
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  description: Modify bandwidth for an active Internet Direct service
+  destructive: false
+  read_only: false
+- name: modify_adaptivefibre_bandwidth
+  operationId: modifyAdaptivefibreBandwidth
+  method: POST
+  path: /adaptive-fibre/services/{serviceId}/bandwidth/modify
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  description: Modify bandwidth for an active Adaptive Fibre service
+  destructive: false
+  read_only: false
+- name: modify_adaptive_broadband_plan
+  operationId: modifyAdaptiveBroadbandPlan
+  method: POST
+  path: /adaptive-broadband/services/{serviceId}/plan/modify
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  description: Modify plan  for an active Adaptive Broadband service
+  destructive: false
+  read_only: false
+- name: fetch_request_status
+  operationId: fetchRequestStatus
+  method: POST
+  path: /requests/fetch-status
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  description: Fetch status of submitted request
+  destructive: false
+  read_only: false
+- name: list_pricing
+  operationId: listPricing
+  method: GET
+  path: /services/price
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  description: List prices (simple query filters).
+  destructive: false
+  read_only: true
+- name: retrieve_device_swap_date
+  operationId: retrieveDeviceSwapDate
+  method: POST
+  path: /retrieve-date
+  api: openapi/telstra-device-swap-api-openapi.yml
+  description: Get last device swap date
+  destructive: false
+  read_only: false
+- name: check_device_swap
+  operationId: checkDeviceSwap
+  method: POST
+  path: /check
+  api: openapi/telstra-device-swap-api-openapi.yml
+  description: Check last device swap date
+  destructive: false
+  read_only: false
+- name: partner_create
+  operationId: Partner-Create
+  method: POST
+  path: /partner
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Partner - Create
+  destructive: false
+  read_only: false
+- name: partner_update
+  operationId: Partner-Update
+  method: PATCH
+  path: /partner
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Partner - Update
+  destructive: false
+  read_only: false
+- name: partner_retrieve
+  operationId: Partner-Retrieve
+  method: GET
+  path: /partner
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Partner - Retrieve
+  destructive: false
+  read_only: true
+- name: task_list_retrieve
+  operationId: TaskList-Retrieve
+  method: GET
+  path: /task-list
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Task List - Retrieve
+  destructive: false
+  read_only: true
+- name: reference_data_retrieve
+  operationId: ReferenceData-Retrieve
+  method: GET
+  path: /reference-data
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Reference Data - Retrieve
+  destructive: false
+  read_only: true
+- name: task_update
+  operationId: Task-Update
+  method: PATCH
+  path: /task
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Task - Update
+  destructive: false
+  read_only: false
+- name: task_retrieve
+  operationId: Task-Retrieve
+  method: GET
+  path: /task-detail
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Task - Retrieve
+  destructive: false
+  read_only: true
+- name: appointment_query_available_slots
+  operationId: Appointment-QueryAvailableSlots
+  method: POST
+  path: /appointment/slot-enquiry
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Appointment - Query Available Slots
+  destructive: false
+  read_only: false
+- name: appointment_reserve
+  operationId: Appointment-Reserve
+  method: POST
+  path: /appointment/reservation
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Appointment - Reserve Appointment
+  destructive: false
+  read_only: false
+- name: appointment_cancel
+  operationId: Appointment-Cancel
+  method: DELETE
+  path: /appointment
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Appointment - Cancel
+  destructive: true
+  read_only: false
+- name: appointment_update
+  operationId: Appointment-Update
+  method: PATCH
+  path: /appointment
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Appointment - Update
+  destructive: false
+  read_only: false
+- name: appointment_retrieve
+  operationId: Appointment-Retrieve
+  method: GET
+  path: /appointment
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Appointment - Retrieve
+  destructive: false
+  read_only: true
+- name: appointment_reschedule
+  operationId: Appointment-Reschedule
+  method: POST
+  path: /appointment/reschedule
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Appointment - Reschedule
+  destructive: false
+  read_only: false
+- name: service_offerings_retrieve
+  operationId: ServiceOfferings-Retrieve
+  method: GET
+  path: /service-offerings
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  description: Service Offerings - Retrieve
+  destructive: false
+  read_only: true
+- name: get_services
+  operationId: getServices
+  method: GET
+  path: /ogw-service-api-blue-v1/serviceapiblue/service-api/v2/services
+  api: openapi/telstra-iot-connectivity-service-api-openapi.yml
+  description: Get Filtered Paginated List Of Services
+  destructive: false
+  read_only: true
+- name: get_service
+  operationId: getService
+  method: GET
+  path: /ogw-service-api-blue-v1/serviceapiblue/service-api/v2/services/{imsi}
+  api: openapi/telstra-iot-connectivity-service-api-openapi.yml
+  description: Get Single Service
+  destructive: false
+  read_only: true
+- name: kyc_match
+  operationId: KYC_Match
+  method: POST
+  path: /match
+  api: openapi/telstra-kyc-match-api-openapi.yml
+  description: Matching a customer identity by checking a set of attributes related against the account data bound to their
+    phone number.
+  destructive: false
+  read_only: false
+- name: check_tenure
+  operationId: checkTenure
+  method: POST
+  path: /check-tenure
+  api: openapi/telstra-kyc-tenure-api-openapi.yml
+  description: The KYC Tenure service API
+  destructive: false
+  read_only: false
+- name: send_messages
+  operationId: sendMessages
+  method: POST
+  path: /messages
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: send messages
+  destructive: false
+  read_only: false
+- name: get_messages
+  operationId: getMessages
+  method: GET
+  path: /messages
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: fetch all sent/received messages
+  destructive: false
+  read_only: true
+- name: get_message_by_id
+  operationId: getMessageById
+  method: GET
+  path: /messages/{messageId}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: fetch a message
+  destructive: false
+  read_only: true
+- name: update_message_by_id
+  operationId: updateMessageById
+  method: PUT
+  path: /messages/{messageId}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: update a message
+  destructive: false
+  read_only: false
+- name: delete_message_by_id
+  operationId: deleteMessageById
+  method: DELETE
+  path: /messages/{messageId}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: delete a message
+  destructive: true
+  read_only: false
+- name: update_message_tags
+  operationId: updateMessageTags
+  method: PATCH
+  path: /messages/{messageId}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: update message tags
+  destructive: false
+  read_only: false
+- name: assign_number
+  operationId: assignNumber
+  method: POST
+  path: /virtual-numbers
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: assign a virtual number
+  destructive: false
+  read_only: false
+- name: get_numbers
+  operationId: getNumbers
+  method: GET
+  path: /virtual-numbers
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: fetch all virtual numbers
+  destructive: false
+  read_only: true
+- name: get_virtual_number
+  operationId: getVirtualNumber
+  method: GET
+  path: /virtual-numbers/{virtual-number}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: fetch a virtual number
+  destructive: false
+  read_only: true
+- name: update_number
+  operationId: updateNumber
+  method: PUT
+  path: /virtual-numbers/{virtual-number}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: update a virtual number
+  destructive: false
+  read_only: false
+- name: delete_number
+  operationId: deleteNumber
+  method: DELETE
+  path: /virtual-numbers/{virtual-number}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: delete a virtual number
+  destructive: true
+  read_only: false
+- name: get_recipient_optouts
+  operationId: getRecipientOptouts
+  method: GET
+  path: /virtual-numbers/{virtual-number}/optouts
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: Get recipient optouts list
+  destructive: false
+  read_only: true
+- name: create_trial_numbers
+  operationId: createTrialNumbers
+  method: POST
+  path: /free-trial-numbers
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: create free trial number list
+  destructive: false
+  read_only: false
+- name: get_trial_numbers
+  operationId: getTrialNumbers
+  method: GET
+  path: /free-trial-numbers
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: get all free trial numbers
+  destructive: false
+  read_only: true
+- name: get_reports
+  operationId: getReports
+  method: GET
+  path: /reports
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: fetch all reports
+  destructive: false
+  read_only: true
+- name: get_report
+  operationId: getReport
+  method: GET
+  path: /reports/{reportId}
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: fetch a report
+  destructive: false
+  read_only: true
+- name: messages_report
+  operationId: messagesReport
+  method: POST
+  path: /reports/messages
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: submit a request for a messages report
+  destructive: false
+  read_only: false
+- name: get_sender_names
+  operationId: getSenderNames
+  method: GET
+  path: /sender-names
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: get all sender names
+  destructive: false
+  read_only: true
+- name: health_check
+  operationId: healthCheck
+  method: GET
+  path: /health-check
+  api: openapi/telstra-messaging-api-openapi.yml
+  description: health check
+  destructive: false
+  read_only: true
+- name: phone_number_verify
+  operationId: phoneNumberVerify
+  method: POST
+  path: /verify
+  api: openapi/telstra-number-verification-api-openapi.yml
+  description: Verifies if the received hashed/plain text phone number matches the phone number associated with the access
+    token
+  destructive: false
+  read_only: false
+- name: retrieve_sim_swap_date
+  operationId: retrieveSimSwapDate
+  method: POST
+  path: /retrieve-date
+  api: openapi/telstra-sim-swap-api-openapi.yml
+  description: Retrieves timestamp for last SIM swap
+  destructive: false
+  read_only: false
+- name: check_sim_swap
+  operationId: checkSimSwap
+  method: POST
+  path: /check
+  api: openapi/telstra-sim-swap-api-openapi.yml
+  description: Checks if SIM Swap has been performed in the given period
+  destructive: false
+  read_only: false
+excluded_operations:
+- operation: authToken
+  spec: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: GET /
+  spec: openapi/telstra-cloud-sight-api-openapi.yml
+  reason: no operationId in spec (documentation stub path)
+- operation: authCode
+  spec: openapi/telstra-device-swap-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-device-swap-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-iot-connectivity-service-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-iot-outage-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: GET /outage/v0/status
+  spec: openapi/telstra-iot-outage-api-openapi.yml
+  reason: no operationId in spec
+- operation: authReqId
+  spec: openapi/telstra-kyc-match-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-kyc-match-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authReqId
+  spec: openapi/telstra-kyc-tenure-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-kyc-tenure-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-messaging-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authCode
+  spec: openapi/telstra-number-verification-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-number-verification-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authCode
+  spec: openapi/telstra-sim-swap-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+- operation: authToken
+  spec: openapi/telstra-sim-swap-api-openapi.yml
+  reason: OAuth2/OIDC token or authorization plumbing; handled by the client, not exposed as a tool
+coverage:
+  tools: 48
+  excluded: 16

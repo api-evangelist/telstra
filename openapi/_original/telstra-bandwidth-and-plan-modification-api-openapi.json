@@ -1,0 +1,4560 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Bandwidth Modification APIs",
+    "version": "0.4.0",
+    "description": "# Introduction\nThis OpenAPI document combines the Customer Services, Modify Bandwidth, Fetch Status, and Pricing APIs for Telstra connectivity and product solutions.\n     \n\n## Features\n  Connectivity API  provides below features. \n\n| Feature |  | Description |\n|---|---|---|\n|`Retrieve Services` |    | Retrieve, filter, and paginate customer services. |\n|`Fetch status` |  | Fetch status of request by unique RequestId. |\n|`Modify Bandwidth` |  | Submit bandwidth modification requests for Telstra Internet Direct , Adaptive Fibre and Adaptive Broadband.|\n |`Pricing API` |  | Retirves list prices for the given product.Filter with product and product specific attributes| \n \n\n## Version Control\nThis section will be used to keep track of the template version history.\n\n    | Version | Date       | Summary of Change.                                                                \n\n    | 0.4.0   | 2026-04-10 | added AB modify plan API end point and uplift of Get services \n\n    | 0.3.0   | 2026-03-10 | added Pricing API in the scope                                                                \n    | 0.2.0   | 2026-02-28 | Combined release of specification with AF modify BW API included in the scope \n\n    | 0.1.0   | 2026-01-28 | Combined release of specification with Retrieve Services, TID BW modify, and Fetch Status (generic endpoint)                                                                \n    | 0.0.0   | 2025-12-15 | Initial release of the API specification for Retrieve Service, Modify TID BW, and Fetch Status  \n\n## \n\n---\n\n## Get Services API \n The Retrieve Services API provides a unified interface for discovering and viewing Telstra connectivity services associated with an account.\n\n It returns service details, identifiers, status, and product-specific characteristics in a consistent format, enabling customers to inventory, manage, and monitor their services. \n\n-----\n\n## Modify APIs \n The Modify Service API allows customers to submit changes to an existing Telstra connectivity service. Supported modifications are validated against product-specific business rules and service constraints before a modification request is created. \n\n The API provides a consistent and secure mechanism to manage service changes while maintaining service integrity and compliance with Telstra product policies.\n\n------ \n\n## Fetch Status API \n The Fetch Status API enables customers to retrieve the current status of previously submitted modification requests. It provides visibility into the order fulfilment lifecycle by returning status information. This allows customers to monitor request progress and determine when an modification has been successfully completed. \n\n The API supports secure access through OAuth2 and follows Telstra's standards for headers, error handling, and documentation.\n\n------- \n\n## Pricing API\nThe Pricing API provides a unified interface to retrieve Telstra product pricing information. The prices returned depend on your commercial relationship with Telstra:\n- If a Frame Agreement (FA) is in effect, pricing applicable under that agreement will be returned.\n- If no Frame Agreement (FA) is in effect, the standard list price will be returned.\n\n**All prices returned by this API exclude GST**\n\n.**Pricing made available through the Price API is confidential and must only be used for your internal business purposes in connection with your Telstra services.**\n\nThe API supports filtering by product, charge type, and product-specific attributes, and returns results in a consistent, offset-based paginated format. The API is designed for both broad and fine-grained price discovery, enabling clients to:\n- Retrieve list prices for all or specific products\n- Filter results using product attributes (e.g., bandwidth, zone, variant)\n- Select between recurring and one-off charges\n- Page through large result sets using `offset` and `limit` query parameters (client-driven pagination)\n- Receive detailed error information in a standard envelope\n\nThis API is suitable for integration into quoting tools, product catalogs, and customer-facing applications where up-to-date, accurate pricing is required. Authentication is via OAuth2 client credentials, and all requests and responses follow Telstra's API standards for headers, error handling, and documentation.\n\n### Features\n- Retrieve list prices for products\n- Filter with `product` and product‑specific `attributes[...]`\n- Simple offset-based pagination (using `offset` and `limit` query parameters, as per Telstra API Design Guidelines)\n- Consistent error envelope and headers\n\n### Product Filters and Example Values\nBelow are the supported filters and their example values for each product:\n\n#### adaptive-broadband\n- Plan: 50/20 Mbps\n- carriageServiceType: TC4\n- accessType: nbn\n- chargeType: ONE-OFF\n\n#### adaptive-fibre\n- bandwidth: 50 Mbps\n- zone: Zone 1\n- accessType: Adaptive Fibre - NBN\n- chargeType: RECURRING\n\n#### TID\n- variant: Telstra Internet Direct Lite Adapt\n- bandwidth: 50 Mbps\n- zone: Zone 1\n- chargeType: RECURRING\n\n---\n\n### Getting Access to the API\nAccess to this API is managed through the Telstra Developer Portal (T.Dev). Only authorised users with the required roles and entitlements can request access and generate credentials.\n\n### Access steps \n1. Log in to T.Dev with your Telstra customer credentials.\n2. Request access to the API (approval may be automatic or manual).\n3. Once approved, create an application in T.Dev.\n4. T.Dev provisions application credentials and enables access to Telstra’s authorization server. These credentials are used to authenticate and call the API. \n5. The API is secured using bearer tokens issued by a Telstra authorization server.\n\n### Getting Started\n  1. Obtain your application credentials from T.Dev after access approval.\n2. Request an access token from Telstra’s authorization server.\n3. Include the access token in the Authorization header for every API request. \n4. Refer to the endpoint documentation below to begin integrating.\n\n### Headers\n- **Authorization**: OAuth2ClientCredentials token for authentication (**required**)\n- **X-Correlation-Id**: Optional client-supplied correlation ID for tracing; echoed on errors and 500 responses\n- **Content-Type**: application/json\n- **Accept**: application/json\n- **Content-Language**: Returned in all responses\n- **Retry-After**: Returned in 429/503 responses\n\n### Notes\n- All requests must be authenticated using a valid bearer token or OAuth2 token\n- Pagination is supported for large result sets\n- Error responses use a Telstra-compliant envelope\n- For more details, see the API documentation portal or contact support\n\n---\n\n## Error Code Reference Tables\n\n### Common Error Responses (all APIs)\n| HTTP Status | Code                     | Issue                                                                      | Location | Suggested Action                                                                                                      |\n|-------------|--------------------------|----------------------------------------------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------|\n| **401**     | `INVALID_TOKEN`          | The Authentication Token is Missing or Invalid.                            | `header` | Check the Authentication Token. It should be valid, unexpired, and match the one issued by the authentication service.|\n| **403**     | `RESOURCE_AUTH_ERR`      | You don't have permission to access this resource.                         | `path`   | Check the permissions/scopes associated with your account and request the correct access if required.                |\n| **429**     | `TOO_MANY_REQUESTS`      | The API rate limit has been reached.                                      | `header` | Reduce the number of concurrent calls and retry after the `Retry-After` duration.                                    |\n| **500**     | `INTERNAL_SERVER_ERROR`  | An unexpected error occurred.                                             | `server` | Please try again later. If the issue persists, contact Telstra support with your correlationId.                      |\n| **503**     | `SERVICE_UNAVAILABLE`    | The server is temporarily unable to handle the request (maintenance/overload).| `server` | Check the `Retry-After` header to see how long you should wait, then try the call again.                             |\n\n> The above common error responses apply to **Customer Services**, **Modify Bandwidth**, **Fetch Status**, and **Pricing** APIs unless otherwise specified in their individual sections.\n\n### Customer Services API\n| HTTP Status | Code                   | Issue                                              | Suggested Action                                                                                                   | Location |\n|-------------|------------------------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|----------|\n| **200**     | `NO_MATCHING_RECORDS`  | No records match the filter criteria.               | Verify filter values or broaden search.                                                                            | `query`  |\n| **400**     | `FIELD_INVALID`        | Parameter value is invalid (e.g., type not in allowed list, limit out of range). | Correct the parameter value based on API documentation (e.g., `tid-adapt` or `adaptive-fibre` for `type`).         | `query`  |\n| **400**     | `FIELD_MISSING`        | Required parameter is missing.                      | Include all mandatory parameters in the request.                                                                   | `query`  |   |\n\n### Modify Bandwidth API\n| HTTP Status | Code                    | Issue                                       | Location  | Suggested Action                                                                 |\n|-------------|-------------------------|----------------------------------------------|-----------|----------------------------------------------------------------------------------|\n| **400**     | `FIELD_MISSING`       | Required field missing (e.g., `newBandwidth`)                | body      | Include all mandatory fields in the request                                      |\n| **400**     | `FIELD_INVALID`       | Invalid value (e.g., unsupported `newBandwidth`)             | body      | Provide a valid value as per documentation                                       |\n| **404**     | `NOT_FOUND`           | Service not found or `serviceId`/`cidn` relationship not found| body      | Verify `serviceId` and `cidn`; ensure service is active                         |\n\n### Fetch Status API\n| HTTP Status | Code                    | Issue                                       | Location  | Suggested Action                                                                 |\n|-------------|-------------------------|----------------------------------------------|-----------|----------------------------------------------------------------------------------|\n| **200**     | `CONTRACT_INVALID`    | Contract decision is not permit for this offer     | decision  | Contact account manager to review contract terms/eligibility                     |\n| **200**     | `CREDIT_RISK_NO_SELL` | Customer account flagged no-sell                   | decision  | Contact finance/risk team to resolve account status           |\n| **200**     | `NEW_BW_GT_AF_SUPPORT`| Requested newBandwidth exceeds supported Adaptive Fibre capacity| decision  | Choose a newBandwidth within Adaptive Fibre supported limit    |\n|  **200**     | `NEW_BW_GT_IF_SUPPORT`| Requested newBandwidth exceeds supported Interface Type.|decision | Due to physical change required, proceed to Adaptive Network Centre to raise request .  |\n|  **200**     | `NEW_BW_NOT_SUPPORTED`| Underlying access does not support requested newBandwidth.|decision | Choose a Bandwidth within supported Limit or proceed to Adaptive Network Centre to raise request. .                             |\n| **400**     | `FIELD_MISSING`       | Required field missing (e.g., requestId)           | body      | Include all mandatory fields in the request                                      |\n| **400**     | `FIELD_INVALID`           | Invalid value provided| body      | Correct the value and retry              |\n| **403**     | `RESOURCE_AUTH_ERR`       | You don't have permission to access this resource.   | body      | Check the permissions/scopes associated with your account and request the correct access if required.                           |\n\n--------\n\n### Pricing API (`/services/price`)\n| HTTP Status | Code                    | Issue                                                                                  | Location | Suggested Action                                                                                             |\n|-------------|-------------------------|----------------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------------------------|\n| **200**     | `NO_MATCHING_RECORDS`   | No price records found for the supplied filters.                                      | `query`  | Verify filter values (product/chargeType/attributes) or broaden search (e.g., remove one or more attributes).|\n| **400**     | `FIELD_INVALID`         | Invalid filter combination or value (e.g. attributes[] used without product, or bad attribute key/value). | `query`  | Correct the parameter combination/values according to the Pricing API documentation.                         |\n| **400**     | `FIELD_MISSING`         | Required parameter missing for this product or pricing request.                       | `query`  | Provide all mandatory parameters such as `product` when required by the selected attributes.                | \n\n## Frequently Asked Questions\n\n**Q: How do I obtain API credentials?**  \nA: Contact your API administrator or Telstra support to request access. You will receive credentials and instructions for authentication.\n\n**Q: What should I do if I receive a rate limit error (429)?**  \nA: Wait for the period specified in the `Retry-After` header before retrying your request.\n\n**Q: How are errors returned by the API?**  \nA: All error responses use a Telstra-compliant envelope with detailed error codes, descriptions, and suggested actions. See the error code reference tables above.\n\n**Q: Who do I contact for support or troubleshooting?**  \nA: Use the X-Correlation-Id from your response when contacting Telstra support for faster resolution.\n\n**Q: Can I filter and paginate results?**  \nA: Yes, use the query parameters as described in the endpoint documentation.\n\n---\n\nFor full endpoint, schema, and parameter documentation, see the paths and components sections below.\n\n\n##  "
+  },
+  "servers": [
+    {
+      "url": "https://prod.okapi.ogw.evolve.okapi.telstra.com/connectivity/v0",
+      "description": "Telstra Products API (Production)"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2ClientCredentials": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Access Token Request",
+      "description": "Request for access token to make the API request"
+    },
+    {
+      "name": "Services",
+      "description": "Retrieve services"
+    },
+    {
+      "name": "Modify",
+      "description": "Bandwidth/plan modification operations"
+    },
+    {
+      "name": "Status",
+      "description": "Fetch status of requests"
+    }
+  ],
+  "paths": {
+    "/token": {
+      "post": {
+        "tags": [
+          "Access Token Request"
+        ],
+        "summary": "Request for OAuth2 access token",
+        "description": "To generate an OAuth2 access token, use your `Client ID` and `Client secret` that you get from the Telstra Developer portal.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": false,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": false,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          }
+        ],
+        "servers": [
+          {
+            "url": "https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect",
+            "description": "OAuth2 server"
+          }
+        ],
+        "operationId": "authToken",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "description": "Client ID generated on your Telstra Developer account",
+                    "type": "string",
+                    "default": "your-client-id"
+                  },
+                  "client_secret": {
+                    "description": "Client Secret generated on your Telstra Developer account",
+                    "type": "string",
+                    "default": "your-client-secret"
+                  },
+                  "grant_type": {
+                    "type": "string",
+                    "default": "client_credentials"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "default": "fixed-connectivity:modify-bandwidth:modify"
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "scope",
+                  "client_id",
+                  "client_secret"
+                ]
+              },
+              "example": {
+                "client_id": "your-client-id",
+                "client_secret": "your-client-secret",
+                "grant_type": "client_credentials",
+                "scope": "fixed-connectivity:modify-bandwidth:modify"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "description": "OAuth access token",
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "description": "OAuth token type",
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "description": "OAuth expiry time in seconds.",
+                      "type": "string"
+                    },
+                    "scope": {
+                      "description": "Scopes requested for during Authentication Request",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`grant_type` is incorrect. `grant_type` should be `client_credentials`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "grant_type` is incorrect",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_GRANT",
+                          "issue": "grant_type` is incorrect.",
+                          "suggested_action": "grant_type` should be `client_credentials.",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_GRANT"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Either client_id or client_secret or both are not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "client_id or client_secret` is incorrect",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_CLIENT_SECRET",
+                          "issue": "client_id or client_secret` is incorrect.",
+                          "suggested_action": "provide correct details.",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_CLIENT_SECRET"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested URI does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The requested URI does not exist",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_URI",
+                          "issue": "The requested URI does not exist.",
+                          "suggested_action": "provide correct details.",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_URI"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "Too Many Requests",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "Too Many Requests.",
+                          "suggested_action": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "Internal Server Error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_SERVER_ERROR",
+                          "issue": "An unexpected error has occured.",
+                          "suggested_action": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The service is currently unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The service is currently unavailable.",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "The server is temporarily unable to handle the request (maintenance/overload).",
+                          "suggested_action": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An internal error occurred when processing the request."
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "operationId": "listCustomerServices",
+        "tags": [
+          "Services"
+        ],
+        "summary": "List services for a customer (by CIDN)",
+        "description": "Retrieves a paginated list of services belonging to the specified customer (CIDN). Supports filtering by `type`, `status`, and `name`. Returns total record count, applied filters, and supports pagination. Handles empty results, invalid filters, and rate limiting per Telstra standards.\n",
+        "security": [
+          {
+            "OAuth2ClientCredentials": [
+              "fixed-connectivity:modify-bandwidth:modify"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "OAuth2 token for authentication.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ"
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "description": "Unique Correlation Id for each transaction to be used by all consumers.",
+            "schema": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "Filter by service type (case-insensitive exact match).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "examples": {
+              "tidAdapt": {
+                "value": "tid-adapt"
+              },
+              "adaptiveFibre": {
+                "value": "adaptive-fibre"
+              }
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Filter by service status.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "in-progress",
+                "failed",
+                "rejected",
+                "completed"
+              ],
+              "minLength": 1,
+              "maxLength": 32
+            },
+            "example": "active"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Filter by service name (case-insensitive contains).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "Ultra"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "1-based page index.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "example": 2
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Page size (max 200).",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "example": 25
+          },
+          {
+            "name": "Telstra-api-version",
+            "in": "header",
+            "required": false,
+            "description": "B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "example": "1.2"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": true,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": true,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "required": false,
+            "description": "Filter by service variant (case-insensitive exact match).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "examples": {
+              "lite": {
+                "value": "Telstra Internet Direct Lite Adapt"
+              },
+              "premium": {
+                "value": "Telstra Internet Direct Premium Adapt"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of records matching the filter (across all pages).",
+                "schema": {
+                  "type": "integer",
+                  "example": 120
+                }
+              },
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicesPage"
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Paginated success",
+                    "value": {
+                      "page": 2,
+                      "limit": 25,
+                      "totalRecords": 120,
+                      "filters": {
+                        "status": "active",
+                        "type": "tid-adapt",
+                        "variant": "Telstra Internet Direct Premium Adapt"
+                      },
+                      "data": {
+                        "services": [
+                          {
+                            "id": "AAZZ000000123457",
+                            "attributes": {
+                              "name": "Internet",
+                              "type": "tid-adapt",
+                              "status": "active",
+                              "variant": "Telstra Internet Direct Premium Adapt",
+                              "bandwidth": "800Mbps"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "emptyResult": {
+                    "summary": "No matching records",
+                    "value": {
+                      "page": 1,
+                      "limit": 25,
+                      "totalRecords": 0,
+                      "filters": {
+                        "status": "active",
+                        "name": "abc",
+                        "variant": "Telstra Internet Direct Lite Adapt"
+                      },
+                      "data": {
+                        "services": []
+                      }
+                    }
+                  },
+                  "emptyResultWithInfo": {
+                    "summary": "No matching records (informational error included under 200)",
+                    "value": {
+                      "page": 1,
+                      "limit": 25,
+                      "totalRecords": 0,
+                      "filters": {
+                        "status": "active",
+                        "name": "abc",
+                        "variant": "Telstra Internet Direct Lite Adapt"
+                      },
+                      "data": {
+                        "services": []
+                      },
+                      "errors": [
+                        {
+                          "code": "NO_MATCHING_RECORDS",
+                          "issue": "No services found matching the provided filters.",
+                          "suggested_action": "Verify filter values or remove one or more filters to broaden the search.",
+                          "field": "status,name,variant",
+                          "value": "active,abc,Telstra Internet Direct Lite Adapt",
+                          "location": "query",
+                          "link": "https://api.example.com/docs/errors#NO_MATCHING_RECORDS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid filters or pagination parameters.",
+            "headers": {
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "invalidFilter": {
+                    "summary": "Invalid filter value",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The type is invalid.",
+                          "suggested_action": "Check the type. It should be one of [tid-adapt, adaptive-fibre].",
+                          "field": "type",
+                          "value": "abc",
+                          "location": "query",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  },
+                  "invalidFilterVariant": {
+                    "summary": "Invalid variant filter value",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The variant is invalid.",
+                          "suggested_action": "Check the variant. It should be one of [Telstra Internet Direct Lite Adapt, Telstra Internet Direct Premium Adapt].",
+                          "field": "variant",
+                          "value": "wrong-variant",
+                          "location": "query",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  },
+                  "invalidPagination": {
+                    "summary": "Invalid pagination parameter",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The size is invalid",
+                          "suggested_action": "Check the size. It should be between 1 and 200.",
+                          "field": "limit",
+                          "value": "500",
+                          "location": "query",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  },
+                  "missingRequired": {
+                    "summary": "Missing required parameter",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_MISSING",
+                          "issue": "The 'cidn' is missing.",
+                          "suggested_action": "Please provide all required fields.",
+                          "field": "cidn",
+                          "value": "",
+                          "location": "query",
+                          "link": "https://api.example.com/docs/errors#FIELD_MISSING"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid token.",
+            "headers": {
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "Missing or invalid authentication token",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_TOKEN",
+                          "issue": "The Authentication Token is Missing or Invalid.",
+                          "suggested_action": "Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.",
+                          "field": "Authorization",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_TOKEN"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller not permitted to view this customer’s services.",
+            "headers": {
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "Caller not permitted",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "RESOURCE_AUTH_ERR",
+                          "issue": "You don't have permission to access this resource.",
+                          "suggested_action": "Check the permissions associated with your account.",
+                          "location": "decision",
+                          "link": "https://api.example.com/docs/errors#RESOURCE_AUTH_ERR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — no service for given cidn",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "Not found",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "NOT_FOUND",
+                          "issue": "No service found for the given cidn.",
+                          "suggested_action": "Verify serviceId and then retry.",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#NOT_FOUND"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the next allowed request.",
+                "schema": {
+                  "type": "integer",
+                  "example": 30
+                }
+              },
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "rateLimit": {
+                    "summary": "Rate limit exceeded",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "The API rate limit has been reached.",
+                          "suggested_action": "Reduce the number of concurrent calls and try again.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "headers": {
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serverError": {
+                    "summary": "Unexpected server error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_SERVER_ERROR",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR"
+                        }
+                      ]
+                    }
+                  },
+                  "technicalFailure": {
+                    "summary": "Non-recoverable technical error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TECHNICAL_FAILURE",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TECHNICAL_FAILURE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the next allowed request.",
+                "schema": {
+                  "type": "integer",
+                  "example": 30
+                }
+              },
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en-US).",
+                "schema": {
+                  "type": "string",
+                  "example": "en-US"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serviceUnavailable": {
+                    "summary": "Service temporarily unavailable",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "Service is temporarily unavailable due to maintenance or overload.",
+                          "suggested_action": "Retry after the specified period.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internet-direct/services/{serviceId}/bandwidth/modify": {
+      "post": {
+        "tags": [
+          "Modify"
+        ],
+        "operationId": "modifyBandwidth",
+        "summary": "Modify bandwidth for an active Internet Direct service",
+        "description": "Submits a request to modify the bandwidth of an active Internet Direct service. Requires valid `serviceId`, and `newBandwidth`. Enforces authority, service validation, and business rules. Returns transaction metadata and error envelope for all outcomes, including business rule rejections and technical failures. \n",
+        "security": [
+          {
+            "OAuth2ClientCredentials": [
+              "fixed-connectivity:modify-bandwidth:modify"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "OAuth2 token for authentication.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ"
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "description": "Unique Correlation Id for each transaction to be used by all consumers.",
+            "schema": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": true,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": true,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          },
+          {
+            "name": "Telstra-api-version",
+            "in": "header",
+            "required": false,
+            "description": "B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "example": "1.2"
+          },
+          {
+            "name": "serviceId",
+            "in": "path",
+            "required": true,
+            "description": "Customer-facing service identifier for Internet Direct.",
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 16
+            },
+            "example": "AAZZ000000123456"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyBandwidthRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Bandwidth modification request accepted for asynchronous processing",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifyBandwidthResponse"
+                },
+                "examples": {
+                  "accepted": {
+                    "summary": "Request accepted for async processing",
+                    "value": {
+                      "requestId": "e7b8c2a0-4f3b-4e2a-9c1a-2b7e8d9f6a1b",
+                      "serviceId": "AAZZ000000123456",
+                      "cidn": "7896618019",
+                      "status": "accepted",
+                      "submittedAt": "2025-10-27T10:00:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "30S",
+                      "errors": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid or incomplete input specific to modify‑bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "missingNewBandwidth": {
+                    "summary": "Missing required newBandwidth field",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_MISSING",
+                          "issue": "The 'newBandwidth' is missing.",
+                          "suggested_action": "Please provide all required fields.",
+                          "field": "newBandwidth",
+                          "value": "",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_MISSING"
+                        }
+                      ]
+                    }
+                  },
+                  "invalidBandwidth": {
+                    "summary": "Invalid bandwidth value",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The newBandwidth is invalid.",
+                          "suggested_action": "Check the newBandwidth. It should be one of [250 Mbps,300 Mbps,400 Mbps, 500 Mbps,800 Mbps,1 Gbps,2 Gbps,4 Gbps,6 Gbps,8 Gbps,10 Gbps].",
+                          "field": "newBandwidth",
+                          "value": "100 Mbps",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid token",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "invalidToken": {
+                    "summary": "Invalid authentication token",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_TOKEN",
+                          "issue": "The Authentication Token is Missing or Invalid.",
+                          "suggested_action": "Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.",
+                          "field": "Authorization",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_TOKEN"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller not permitted to modify bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "Caller not permitted",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "RESOURCE_AUTH_ERR",
+                          "issue": "You don't have permission to access this resource.",
+                          "suggested_action": "Check the permissions associated with your account.",
+                          "location": "decision",
+                          "link": "https://api.example.com/docs/errors#RESOURCE_AUTH_ERR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — service not found for modify‑bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "Service or CIDN not found",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "NOT_FOUND",
+                          "issue": "Service or CIDN relationship not found.",
+                          "suggested_action": "Verify serviceId and cidn values.",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#NOT_FOUND"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "rateLimit": {
+                    "summary": "Rate limit exceeded",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "The API rate limit has been reached.",
+                          "suggested_action": "Reduce the number of concurrent calls and try again.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error — unexpected server-side error occurred",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serverError": {
+                    "summary": "Unexpected server error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_SERVER_ERROR",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR"
+                        }
+                      ]
+                    }
+                  },
+                  "technicalFailure": {
+                    "summary": "Non-recoverable technical error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TECHNICAL_FAILURE",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TECHNICAL_FAILURE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable — temporary maintenance or overload",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serviceUnavailable": {
+                    "summary": "Service temporarily unavailable",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "Service temporarily unavailable (maintenance/overload).",
+                          "suggested_action": "Retry after a short delay or check the status page for outage updates.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adaptive-fibre/services/{serviceId}/bandwidth/modify": {
+      "post": {
+        "tags": [
+          "Modify"
+        ],
+        "operationId": "modifyAdaptivefibreBandwidth",
+        "summary": "Modify bandwidth for an active Adaptive Fibre service",
+        "description": "Submits a request to modify the bandwidth of an active Adaptive Fibre service. Requires valid `serviceId`, and `newBandwidth`. Enforces authority, service validation, and business rules. Returns transaction metadata and error envelope for all outcomes, including business rule rejections and technical failures.  Optionally accepts callbackUrl and deliveryNotification to support asynchronous notification and delivery status. If a callbackUrl is provided, the API will invoke it with a payload conforming to the CallbackEvent schema (see components/schemas/CallbackEvent).\n",
+        "security": [
+          {
+            "OAuth2ClientCredentials": [
+              "fixed-connectivity:modify-bandwidth:modify"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "OAuth2 token for authentication.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ"
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "description": "Unique Correlation Id for each transaction to be used by all consumers.",
+            "schema": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": true,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": true,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          },
+          {
+            "name": "Telstra-api-version",
+            "in": "header",
+            "required": false,
+            "description": "B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "example": "1.2"
+          },
+          {
+            "name": "serviceId",
+            "in": "path",
+            "required": true,
+            "description": "Customer-facing service identifier for Adaptive Fibre.",
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 16
+            },
+            "example": "AAZZ000000123456"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AFModifyBandwidthRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Bandwidth modification request accepted for asynchronous processing",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifyBandwidthResponse"
+                },
+                "examples": {
+                  "accepted": {
+                    "summary": "Request accepted for async processing",
+                    "value": {
+                      "requestId": "e7b8c2a0-4f3b-4e2a-9c1a-2b7e8d9f6a1b",
+                      "serviceId": "AAZZ000000123456",
+                      "cidn": "7896618019",
+                      "status": "accepted",
+                      "submittedAt": "2025-10-27T10:00:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "30S",
+                      "errors": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid or incomplete input specific to modify‑bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "missingNewBandwidth": {
+                    "summary": "Missing required newBandwidth field",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_MISSING",
+                          "issue": "The 'newBandwidth' is missing.",
+                          "suggested_action": "Please provide all required fields.",
+                          "field": "newBandwidth",
+                          "value": "",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_MISSING"
+                        }
+                      ]
+                    }
+                  },
+                  "invalidBandwidth": {
+                    "summary": "Invalid bandwidth value",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The newBandwidth is invalid.",
+                          "suggested_action": "Check the newBandwidth. It should be one of [250 Mbps,300 Mbps,400 Mbps, 500 Mbps,800 Mbps,1 Gbps,2 Gbps,4 Gbps,6 Gbps,8 Gbps,10 Gbps].",
+                          "field": "newBandwidth",
+                          "value": "100Mbps",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid token",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "invalidToken": {
+                    "summary": "Invalid authentication token",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_TOKEN",
+                          "issue": "The Authentication Token is Missing or Invalid.",
+                          "suggested_action": "Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.",
+                          "field": "Authorization",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_TOKEN"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller not permitted to modify bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "Caller not permitted",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "RESOURCE_AUTH_ERR",
+                          "issue": "You don't have permission to access this resource.",
+                          "suggested_action": "Check the permissions associated with your account.",
+                          "location": "decision",
+                          "link": "https://api.example.com/docs/errors#RESOURCE_AUTH_ERR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — service not found for modify‑bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "Service or CIDN not found",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "NOT_FOUND",
+                          "issue": "Service or CIDN relationship not found.",
+                          "suggested_action": "Verify serviceId and cidn values.",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#NOT_FOUND"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "rateLimit": {
+                    "summary": "Rate limit exceeded",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "The API rate limit has been reached.",
+                          "suggested_action": "Reduce the number of concurrent calls and try again.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error — unexpected server-side error occurred",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serverError": {
+                    "summary": "Unexpected server error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_SERVER_ERROR",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR"
+                        }
+                      ]
+                    }
+                  },
+                  "technicalFailure": {
+                    "summary": "Non-recoverable technical error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TECHNICAL_FAILURE",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TECHNICAL_FAILURE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable — temporary maintenance or overload",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serviceUnavailable": {
+                    "summary": "Service temporarily unavailable",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "Service temporarily unavailable (maintenance/overload).",
+                          "suggested_action": "Retry after a short delay or check the status page for outage updates.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adaptive-broadband/services/{serviceId}/plan/modify": {
+      "post": {
+        "tags": [
+          "Modify"
+        ],
+        "operationId": "modifyAdaptiveBroadbandPlan",
+        "summary": "Modify plan  for an active Adaptive Broadband service",
+        "description": "Submits a request to modify the plan  of an active Adaptive Broadband service. Requires valid `serviceId`, and `newPlan`. Enforces authority, service validation, and business rules. Returns transaction metadata and error envelope for all outcomes, including business rule rejections and technical failures.  Optionally accepts callbackUrl and deliveryNotification to support asynchronous notification and delivery status. If a callbackUrl is provided, the API will invoke it with a payload conforming to the CallbackEvent schema (see components/schemas/CallbackEvent).\n",
+        "security": [
+          {
+            "OAuth2ClientCredentials": [
+              "fixed-connectivity:modify-bandwidth:modify"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "OAuth2 token for authentication.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ"
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "description": "Unique Correlation Id for each transaction to be used by all consumers.",
+            "schema": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": true,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": true,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          },
+          {
+            "name": "Telstra-api-version",
+            "in": "header",
+            "required": false,
+            "description": "B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "example": "1.2"
+          },
+          {
+            "name": "serviceId",
+            "in": "path",
+            "required": true,
+            "description": "Customer-facing service identifier for Adaptive Broadband.",
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 16
+            },
+            "example": "AAZZ000000654321"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyPlanABRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "plan modification request accepted for asynchronous processing",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifyBandwidthResponse"
+                },
+                "examples": {
+                  "accepted": {
+                    "summary": "Request accepted for async processing",
+                    "value": {
+                      "requestId": "b9c9f3e1-7f2d-4c1b-9f5a-3c9d7e1f2a3b",
+                      "serviceId": "AAZZ000000654321",
+                      "cidn": "7896618019",
+                      "status": "accepted",
+                      "submittedAt": "2025-11-01T09:30:00Z",
+                      "submittedBy": "xyz@abc.com",
+                      "pollAfter": "30S",
+                      "errors": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid or incomplete input specific to modify‑plan",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "missingNewPlan": {
+                    "summary": "Missing required newPlan field",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_MISSING",
+                          "issue": "The 'newPlan' is missing.",
+                          "suggested_action": "Please provide all required fields.",
+                          "field": "newPlan",
+                          "value": "",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_MISSING"
+                        }
+                      ]
+                    }
+                  },
+                  "newPlansameasexistingPlan": {
+                    "summary": "New Plan same as existing Plan",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The newPlan provided is same as existing plan.",
+                          "suggested_action": "Check the newPlan, It should be one of [100/40Mbps,500/200Mbps].",
+                          "field": "newPlan",
+                          "value": "50/20 Mbps",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  },
+                  "invalidPlan": {
+                    "summary": "Invalid plan",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The newPlan is invalid.",
+                          "suggested_action": "Check the newPlan, It should be one of [50/200 Mbps].",
+                          "field": "newPlan",
+                          "value": "2Gbps",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid token",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "invalidToken": {
+                    "summary": "Invalid authentication token",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_TOKEN",
+                          "issue": "The Authentication Token is Missing or Invalid.",
+                          "suggested_action": "Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.",
+                          "field": "Authorization",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_TOKEN"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller not permitted to modify bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "Caller not permitted",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "RESOURCE_AUTH_ERR",
+                          "issue": "You don't have permission to access this resource.",
+                          "suggested_action": "Check the permissions associated with your account.",
+                          "location": "decision",
+                          "link": "https://api.example.com/docs/errors#RESOURCE_AUTH_ERR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — service  not found for modify‑bandwidth",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "Service or CIDN not found",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "NOT_FOUND",
+                          "issue": "Service or CIDN relationship not found.",
+                          "suggested_action": "Verify serviceId and cidn values.",
+                          "field": "serviceId,cidn",
+                          "value": "AAZZ000000654321,7896618022",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#NOT_FOUND"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "rateLimit": {
+                    "summary": "Rate limit exceeded",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "The API rate limit has been reached.",
+                          "suggested_action": "Reduce the number of concurrent calls and try again.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error — unexpected server-side error occurred",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serverError": {
+                    "summary": "Unexpected server error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_SERVER_ERROR",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR"
+                        }
+                      ]
+                    }
+                  },
+                  "technicalFailure": {
+                    "summary": "Non-recoverable technical error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TECHNICAL_FAILURE",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#TECHNICAL_FAILURE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable — temporary maintenance or overload",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serviceUnavailable": {
+                    "summary": "Service temporarily unavailable",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "Service temporarily unavailable (maintenance/overload).",
+                          "suggested_action": "Retry after a short delay or check the status page for outage updates.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/requests/fetch-status": {
+      "post": {
+        "tags": [
+          "Status"
+        ],
+        "operationId": "fetchRequestStatus",
+        "summary": "Fetch status of submitted request",
+        "description": "Retrieves the current status and outcome of a previously submitted request by passing in  `requestId`. Returns status values (`accepted`, `in-progress`, `completed`, `rejected`, `failed`) and a Telstra-compliant error envelope for business rule and technical failures. Supports polling guidance and correlation for troubleshooting.\n",
+        "security": [
+          {
+            "OAuth2ClientCredentials": [
+              "fixed-connectivity:modify-bandwidth:modify"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "OAuth2 token for authentication.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ"
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "description": "Unique Correlation Id for each transaction to be used by all consumers.",
+            "schema": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": true,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": true,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          },
+          {
+            "name": "Telstra-api-version",
+            "in": "header",
+            "required": false,
+            "description": "B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "example": "1.2"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FetchStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status fetched successfully (may include errors)",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchStatusResponse"
+                },
+                "examples": {
+                  "accepted": {
+                    "summary": "Status accepted",
+                    "value": {
+                      "requestId": "e7b8c2a0-4f3b-4e2a-9c1a-2b7e8d9f6a1b",
+                      "status": "accepted",
+                      "submittedAt": "2025-10-27T10:41:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "30S",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "accepted",
+                          "error": []
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "inProgress": {
+                    "summary": "Status in-progress",
+                    "value": {
+                      "requestId": "b1a2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+                      "status": "in-progress",
+                      "submittedAt": "2025-10-27T10:45:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "60S",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "in-progress",
+                          "error": []
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "completed": {
+                    "summary": "Status completed",
+                    "value": {
+                      "requestId": "c2d3e4f5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+                      "status": "completed",
+                      "submittedAt": "2025-10-27T10:50:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "completed",
+                          "error": []
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "contractInvalid": {
+                    "summary": "Status rejected due to contract invalid",
+                    "value": {
+                      "requestId": "d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8g",
+                      "status": "rejected",
+                      "submittedAt": "2025-10-27T11:10:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "rejected",
+                          "error": [
+                            {
+                              "code": "CONTRACT_INVALID",
+                              "issue": "Customer contract does not permit bandwidth modification for this offer.",
+                              "suggested_action": "Contact your account manager to review contract terms or eligibility.",
+                              "field": "contractValidity",
+                              "value": "no-permit",
+                              "location": "decision",
+                              "link": "https://api.example.com/docs/errors#CONTRACT_INVALID"
+                            }
+                          ]
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "creditRiskNoSell": {
+                    "summary": "Status rejected due to credit risk no-sell",
+                    "value": {
+                      "requestId": "e4f5a6b7-8c9d-0e1f-2a3b4c5d6e7f8g9h",
+                      "status": "rejected",
+                      "submittedAt": "2025-10-27T11:11:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "rejected",
+                          "error": [
+                            {
+                              "code": "CREDIT_RISK_NO_SELL",
+                              "issue": "Customer account is marked as 'no-sell' due to credit risk rating.",
+                              "suggested_action": "Contact finance/risk team to resolve account status.",
+                              "field": "creditRiskRating",
+                              "value": "no-sell",
+                              "location": "decision",
+                              "link": "https://api.example.com/docs/errors#CREDIT_RISK_NO_SELL"
+                            }
+                          ]
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "newBwGtAfSupport": {
+                    "summary": "Status rejected due to newBandwidth exceeding Adaptive Fibre support",
+                    "value": {
+                      "requestId": "f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8g9h0i",
+                      "status": "rejected",
+                      "submittedAt": "2025-10-27T11:12:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "rejected",
+                          "error": [
+                            {
+                              "code": "NEW_BW_GT_AF_SUPPORT",
+                              "issue": "Requested newBandwidth exceeds supported Adaptive Fibre capacity.",
+                              "suggested_action": "Due to physical change required, proceed to Adaptive Network Centre to raise request",
+                              "field": "newBandwidth",
+                              "value": "2Gbps",
+                              "location": "decision",
+                              "link": "https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT"
+                            }
+                          ]
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "newBwGtIfSupport": {
+                    "summary": "Status rejected due to newBandwidth exceeding Interface Type support",
+                    "value": {
+                      "requestId": "f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8g9h0i",
+                      "status": "rejected",
+                      "submittedAt": "2025-10-27T11:12:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "rejected",
+                          "error": [
+                            {
+                              "code": "NEW_BW_GT_IF_SUPPORT",
+                              "issue": "Requested newBandwidth exceeds supported Interface Type.",
+                              "suggested_action": "Due to physical change required, proceed to Adaptive Network Centre to raise request.",
+                              "field": "newBandwidth",
+                              "value": "2Gbps",
+                              "location": "decision",
+                              "link": "https://api.example.com/docs/errors#NEW_BW_GT_IF_SUPPORT"
+                            }
+                          ]
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "newBwNotSupported": {
+                    "summary": "Status rejected due to newBandwidth not supported by access",
+                    "value": {
+                      "requestId": "f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8g9h0i",
+                      "status": "rejected",
+                      "submittedAt": "2025-10-27T11:12:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "rejected",
+                          "error": [
+                            {
+                              "code": "NEW_BW_NOT_SUPPORTED",
+                              "issue": "Underlying access does not support requested newBandwidth.",
+                              "suggested_action": "Choose a lower Bandwidth within Interface Limit or proceed to Adaptive Network Centre to raise request.",
+                              "field": "newBandwidth",
+                              "value": "6Gbps",
+                              "location": "decision",
+                              "link": "https://api.example.com/docs/errors#NEW_BW_NOT_SUPPORTED_SUPPORT"
+                            }
+                          ]
+                        }
+                      ],
+                      "errors": []
+                    }
+                  },
+                  "failed": {
+                    "summary": "Status failed with non-recoverable technical error",
+                    "value": {
+                      "requestId": "a6b7c8d9-0e1f-2a3b-4c5d-6e7f8g9h0i1j",
+                      "status": "failed",
+                      "submittedAt": "2025-10-27T11:00:00Z",
+                      "submittedBy": "abc@xyz.com",
+                      "pollAfter": "0",
+                      "services": [
+                        {
+                          "_id": "AAZZ000000123456",
+                          "status": "failed",
+                          "error": [
+                            {
+                              "code": "TECHNICAL_FAILURE",
+                              "issue": "The request failed due to a non-recoverable technical error. Please contact support with your requestId and correlationId.",
+                              "suggested_action": "Contact Telstra support for assistance.",
+                              "field": "",
+                              "value": "",
+                              "location": "server",
+                              "link": "https://api.example.com/docs/errors#TECHNICAL_FAILURE"
+                            }
+                          ]
+                        }
+                      ],
+                      "errors": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid or incomplete input",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "missingRequired": {
+                    "summary": "Missing required field(s)",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_MISSING",
+                          "issue": "The 'requestId' is missing.",
+                          "suggested_action": "Please provide all required fields.",
+                          "field": "requestId",
+                          "value": "",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#FIELD_MISSING"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid token",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "Missing or invalid authentication token",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_TOKEN",
+                          "issue": "The Authentication Token is Missing or Invalid.",
+                          "suggested_action": "Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.",
+                          "field": "Authorization",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#INVALID_TOKEN"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller not permitted to fetch status",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "Caller not permitted",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "RESOURCE_AUTH_ERR",
+                          "issue": "You don't have permission to access this resource.",
+                          "suggested_action": "Check the permissions associated with your account.",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#RESOURCE_AUTH_ERR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — request not found for given transactionId/serviceId/cidn",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "Request not found",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "NOT_FOUND",
+                          "issue": "No request found for the provided requestId/serviceId/cidn.",
+                          "suggested_action": "Verify requestId and retry.",
+                          "location": "body",
+                          "link": "https://api.example.com/docs/errors#NOT_FOUND"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "rateLimited": {
+                    "summary": "Rate limit exceeded",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "The API rate limit has been reached.",
+                          "suggested_action": "Reduce the number of concurrent calls and try again.",
+                          "field": "",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.example.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error — unexpected server-side error occurred",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "internalError": {
+                    "summary": "Unexpected server error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_ERROR",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, Contact Telstra support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#INTERNAL_ERROR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable — temporary maintenance or overload",
+            "headers": {
+              "Content-Language": {
+                "description": "Language of the response content.",
+                "schema": {
+                  "type": "string",
+                  "example": "en-AU"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unavailable": {
+                    "summary": "Service temporarily unavailable",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "Service temporarily unavailable (maintenance/overload).",
+                          "suggested_action": "Retry after a short delay or check the status page for outage updates.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.example.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/price": {
+      "get": {
+        "tags": [
+          "Pricing"
+        ],
+        "operationId": "listPricing",
+        "summary": "List prices (simple query filters).",
+        "description": "Returns list prices.\nValid combinations: - If `product` is omitted: returns list prices across all products. - If `product` is provided: returns list prices scoped to that product. - `attributes[...]` MUST ONLY be used when `product` is provided.\n  If `product` is omitted and `attributes[...]` is supplied, the service returns 400.\n",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "OAuth2 token for authentication.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ"
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "description": "Unique Correlation Id for each transaction to be used by all consumers.",
+            "schema": {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Accepting with application/json.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "description": "Accept type of response (application/json).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ]
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Telstra-api-version",
+            "in": "header",
+            "required": false,
+            "description": "B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "example": "1.2"
+          },
+          {
+            "name": "Accept-Charset",
+            "in": "header",
+            "required": true,
+            "description": "Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UTF-8",
+                "ISO-8859-1",
+                "US-ASCII"
+              ],
+              "minLength": 5,
+              "maxLength": 10
+            },
+            "example": "UTF-8"
+          },
+          {
+            "name": "Content-Language",
+            "in": "header",
+            "required": true,
+            "description": "Language of the request content (e.g., en, en-US).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8
+            },
+            "example": "en-AU"
+          },
+          {
+            "name": "product",
+            "in": "query",
+            "required": false,
+            "description": "Optional product identifier.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "example": "tid-adapt"
+          },
+          {
+            "name": "chargeType",
+            "in": "query",
+            "required": false,
+            "description": "Filter by charge type.",
+            "schema": {
+              "$ref": "#/components/schemas/ChargeType"
+            },
+            "example": "RECURRING"
+          },
+          {
+            "name": "attributes",
+            "in": "query",
+            "required": false,
+            "description": "Product-specific variation filters. Supported attributes by product: \n\n `adaptive-broadband`- plan (e.g. 50/20 Mbps),carriageServiceType (e.g. TC4), accessType (e.g. nbn)\n\n `Example: attribute[plan]=100/20Mbps&attribute[accessType]=nbn            `\n\n `adaptive-fibre`-bandwidth (e.g. 50 Mbps),zone (e.g. Zone ),variant (e.g. Adaptive Fibre - NBN).\n\n `Example: attribute[bandwidth]=50Mbps&attribute[zone]=zone1&attribute[variant]=Adaptive Fibre - NBN`\n\n`tid-adapt`- bandwidth (e.g. 50 Mbps),zone (e.g. Zone) ,variant (e.g. Telstra Internet Direct Lite Adapt)\n\n\n             Example: attributes[bandwidth]=500Mbps&attributes[zone]=National.\n            \n\nThese parameter MUST ONLY be used when `product` is provided.  \n- If `product` is omitted and `attributes[...]` is supplied, the service returns 400.  \n- `Unsupported attributes` for the selected product will return 400 FIELD_INVALID\n",
+            "style": "simple",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "bandwidth": "100 Mbps",
+              "zone": "National",
+              "variant": "Telstra Internet Direct Lite Adapt"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "description": "Zero-based index of the first record to return.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "example": 0
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of records to return (max 500).",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500,
+              "default": 100
+            },
+            "example": 25
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List price response.",
+            "headers": {
+              "X-Correlation-Id": {
+                "description": "Correlation ID echoed back for tracing.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPriceResponse"
+                },
+                "examples": {
+                  "withProduct": {
+                    "summary": "With product filter (TID)",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=tid-adapt&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=tid-adapt&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "RECURRING",
+                          "name": "Telstra Internet Direct Lite Adapt - National - 50Mbps",
+                          "unit": "AUD",
+                          "price": 120,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Lite Adapt - National - 50Mbps",
+                          "attributes": {
+                            "bandwidth": "50 Mbps",
+                            "zone": "Zone 1",
+                            "variant": "Telstra Internet Direct Lite Adapt"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "withoutProduct": {
+                    "summary": "Without product filter (all products)",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 8,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "adaptive-broadband",
+                          "chargeType": "ONE_OFF",
+                          "name": "Adaptive Broadband - 50/20 Mbps",
+                          "unit": "AUD",
+                          "price": 80,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Broadband - 50/20 Mbps",
+                          "attributes": {
+                            "plan": "50/20 Mbps",
+                            "accessType": "TC4"
+                          }
+                        },
+                        {
+                          "product": "adaptive-broadband",
+                          "chargeType": "RECURRING",
+                          "name": "Adaptive Broadband 1000/400Mbps - nbn",
+                          "unit": "AUD",
+                          "price": 144.55,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Broadband 1000/400Mbps - nbn",
+                          "attributes": {
+                            "bandwidth": "1000/400 Mbps",
+                            "accessType": "nbn",
+                            "carriageServiceType": "TC4"
+                          }
+                        },
+                        {
+                          "product": "adaptive-fibre",
+                          "chargeType": "RECURRING",
+                          "name": "Adaptive Fibre - Zone 1 - 50 Mbps",
+                          "unit": "AUD",
+                          "price": 150,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Fibre - Zone 1 - 50 Mbps",
+                          "attributes": {
+                            "bandwidth": "50 Mbps",
+                            "zone": "Zone 1",
+                            "accessType": "Adaptive Fibre - NBN"
+                          }
+                        },
+                        {
+                          "product": "adaptive-fibre",
+                          "chargeType": "ONE_OFF",
+                          "name": "Adaptive Fibre modem purchase",
+                          "unit": "AUD",
+                          "price": 200,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Fibre modem purchase",
+                          "attributes": {
+                            "device": "TELSTRA SMART MODEM 4"
+                          }
+                        },
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "RECURRING",
+                          "name": "Telstra Internet Direct Lite Adapt - National - 100Mbps",
+                          "unit": "AUD",
+                          "price": 120,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Lite Adapt - National - 100Mbps",
+                          "attributes": {
+                            "bandwidth": "100 Mbps",
+                            "zone": "National",
+                            "variant": "Telstra Internet Direct Lite Adapt"
+                          }
+                        },
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "ONE_OFF",
+                          "name": "Telstra Internet Direct Lite Adapt activation",
+                          "unit": "AUD",
+                          "price": 300,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Lite Adapt activation",
+                          "attributes": {}
+                        },
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "RECURRING",
+                          "name": "Telstra Internet Direct Premium Adapt - National - 400Mbps",
+                          "unit": "AUD",
+                          "price": 720,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Premium Adapt - National - 400Mbps",
+                          "attributes": {
+                            "bandwidth": "400 Mbps",
+                            "zone": "National",
+                            "variant": "Telstra Internet Direct Premium Adapt"
+                          }
+                        },
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "ONE_OFF",
+                          "name": "Telstra Internet Direct Premium Adapt activation",
+                          "unit": "AUD",
+                          "price": 300,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Premium Adapt activation",
+                          "attributes": {}
+                        }
+                      ]
+                    }
+                  },
+                  "tidRecurring": {
+                    "summary": "TID product, recurring charge",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=tid-adapt&chargeType=RECURRING&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=tid-adapt&chargeType=RECURRING&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "RECURRING",
+                          "name": "Telstra Internet Direct Lite Adapt - National - 100Mbps",
+                          "unit": "AUD",
+                          "price": 120,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Lite Adapt - National - 100Mbps",
+                          "attributes": {
+                            "bandwidth": "100 Mbps",
+                            "zone": "National",
+                            "variant": "Telstra Internet Direct Lite Adapt"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "tidOneOff": {
+                    "summary": "TID product, one-off charge",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=tid-adapt&chargeType=ONE_OFF&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=tid-adapt&chargeType=ONE_OFF&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "tid-adapt",
+                          "chargeType": "ONE_OFF",
+                          "name": "Telstra Internet Direct Lite Adapt activation",
+                          "unit": "AUD",
+                          "price": 300,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Telstra Internet Direct Lite Adapt activation",
+                          "attributes": {}
+                        }
+                      ]
+                    }
+                  },
+                  "adaptiveBroadbandRecurring": {
+                    "summary": "Adaptive Broadband, recurring charge",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=adaptive-broadband&chargeType=RECURRING&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=adaptive-broadband&chargeType=RECURRING&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "adaptive-broadband",
+                          "chargeType": "RECURRING",
+                          "name": "Adaptive Broadband 1000/400Mbps - nbn",
+                          "unit": "AUD",
+                          "price": 144.55,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Broadband 1000/400Mbps - nbn",
+                          "attributes": {
+                            "bandwidth": "1000/400 Mbps",
+                            "accessType": "nbn",
+                            "carriageServiceType": "TC4"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "adaptiveBroadbandOneOff": {
+                    "summary": "Adaptive Broadband, one-off charge",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=adaptive-broadband&chargeType=ONE_OFF&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=adaptive-broadband&chargeType=ONE_OFF&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "adaptive-broadband",
+                          "chargeType": "ONE_OFF",
+                          "name": "Adaptive Broadband modem purchase",
+                          "unit": "AUD",
+                          "price": 261.81,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Broadband modem purchase",
+                          "attributes": {
+                            "device": "TELSTRA SMART MODEM 4"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "adaptiveFibreRecurring": {
+                    "summary": "Adaptive Fibre, recurring charge",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=adaptive-fibre&chargeType=RECURRING&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=adaptive-fibre&chargeType=RECURRING&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "adaptive-fibre",
+                          "chargeType": "RECURRING",
+                          "name": "Adaptive Fibre - Zone 1 - 50 Mbps",
+                          "unit": "AUD",
+                          "price": 150,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Fibre - Zone 1 - 50 Mbps",
+                          "attributes": {
+                            "bandwidth": "50 Mbps",
+                            "zone": "Zone 1",
+                            "accessType": "Adaptive Fibre - NBN"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "adaptiveFibreOneOff": {
+                    "summary": "Adaptive Fibre, one-off charge",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 1,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": "/prices?product=adaptive-fibre&chargeType=ONE_OFF&offset=25&limit=25",
+                        "previousPage": null,
+                        "lastPage": "/prices?product=adaptive-fibre&chargeType=ONE_OFF&offset=0&limit=25"
+                      },
+                      "data": [
+                        {
+                          "product": "adaptive-fibre",
+                          "chargeType": "ONE_OFF",
+                          "name": "Adaptive Fibre modem purchase",
+                          "unit": "AUD",
+                          "price": 200,
+                          "validFor": {
+                            "start": "2099-12-31",
+                            "end": "2099-12-31"
+                          },
+                          "billDescription": "Adaptive Fibre modem purchase",
+                          "attributes": {
+                            "device": "TELSTRA SMART MODEM 4"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "noRecordsFound": {
+                    "summary": "No records found",
+                    "value": {
+                      "paging": {
+                        "totalRecords": 0,
+                        "offset": 0,
+                        "limit": 25,
+                        "nextPage": null,
+                        "previousPage": null,
+                        "lastPage": null
+                      },
+                      "data": [],
+                      "errors": [
+                        {
+                          "code": "NO_MATCHING_RECORDS",
+                          "issue": "No pricing found matching the provided filters.",
+                          "suggested_action": "Verify filter values or remove one or more filters to broaden the search.",
+                          "field": "product,bandwidth",
+                          "value": "tid-adapt,100mbps",
+                          "location": "query",
+                          "link": "https://api.example.com/docs/errors#NO_MATCHING_RECORDS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid filters or parameter combination.",
+            "headers": {
+              "Content-Language": {
+                "description": "The language used in the response content (e.g., en, en‑AU).",
+                "schema": {
+                  "type": "string",
+                  "example": "en‑AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "attributesWithoutProduct": {
+                    "summary": "attributes supplied without product",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The 'attributes' filter can only be used when 'product' is provided.",
+                          "suggested_action": "Provide 'product' when using attributes[...] or remove attributes.",
+                          "field": "attributes[bandwidth]",
+                          "value": "50 Mbps",
+                          "location": "query",
+                          "link": "https://api.telstra.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  },
+                  "invalidAttributeForProduct": {
+                    "summary": "Attribute not valid for selected product",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "FIELD_INVALID",
+                          "issue": "The attribute 'plan' is not valid for product 'tid-adapt'.",
+                          "suggested_action": "Remove or correct the attribute for the selected product.",
+                          "field": "attributes[plan]",
+                          "value": "50/20 Mbps",
+                          "location": "query",
+                          "link": "https://api.telstra.com/docs/errors#FIELD_INVALID"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing/invalid token.",
+            "headers": {
+              "Content-Language": {
+                "schema": {
+                  "type": "string",
+                  "example": "en‑AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "Missing or invalid authentication token",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INVALID_TOKEN",
+                          "issue": "The Authentication Token is Missing or Invalid.",
+                          "suggested_action": "Check the Authentication Token. It should be valid and unexpired.",
+                          "field": "Authorization",
+                          "value": "",
+                          "location": "header",
+                          "link": "https://api.telstra.com/docs/errors#INVALID_TOKEN"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — caller not permitted to read prices.",
+            "headers": {
+              "Content-Language": {
+                "schema": {
+                  "type": "string",
+                  "example": "en‑AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "Caller not permitted",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "RESOURCE_AUTH_ERR",
+                          "issue": "You don't have permission to access this resource.",
+                          "suggested_action": "Check the permissions and required scopes associated with your account.",
+                          "field": "product",
+                          "value": "adaptive-fibre",
+                          "location": "path",
+                          "link": "https://api.telstra.com/docs/errors#RESOURCE_AUTH_ERR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the next allowed request.",
+                "schema": {
+                  "type": "integer",
+                  "example": 30
+                }
+              },
+              "Content-Language": {
+                "schema": {
+                  "type": "string",
+                  "example": "en‑AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "rateLimit": {
+                    "summary": "Rate limit exceeded",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "TOO_MANY_REQUESTS",
+                          "issue": "The API rate limit has been reached.",
+                          "suggested_action": "Reduce the number of concurrent calls and try again.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.telstra.com/docs/errors#TOO_MANY_REQUESTS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error — unexpected server‑side error.",
+            "headers": {
+              "Content-Language": {
+                "schema": {
+                  "type": "string",
+                  "example": "en‑AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serverError": {
+                    "summary": "Unexpected server error",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "INTERNAL_SERVER_ERROR",
+                          "issue": "An unexpected error occurred.",
+                          "suggested_action": "Please try again later. If the issue persists, contact support with your correlationId.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.telstra.com/docs/errors#INTERNAL_SERVER_ERROR"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable — temporary maintenance or overload.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the client may retry.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "Content-Language": {
+                "schema": {
+                  "type": "string",
+                  "example": "en‑AU"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "serviceUnavailable": {
+                    "summary": "Service temporarily unavailable",
+                    "value": {
+                      "errors": [
+                        {
+                          "code": "SERVICE_UNAVAILABLE",
+                          "issue": "Service is temporarily unavailable due to maintenance or overload.",
+                          "suggested_action": "Retry after the specified period.",
+                          "field": "",
+                          "value": "",
+                          "location": "server",
+                          "link": "https://api.telstra.com/docs/errors#SERVICE_UNAVAILABLE"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2ClientCredentials": {
+        "type": "oauth2",
+        "description": "OAuth2 client-credentials flow (Cat-1).",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token",
+            "scopes": {
+              "fixed-connectivity:modify-bandwidth:modify": "combined scope for all the end points in package"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Service": {
+        "type": "object",
+        "required": [
+          "id",
+          "attributes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique service identifier",
+            "minLength": 0,
+            "maxLength": 16,
+            "example": "AAZZ000000123456"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/Attributes"
+          }
+        }
+      },
+      "Attributes": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "status",
+          "variant",
+          "bandwidth"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "example": "Premium Broadband"
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "example": "Broadband"
+          },
+          "bandwidth": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 64,
+            "example": "800 Mbps"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive",
+              "pending",
+              "suspended",
+              "in-progress",
+              "failed",
+              "rejected",
+              "completed"
+            ],
+            "minLength": 1,
+            "maxLength": 32,
+            "example": "active"
+          },
+          "variant": {
+            "type": "string",
+            "description": "Service variant (e.g., Telstra Internet Direct Lite Adapt, Telstra Internet Direct Premium Adapt,Adaptive Fibre-NBN,Adaptive Fibre-Telstra)",
+            "minLength": 1,
+            "maxLength": 128,
+            "example": "Telstra Internet Direct Lite Adapt"
+          }
+        }
+      },
+      "ServicesPage": {
+        "type": "object",
+        "required": [
+          "page",
+          "limit",
+          "totalRecords",
+          "data"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000,
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "example": 25
+          },
+          "totalRecords": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "example": 0
+          },
+          "filters": {
+            "type": "object",
+            "description": "Echo of applied filters.",
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": {
+              "status": "active",
+              "name": "abc"
+            }
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "services": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Service"
+                },
+                "minItems": 0,
+                "maxItems": 200
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "description": "Optional informational errors (e.g., NO_MATCHING_RECORDS). Present only for 200 OK informational signaling.",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          }
+        }
+      },
+      "Errors": {
+        "type": "object",
+        "required": [
+          "errors"
+        ],
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code",
+          "issue",
+          "suggested_action",
+          "field",
+          "value",
+          "location",
+          "link"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code.",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "issue": {
+            "type": "string",
+            "description": "Human-readable explanation of the error.",
+            "minLength": 1,
+            "maxLength": 256,
+            "example": "Requested newBandwidth exceeds supported Adaptive Fibre capacity"
+          },
+          "suggested_action": {
+            "type": "string",
+            "description": "Recommended corrective action.",
+            "minLength": 1,
+            "maxLength": 256,
+            "example": "Due to physical change required, proceed to Adaptive Network Centre to raise request"
+          },
+          "field": {
+            "type": "string",
+            "description": "Name of the field causing the error (if applicable).",
+            "minLength": 0,
+            "maxLength": 64,
+            "example": "type"
+          },
+          "value": {
+            "type": "string",
+            "description": "The invalid value provided (if applicable).",
+            "minLength": 0,
+            "maxLength": 128,
+            "example": "abc"
+          },
+          "location": {
+            "type": "string",
+            "description": "Where the error occurred.",
+            "enum": [
+              "query",
+              "header",
+              "path",
+              "body",
+              "method",
+              "server",
+              "decision"
+            ],
+            "minLength": 0,
+            "maxLength": 8,
+            "example": "query"
+          },
+          "link": {
+            "type": "string",
+            "description": "Reference URL for more information about this error code.",
+            "minLength": 0,
+            "maxLength": 256,
+            "example": "https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT"
+          }
+        }
+      },
+      "ModifyPlanABRequest": {
+        "type": "object",
+        "required": [
+          "newPlan"
+        ],
+        "properties": {
+          "newPlan": {
+            "type": "string",
+            "description": "Requested new plan value for the service. Allowed values [50/20 Mbps,100/20 Mbps,100/40 Mbps,250/100 Mbps,500/200 Mbps,1000/400 Mbps",
+            "example": "50/100 Mbps",
+            "minLength": 4,
+            "maxLength": 16
+          }
+        }
+      },
+      "ModifyBandwidthRequest": {
+        "type": "object",
+        "required": [
+          "newBandwidth"
+        ],
+        "properties": {
+          "newBandwidth": {
+            "type": "string",
+            "description": "Requested new bandwidth value for the service. Allowed values [250 Mbps, 500 Mbps, 1 Gbps, 2 Gbps].",
+            "example": "500 Mbps",
+            "minLength": 4,
+            "maxLength": 16,
+            "enum": [
+              "250 Mbps",
+              "500 Mbps",
+              "1 Gbps",
+              "2 Gbps"
+            ]
+          }
+        }
+      },
+      "AFModifyBandwidthRequest": {
+        "type": "object",
+        "required": [
+          "newBandwidth"
+        ],
+        "properties": {
+          "newBandwidth": {
+            "type": "string",
+            "description": "Requested new bandwidth value for the service. Allowed values [ 250 Mbps, 300Mbps, 400 Mbps, 500 Mbps, 600Mbps, 800Mbps, 1 Gbps, 2 Gbps, 4Gbps].For Telstra Fibre additional 6Gbps, 8Gbps and 10 Gbps is also supported.",
+            "example": "500 Mbps",
+            "minLength": 4,
+            "maxLength": 16,
+            "enum": [
+              "250 Mbps",
+              "300 Mbps",
+              "400 Mbps",
+              "500 Mbps",
+              "600 Mbps",
+              "800 Mbps",
+              "1 Gbps",
+              "2 Gbps",
+              "4 Gbps"
+            ]
+          }
+        }
+      },
+      "ModifyBandwidthResponse": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "serviceId",
+          "status",
+          "submittedAt",
+          "submittedBy",
+          "pollAfter",
+          "errors"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "example": "e7b8c2a0-4f3b-4e2a-9c1a-2b7e8d9f6a1b"
+          },
+          "serviceId": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16,
+            "example": "AAZZ000000123456"
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "example": "accepted"
+          },
+          "submittedAt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "example": "2025-10-27T10:00:00Z"
+          },
+          "submittedBy": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "example": "abc@xyz.com"
+          },
+          "pollAfter": {
+            "type": "string",
+            "description": "Indicator for recommended next polling interval duration ISO 8601 duration format \"PT5M\" → 5 minutes \"PT2H\" → 2 hours \"P1D\" → 1 day \"P2W\" → 2 weeks",
+            "minLength": 1,
+            "maxLength": 10,
+            "example": "30S"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          }
+        }
+      },
+      "FetchStatusRequest": {
+        "type": "object",
+        "required": [
+          "requestId"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Unique UUID for the request submitted.",
+            "example": "f7c94213-36df-44cc-935f-025bb52cad42",
+            "minLength": 36,
+            "maxLength": 36,
+            "format": "uuid"
+          }
+        }
+      },
+      "FetchStatusResponse": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "cidn",
+          "status",
+          "submittedAt",
+          "submittedBy",
+          "pollAfter",
+          "services",
+          "errors"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "cidn": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10,
+            "example": "7896618019"
+          },
+          "status": {
+            "type": "string",
+            "description": "Overall request status",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "submittedAt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "submittedBy": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "pollAfter": {
+            "type": "string",
+            "description": "Indicator for recommended next polling interval duration",
+            "minLength": 1,
+            "maxLength": 10
+          },
+          "services": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "items": {
+              "type": "object",
+              "required": [
+                "_id",
+                "status"
+              ],
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Service identifier",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Service-level status",
+                  "minLength": 1,
+                  "maxLength": 32
+                },
+                "error": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "minItems": 0,
+                  "maxItems": 10
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "description": "Request-level errors (kept empty in examples; service-level errors preferred)",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          }
+        }
+      },
+      "ChargeType": {
+        "type": "string",
+        "description": "Type of charge for a list price.",
+        "enum": [
+          "RECURRING",
+          "ONE_OFF"
+        ],
+        "minLength": 1,
+        "maxLength": 32
+      },
+      "PricingSearchRequest": {
+        "type": "object",
+        "description": "Complex search criteria for pricing retrieval.",
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "Optional product identifier. Required if `attributes` is supplied."
+          },
+          "chargeType": {
+            "$ref": "#/components/schemas/ChargeType"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Product-specific variation filters. Requires `product`.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500,
+            "default": 100,
+            "description": "Maximum number of price records to return."
+          }
+        }
+      },
+      "ListPrice": {
+        "type": "object",
+        "description": "A list price record. Includes product identifier and product-specific attributes. Note: This is list pricing only (no customer-specific pricing fields).\n",
+        "required": [
+          "product",
+          "chargeType",
+          "name",
+          "unit",
+          "price",
+          "validFor",
+          "attributes"
+        ],
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "chargeType": {
+            "$ref": "#/components/schemas/ChargeType"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "unit": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "minLength": 1,
+            "maxLength": 3
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "validFor": {
+            "type": "object",
+            "required": [
+              "start",
+              "end"
+            ],
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date",
+                "description": "Start date for which the price is valid (YYYY-MM-DD).",
+                "minLength": 1,
+                "maxLength": 10
+              },
+              "end": {
+                "type": "string",
+                "format": "date",
+                "description": "End date for which the price is valid (YYYY-MM-DD).",
+                "minLength": 1,
+                "maxLength": 10
+              }
+            }
+          },
+          "billDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "ListPriceResponse": {
+        "type": "object",
+        "required": [
+          "paging",
+          "data"
+        ],
+        "properties": {
+          "paging": {
+            "type": "object",
+            "required": [
+              "totalRecords",
+              "offset",
+              "limit",
+              "nextPage",
+              "previousPage",
+              "lastPage"
+            ],
+            "properties": {
+              "totalRecords": {
+                "type": "integer",
+                "description": "Total number of price records matching the request.",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Zero-based index of the first record returned.",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of records returned in this response.",
+                "minimum": 1,
+                "maximum": 500
+              },
+              "nextPage": {
+                "type": "string",
+                "format": "uri",
+                "nullable": true,
+                "description": "URL to the next page of results, or null if at end.",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "previousPage": {
+                "type": "string",
+                "format": "uri",
+                "nullable": true,
+                "description": "URL to the previous page of results, or null if at start.",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "lastPage": {
+                "type": "string",
+                "format": "uri",
+                "nullable": true,
+                "description": "URL to the last page of results, or null if only one page.",
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            }
+          },
+          "data": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 500,
+            "items": {
+              "$ref": "#/components/schemas/ListPrice"
+            }
+          }
+        }
+      },
+      "FilterMetadataResponse": {
+        "type": "object",
+        "required": [
+          "products",
+          "globalFilters"
+        ],
+        "properties": {
+          "products": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 1000,
+            "items": {
+              "type": "string"
+            }
+          },
+          "globalFilters": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 100,
+            "items": {
+              "type": "string"
+            }
+          },
+          "product": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "supportedAttributeKeys": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 100,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

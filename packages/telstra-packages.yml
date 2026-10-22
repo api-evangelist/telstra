@@ -1,0 +1,57 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/SDKs
+name: Telstra packages
+note: The Messaging API SDKs page lists five SDKs (Java, Node Js, GO, Python, .Net), each linking a telstra GitHub repo. Versions read from registry
+  metadata endpoints and GitHub releases API on 2026-10-20.
+packages:
+- name: '@telstra/messaging'
+  registry: npm
+  url: https://www.npmjs.com/package/@telstra/messaging
+  language: JavaScript
+  official: true
+  version: 4.0.2
+  published: '2025-11-06'
+  repository: https://github.com/telstra/telstra-sdk-node
+  evidence: npm author "Telstra Developer" telstradev@team.telstra.com; maintainers on team.telstra.com. SDKs page links github.com/telstra/MessagingAPI-SDK-node
+    (latest GitHub release 3.0.10, 2024-08-27).
+  ownership_audit: metadata names telstra.com
+- name: telstra.messaging
+  registry: pypi
+  url: https://pypi.org/project/telstra.messaging/
+  language: Python
+  official: true
+  version: 3.3.19
+  published: '2024-08-30'
+  repository: https://github.com/telstra/MessagingAPI-SDK-python
+  evidence: PyPI version 3.3.19 matches GitHub release 3.3.19 (2024-08-30) of telstra/MessagingAPI-SDK-python, linked from the SDKs page.
+  ownership_audit: metadata names telstra.com
+- name: github.com/telstra/MessagingAPI-SDK-Go/v3
+  registry: go
+  url: https://pkg.go.dev/github.com/telstra/MessagingAPI-SDK-Go/v3
+  language: Go
+  official: true
+  version: v3.4.13
+  published: '2024-03-27'
+  repository: https://github.com/telstra/MessagingAPI-SDK-Go
+  evidence: proxy.golang.org @latest; repo linked from the SDKs page.
+- name: Telstra.Messaging
+  registry: nuget
+  url: https://www.nuget.org/packages/Telstra.Messaging
+  language: C#
+  official: false
+  version: 1.0.9
+  published: null
+  repository: https://github.com/telstra/MessagingAPI-SDK-dotnet
+  note: NuGet lists versions 1.0.8 and 1.0.9 only, with published date 1900-01-01 (unlisted). The GitHub repo linked from the SDKs page has release
+    v3.1.2 (2024-08-20) not on NuGet; the NuGet package lags the v3 API.
+  ownership_audit: 'registry metadata names neither the provider''s domain nor its GitHub org: official downgraded (harvest-packages.py --audit)'
+- name: TelstraMessaging
+  registry: github
+  url: https://github.com/telstra/MessagingAPI-SDK-Java
+  language: Java
+  official: true
+  version: 3.3.0
+  published: '2024-09-05'
+  note: README declares Maven groupId Telstra / artifactId TelstraMessaging built with mvn install; search.maven.org returned no artifacts for
+    group Telstra. Version/date from the GitHub latest release.

@@ -1,0 +1,414 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-refernce-data-success-response-schema.json",
+  "title": "RefernceDataSuccessResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-field-workforce-partners-api-openapi.yml#/components/schemas/RefernceDataSuccessResponse",
+  "required": [
+    "correlationId",
+    "data",
+    "method",
+    "path",
+    "status",
+    "time"
+  ],
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999,
+      "description": "The http response code indicating the nature of completion."
+    },
+    "time": {
+      "type": "string",
+      "description": "The current date/time at time of response in UTC",
+      "format": "date-time",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The error code of the scenario. Populated in error case only"
+    },
+    "correlationId": {
+      "maxLength": 50,
+      "minLength": 1,
+      "type": "string",
+      "description": "The correlationId automatically generated or the value from the request if provided."
+    },
+    "message": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "type": "string",
+      "description": "The error message. Populated in error case only."
+    },
+    "requestId": {
+      "maxLength": 50,
+      "minLength": 1,
+      "type": "string",
+      "description": "An identifier assigned to track the request."
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The URI of the API request."
+    },
+    "method": {
+      "maxLength": 10,
+      "minLength": 1,
+      "type": "string",
+      "description": "The HTTP method of the request"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "scheduleOfRatesDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the details of the SOR codes. Will be present for the recordType values - SOR CODES - BY TASK ID, SOR CODES - BY GROUP.",
+          "items": {
+            "$ref": "#/$defs/scheduleOfRatesDetailsInput"
+          }
+        },
+        "faultClearanceLocationDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the location codes that may be used for classifying the cleared fault. Mandatory when recordType=FAULT - LOCATION CODES.",
+          "items": {
+            "$ref": "#/$defs/faultClearanceLocationDetailsInput"
+          }
+        },
+        "faultClearancePartOfPlantDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the part of plant codes that may be used for classifying the cleared fault, based on the faultLocationCode given in the request. Mandatory when recordType=FAULT - PART OF PLANT CODES. The array may be empty should there be no values for the requested combination..",
+          "items": {
+            "$ref": "#/$defs/faultClearancePartOfPlantDetailsInput"
+          }
+        },
+        "faultClearanceComponentDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the component codes that may be used for classifying the cleared fault, based on the faultLocationCode and faultPartOfPlantCode given in the request. Mandatory when recordType=FAULT - COMPONENT CODES. The array may be empty should there be no values for the requested combination.",
+          "items": {
+            "$ref": "#/$defs/faultClearanceComponentDetailsInput"
+          }
+        },
+        "faultClearanceActionDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the clearance action codes that may be used for classifying the cleared fault, based on the faultLocationCode and faultPartOfPlantCode given in the request. Mandatory when recordType=FAULT - ACTION CODES. The array may be empty should there be no values for the requested combination.",
+          "items": {
+            "$ref": "#/$defs/faultClearanceActionDetailsInput"
+          }
+        },
+        "faultClearanceCauseDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the cause codes that may be used for classifying the cleared fault, based on the faultLocationCode, faultPartOfPlantCode and faultClearanceAction values given in the request. Mandatory when recordType=FAULT - CAUSE CODES. The array may be empty should there be no values for the requested combination.",
+          "items": {
+            "$ref": "#/$defs/faultClearanceCauseDetailsInput"
+          }
+        },
+        "missedReasonDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array of missed reason options for use when a task is completed past the due date. Mandatory when recordType=MISSED REASONS.",
+          "items": {
+            "$ref": "#/$defs/missedReasonDetailsInput"
+          }
+        },
+        "rejectionReasonDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array of missed reason options for use when a task is completed past the due date. Mandatory when recordType=MISSED REASONS.",
+          "items": {
+            "$ref": "#/$defs/rejectionReasonDetailsInput"
+          }
+        },
+        "closureReasonDetails": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array of task closure reason options for use when a task is closed. Mandatory when recordType=COMPLETION REASONS.",
+          "items": {
+            "$ref": "#/$defs/closureReasonDetailsInput"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "closureReasonDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description",
+        "category"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The closure reason.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the reason.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The scenario of the closure, indicating whether the technician attended site to begin the work or if the blocked before attendance.",
+          "enum": [
+            "SITE ATTENDED",
+            "NOT ATTENDED"
+          ]
+        }
+      }
+    },
+    "faultClearanceActionDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description",
+        "causeCodeRequired"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The action code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "causeCodeRequired": {
+          "type": "boolean",
+          "description": "An indicator of whether a cause code is required should this combination of location/part of plant and action code values.",
+          "enum": [
+            true,
+            false
+          ]
+        }
+      }
+    },
+    "faultClearanceCauseDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The cause code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the code.",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "faultClearanceComponentDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The component code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the code.",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "faultClearanceLocationDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The location code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the code.",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "faultClearancePartOfPlantDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The part of plant code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the code.",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "groupsDetails": {
+      "type": "object",
+      "required": [
+        "code",
+        "category"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The SOR group code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "description": "The SOR group category.",
+          "enum": [
+            "PRIMARY",
+            "ADDITIONAL"
+          ]
+        }
+      }
+    },
+    "missedReasonDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description",
+        "category"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The missed reason code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "description": "Indicates whether this code is eligible for use on an appointment or commitment task.",
+          "enum": [
+            "APPOINTMENT",
+            "COMMITMENT"
+          ],
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "rejectionReasonDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The rejection reason.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the reason.",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "scheduleOfRatesDetailsInput": {
+      "type": "object",
+      "required": [
+        "code",
+        "description",
+        "units",
+        "maxUnits",
+        "groups"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The SOR code value.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the SOR code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "units": {
+          "type": "string",
+          "description": "The unit of measure for this SOR code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "maxUnits": {
+          "type": "string",
+          "description": "The maximum number of units that can be claimed for this code.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "groups": {
+          "type": "array",
+          "minItems": 1,
+          "description": "An array of groups to which this SOR code is mapped.",
+          "items": {
+            "$ref": "#/$defs/groupsDetails"
+          }
+        }
+      }
+    }
+  }
+}

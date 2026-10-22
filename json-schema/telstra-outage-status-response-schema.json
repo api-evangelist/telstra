@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-outage-status-response-schema.json",
+  "title": "OutageStatusResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-iot-outage-api-openapi.yml#/components/schemas/OutageStatusResponse",
+  "type": "object",
+  "properties": {
+    "correlation-id": {
+      "type": "string",
+      "minLength": 36,
+      "maxLength": 36,
+      "description": "Unique correlation ID for the request"
+    },
+    "status": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "description": "The status of the response returned"
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9999999999999,
+      "description": "The timestamp of the response returned"
+    },
+    "past": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 100,
+      "description": "Past outages for the suburb",
+      "items": {
+        "$ref": "#/$defs/OutageStatusItem"
+      }
+    },
+    "near_future": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 100,
+      "description": "Upcoming outages for the suburb in the next 24 hours",
+      "items": {
+        "$ref": "#/$defs/OutageStatusItem"
+      }
+    },
+    "far_future": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 100,
+      "description": "Scheduled outages far in the future",
+      "items": {
+        "$ref": "#/$defs/OutageStatusItem"
+      }
+    },
+    "current": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 100,
+      "description": "Current outages for the suburb",
+      "items": {
+        "$ref": "#/$defs/OutageStatusItem"
+      }
+    }
+  },
+  "$defs": {
+    "OutageStatusItem": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "The state abbreviation of the location"
+        },
+        "suburb": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "The suburb or town of the location"
+        },
+        "postcode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "description": "The postcode of the location"
+        },
+        "start_timestamp": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Start time of the outage (with timezone)"
+        },
+        "end_timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "End time of the outage (with timezone), or null if ongoing"
+        },
+        "root_cause": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Root cause of the outage"
+        },
+        "duration": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000,
+          "description": "Duration of the outage in seconds"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "description": "Description of the outage"
+        },
+        "is_planned": {
+          "type": "boolean",
+          "description": "Indicates if the outage is planned"
+        },
+        "technology": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Technology affected by the outage"
+        }
+      }
+    }
+  }
+}

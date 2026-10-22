@@ -1,20 +1,58 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/telstra-messaging-api-openapi.yml, openapi/telstra-mobile-number-verification-api-openapi.yml
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints; openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml,
+  openapi/telstra-device-swap-api-openapi.yml, openapi/telstra-field-workforce-partners-api-openapi.yml, openapi/telstra-iot-connectivity-service-api-openapi.yml,
+  openapi/telstra-iot-outage-api-openapi.yml, openapi/telstra-kyc-match-api-openapi.yml, openapi/telstra-kyc-tenure-api-openapi.yml,
+  openapi/telstra-messaging-api-openapi.yml, openapi/telstra-number-verification-api-openapi.yml, openapi/telstra-sim-swap-api-openapi.yml
 summary:
   types:
+  - http
   - oauth2
+  - openIdConnect
   oauth2_flows:
+  - authorizationCode
   - clientCredentials
 schemes:
 - name: OAuth2ClientCredentials
   type: oauth2
   flows:
   - flow: clientCredentials
-    tokenUrl: https://tapi.telstra.com/v2/oauth/token
+    tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token
     scopes: 1
-  description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token
-    with the NSMS scope.
+  description: OAuth2 client-credentials flow (Cat-1).
   sources:
+  - openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  - openapi/telstra-field-workforce-partners-api-openapi.yml
   - openapi/telstra-messaging-api-openapi.yml
-  - openapi/telstra-mobile-number-verification-api-openapi.yml
+- name: openId
+  type: openIdConnect
+  openIdConnectUrl: https://example.com/.well-known/openid-configuration
+  sources:
+  - openapi/telstra-device-swap-api-openapi.yml
+  - openapi/telstra-kyc-match-api-openapi.yml
+  - openapi/telstra-kyc-tenure-api-openapi.yml
+  - openapi/telstra-number-verification-api-openapi.yml
+  - openapi/telstra-sim-swap-api-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/telstra-iot-connectivity-service-api-openapi.yml
+- name: OAuth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/
+    tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-model/api/realms/network-auth/protocol/openid-connect/token
+    scopes: 2
+  description: This API will use OAuth2 security with **client_credentials** grant type.
+  sources:
+  - openapi/telstra-iot-outage-api-openapi.yml
+docs: https://dev.telstra.com/apis/messaging-api/Endpoints
+docs_notes:
+- 'Messaging API: "To generate an OAuth2 Authentication token, pass through your Client key and Client secret ...
+  grant_type is client_credentials and value for scope is free-trial-numbers:read free-trial-numbers:write messages:read
+  messages:write reports:read reports:write virtual-numbers:read virtual-numbers:write. The token will expire in
+  one hour."'
+- Keys are created in the Telstra Developer dashboard under View API Keys (Pricing page).

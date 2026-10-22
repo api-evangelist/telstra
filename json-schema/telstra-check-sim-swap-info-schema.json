@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-check-sim-swap-info-schema.json",
+  "title": "CheckSimSwapInfo",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-sim-swap-api-openapi.yml#/components/schemas/CheckSimSwapInfo",
+  "type": "object",
+  "required": [
+    "swapped"
+  ],
+  "properties": {
+    "swapped": {
+      "type": "boolean",
+      "description": "Indicates whether the SIM card has been swapped during the period within the provided age."
+    }
+  }
+}

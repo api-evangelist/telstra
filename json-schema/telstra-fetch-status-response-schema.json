@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-fetch-status-response-schema.json",
+  "title": "FetchStatusResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml#/components/schemas/FetchStatusResponse",
+  "type": "object",
+  "required": [
+    "requestId",
+    "cidn",
+    "status",
+    "submittedAt",
+    "submittedBy",
+    "pollAfter",
+    "services",
+    "errors"
+  ],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "cidn": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 10
+    },
+    "status": {
+      "type": "string",
+      "description": "Overall request status",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "submittedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "submittedBy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "pollAfter": {
+      "type": "string",
+      "description": "Indicator for recommended next polling interval duration",
+      "minLength": 1,
+      "maxLength": 10
+    },
+    "services": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": [
+          "_id",
+          "status"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Service identifier",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "status": {
+            "type": "string",
+            "description": "Service-level status",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "error": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Error"
+            },
+            "minItems": 0,
+            "maxItems": 10
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Request-level errors (kept empty in examples; service-level errors preferred)",
+      "items": {
+        "$ref": "#/$defs/Error"
+      },
+      "minItems": 0,
+      "maxItems": 10
+    }
+  },
+  "$defs": {
+    "Error": {
+      "type": "object",
+      "required": [
+        "code",
+        "issue",
+        "suggested_action",
+        "field",
+        "value",
+        "location",
+        "link"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code.",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "issue": {
+          "type": "string",
+          "description": "Human-readable explanation of the error.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "suggested_action": {
+          "type": "string",
+          "description": "Recommended corrective action.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "field": {
+          "type": "string",
+          "description": "Name of the field causing the error (if applicable).",
+          "minLength": 0,
+          "maxLength": 64
+        },
+        "value": {
+          "type": "string",
+          "description": "The invalid value provided (if applicable).",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "location": {
+          "type": "string",
+          "description": "Where the error occurred.",
+          "enum": [
+            "query",
+            "header",
+            "path",
+            "body",
+            "method",
+            "server",
+            "decision"
+          ],
+          "minLength": 0,
+          "maxLength": 8
+        },
+        "link": {
+          "type": "string",
+          "description": "Reference URL for more information about this error code.",
+          "minLength": 0,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+generated: '2026-10-20'
+method: searched
+source: https://www.telstra.com.au/privacy
+notes: >-
+  Read from Telstra's own Privacy Statement (effective 1 July 2026) and its linked "What is artificial
+  intelligence and machine learning?" page. The Messaging API terms-of-service pointer
+  (https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service) returned 404 on
+  2026-10-20, so no API-specific contractual terms were read. Signals the pages do not speak to are omitted.
+signals:
+  data_subject_request:
+    url: https://www.telstra.com.au/privacy
+    section: "You're in control of your personal information"
+    rights_named: [access, correction, marketing opt-out, complaint]
+    escalation: Telecommunications Industry Ombudsman (TIO) or the Office of the Australian Information Commissioner
+    evidence:
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "You have the right to request a copy of the personal information we hold about you, and the right to correct it if you need to."
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "There’s no charge to submit a request or correct your personal information, however we may charge an administrative fee for providing access to your personal information at your request."
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "While we hope we’ll always be able to resolve any issues you have, you can also lodge a complaint with the relevant regulator, for example the Telecommunications Industry Ombudsman (TIO) or the Office of the Australian"
+    note: >-
+      Access and correction rights under Australian privacy law, free to request with a possible
+      administrative fee for access, plus regulator escalation. No deletion or portability right is named
+      on the page.
+  data_retention:
+    url: https://www.telstra.com.au/privacy
+    section: We limit the amount of information we keep
+    evidence:
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "Telstra is subject to a number of legislative requirements to retain information for different periods of time. When personal information is not, or is no longer, subject to these legislative retention requirements, and no longer required for a legitimate business reason, we take reasonable steps to destroy or de-identify it."
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "including the Telecommunications Act 1997 (Cth) and the Telecommunications (Interception and Access) Act 1979 (Cth) (which includes data retention provisions)"
+    note: >-
+      Retention is governed by statutory periods (including the TIA Act metadata-retention regime) followed
+      by destruction or de-identification; no concrete retention durations are published on the page.
+  data_residency:
+    url: https://www.telstra.com.au/privacy
+    section: We may share your information outside Australia
+    evidence:
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "In some cases, we may need to share your personal information with organisations or other Telstra Group entities that are located outside of Australia, for example in the following countries and regions: Brazil, Canada, Chile, China, the European Union, Hong Kong, India, Israel, Japan, Malaysia, Moldova, New Zealand, Norway, Philippines, Singapore, South Africa, South Korea, Sri Lanka, Taiwan, the UAE, United Kingdom, the United States of America and Vietnam."
+    note: >-
+      A disclosure of cross-border transfer destinations, NOT a data-residency commitment: personal
+      information may leave Australia to the listed countries, with contractual protection required of recipients.
+  ai_transparency:
+    url: https://www.telstra.com.au/privacy
+    section: Automated decisions
+    evidence:
+    - source: https://www.telstra.com.au/privacy
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "The kinds of personal information used when making solely or substantially automated decisions include identity information, financial information, concession details, information to protect against fraud, crime or misconduct, activity on our website, systems and applications, information about products and services you have with us, and information about your use of our products and services."
+    - source: https://www.telstra.com.au/consumer-advice/your-information/machine-learning-and-ai
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "We develop, improve and use a range of AI technologies including machine learning, generative AI and agentic AI to support a wide range of purposes"
+    - source: https://www.telstra.com.au/consumer-advice/your-information/machine-learning-and-ai
+      http_status: 200
+      fetched: '2026-10-20'
+      quote: "Transparency and explainability: There should be transparency and responsible disclosure so people can understand when they are being significantly impacted by AI, and can find out when an AI system is engaging with them."
+    note: >-
+      The privacy statement discloses the categories of data used in solely or substantially automated
+      decisions (the Privacy Act automated-decision transparency requirement), and the linked AI page
+      states use of ML, generative and agentic AI and lists a transparency/explainability principle.
+      This is a published principle and disclosure, not a per-interaction AI label.

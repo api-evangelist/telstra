@@ -1,0 +1,116 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist agent overlay for Field Workforce Partners API
+  version: 1.0.0
+extends: ../openapi/_original/telstra-field-workforce-partners-api-openapi.json
+x-generated: '2026-10-20'
+x-method: generated
+x-source: openapi/telstra-field-workforce-partners-api-openapi.yml
+x-rationale: Adds agent-facing annotations (tool / read-only / destructive flags and candidate MCP tool names, matching mcp/telstra-mcp.yml)
+  and provenance without mutating the original contract.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance for this contract.
+  update:
+    x-apievangelist:
+      provider: telstra
+      profiled: '2026-10-20'
+      original: openapi/_original/telstra-field-workforce-partners-api-openapi.json
+- target: $.paths['/partner'].post
+  description: Agent annotations for Partner-Create.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: partner_create
+- target: $.paths['/partner'].patch
+  description: Agent annotations for Partner-Update.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: partner_update
+- target: $.paths['/partner'].get
+  description: Agent annotations for Partner-Retrieve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: partner_retrieve
+- target: $.paths['/task-list'].get
+  description: Agent annotations for TaskList-Retrieve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: task_list_retrieve
+- target: $.paths['/reference-data'].get
+  description: Agent annotations for ReferenceData-Retrieve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: reference_data_retrieve
+- target: $.paths['/task'].patch
+  description: Agent annotations for Task-Update.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: task_update
+- target: $.paths['/task-detail'].get
+  description: Agent annotations for Task-Retrieve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: task_retrieve
+- target: $.paths['/appointment/slot-enquiry'].post
+  description: Agent annotations for Appointment-QueryAvailableSlots.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: appointment_query_available_slots
+- target: $.paths['/appointment/reservation'].post
+  description: Agent annotations for Appointment-Reserve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: appointment_reserve
+- target: $.paths['/appointment'].delete
+  description: Agent annotations for Appointment-Cancel.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: true
+    x-mcp-tool-name: appointment_cancel
+- target: $.paths['/appointment'].patch
+  description: Agent annotations for Appointment-Update.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: appointment_update
+- target: $.paths['/appointment'].get
+  description: Agent annotations for Appointment-Retrieve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: appointment_retrieve
+- target: $.paths['/appointment/reschedule'].post
+  description: Agent annotations for Appointment-Reschedule.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: appointment_reschedule
+- target: $.paths['/service-offerings'].get
+  description: Agent annotations for ServiceOfferings-Retrieve.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: service_offerings_retrieve

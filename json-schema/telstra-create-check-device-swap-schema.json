@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-create-check-device-swap-schema.json",
+  "title": "CreateCheckDeviceSwap",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-device-swap-api-openapi.yml#/components/schemas/CreateCheckDeviceSwap",
+  "type": "object",
+  "properties": {
+    "phoneNumber": {
+      "$ref": "#/$defs/PhoneNumber"
+    },
+    "maxAge": {
+      "type": "integer",
+      "description": "Period in hours to be checked for device swap.\n",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 2400,
+      "default": 240
+    }
+  },
+  "$defs": {
+    "PhoneNumber": {
+      "type": "string",
+      "pattern": "^\\+[1-9][0-9]{4,14}$",
+      "description": "A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'."
+    }
+  }
+}

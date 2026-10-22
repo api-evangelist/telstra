@@ -1,0 +1,63 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints
+auth:
+  style: OAuth2 client_credentials bearer token
+  header: 'Authorization: Bearer <access_token>'
+  token_ttl: The token will expire in one hour.
+  see: authentication/telstra-authentication.yml
+idempotency:
+  coverage: none
+  note: No Idempotency-Key header or replay protection is documented on the Messaging API Endpoints reference, and
+    none of the openapi/ contracts declare one.
+pagination:
+  style: offset
+  params:
+  - limit
+  - offset
+  limit_range: 1..50, default 10
+  offset_range: 0..999999
+  operations:
+  - getMessages
+  - getNumbers
+versioning:
+  header: Telstra-api-version
+  example: 3.1.0
+  see: lifecycle/telstra-lifecycle.yml
+required_headers:
+- Content-Language (en-au)
+- Accept (application/json)
+- Accept-Charset (utf-8)
+- Content-Type (application/json)
+errors:
+  envelope: '{"errors": [ {} ]}'
+  see: errors/telstra-error-codes.yml
+rate_limit_signaling:
+  status: 429
+  code: TOO_MANY_REQUESTS
+  headers: []
+  note: No rate-limit headers documented.
+  see: rate-limits/telstra-rate-limits.yml
+reversibility:
+  status: verified
+  surfaces:
+  - write: sendMessages (scheduled)
+    reversal: deleteMessageById
+    window: Use DELETE /messages/{messageId} to delete a message that's been scheduled for sending, but hasn't yet
+      sent.
+    docs: https://dev.telstra.com/apis/messaging-api/FAQs
+    error_when_closed: DELETE_INVALID_MSG_SENT
+  - write: sendMessages (scheduled)
+    reversal: updateMessageById
+    window: The message can't be updated because it's already been sent (UPDATE_INVALID_MSG_SENT).
+    docs: https://dev.telstra.com/apis/messaging-api/Endpoints
+  - write: delivery notification charge
+    reversal: updateMessageById
+    window: You will not be charged if you cancel a delivery notification using PUT before the message has sent.
+    docs: https://dev.telstra.com/apis/messaging-api/Pricing
+  - write: assignNumber
+    reversal: deleteNumber
+    window: null
+    docs: https://dev.telstra.com/apis/messaging-api/Endpoints
+    note: No window stated.
+  note: A sent message cannot be recalled.

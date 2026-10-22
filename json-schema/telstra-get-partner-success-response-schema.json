@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-get-partner-success-response-schema.json",
+  "title": "GetPartnerSuccessResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-field-workforce-partners-api-openapi.yml#/components/schemas/GetPartnerSuccessResponse",
+  "required": [
+    "correlationId",
+    "data",
+    "method",
+    "path",
+    "status",
+    "time"
+  ],
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999,
+      "description": "The http response code indicating the nature of completion."
+    },
+    "time": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "description": "The current date/time at time of response in UTC",
+      "format": "date-time"
+    },
+    "correlationId": {
+      "maxLength": 50,
+      "minLength": 1,
+      "type": "string",
+      "description": "The correlationId automatically generated or the value from the request if provided."
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The URI of the API request."
+    },
+    "method": {
+      "maxLength": 10,
+      "minLength": 1,
+      "type": "string",
+      "description": "The HTTP method of the request"
+    },
+    "data": {
+      "required": [
+        "partnerID",
+        "name",
+        "type",
+        "adminEmailList",
+        "createdDate",
+        "lastChangeBy",
+        "lastChangeDate"
+      ],
+      "type": "object",
+      "properties": {
+        "partnerID": {
+          "type": "string",
+          "description": "The partner ID for the partner",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the partner organisation.",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "type": {
+          "maxLength": 20,
+          "minLength": 1,
+          "type": "string",
+          "description": "Indicates the type of partner.",
+          "enum": [
+            "INBOUND",
+            "OUTBOUND"
+          ]
+        },
+        "adminEmailList": {
+          "type": "string",
+          "description": "A comma separated list of email addresses which are set as the admin contacts for this partner.",
+          "maxLength": 2000,
+          "minLength": 1
+        },
+        "taskNotificationEmailList": {
+          "type": "string",
+          "description": "A comma separated list of email addresses which are set as the task notification contacts for this partner. Will be present for outbound partners only.\n",
+          "maxLength": 2000,
+          "minLength": 1
+        },
+        "taskNotificationMethod": {
+          "type": "string",
+          "description": "The method which is configured for this partner to inform task notifications. Will be present for outbound partners only.\n",
+          "enum": [
+            "EMAIL ONLY",
+            "EMAIL AND API"
+          ],
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "createdDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "Indicates the date/time in UTC when the partner record was created in WFM Partner Gateway. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "endDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "Indicates the date/time in UTC when the partner record was inactive/ the contract ended in WFM Partner Gateway. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "lastChangeBy": {
+          "type": "string",
+          "description": "Indicates the source of the last change to the partner record in WFM Partner Gateway",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "lastChangeDate": {
+          "type": "string",
+          "description": "The last change date/time in UTC for the partner record in WFM Partner Gateway. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi.",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "partnerAttributes": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array holding additional additional attributes of the partner.",
+          "items": {
+            "$ref": "#/$defs/partnerAttributesRetrievePartner"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "partnerAttributesRetrievePartner": {
+      "type": "object",
+      "description": "An array of partner attributes associated with the partner record. When called by a partner only parter manageable attributes will be returned.                    \n",
+      "required": [
+        "category",
+        "name",
+        "value"
+      ],
+      "properties": {
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "description": "The category of the attribute."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "description": "The name of the attribute under the category."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "description": "The value of the attribute"
+        },
+        "subValue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "description": "The sub value of the attribute (if applicable)"
+        }
+      }
+    }
+  }
+}

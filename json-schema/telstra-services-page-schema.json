@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-services-page-schema.json",
+  "title": "ServicesPage",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml#/components/schemas/ServicesPage",
+  "type": "object",
+  "required": [
+    "page",
+    "limit",
+    "totalRecords",
+    "data"
+  ],
+  "properties": {
+    "page": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "totalRecords": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "filters": {
+      "type": "object",
+      "description": "Echo of applied filters.",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      }
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Service"
+          },
+          "minItems": 0,
+          "maxItems": 200
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Optional informational errors (e.g., NO_MATCHING_RECORDS). Present only for 200 OK informational signaling.",
+      "items": {
+        "$ref": "#/$defs/Error"
+      },
+      "minItems": 0,
+      "maxItems": 10
+    }
+  },
+  "$defs": {
+    "Attributes": {
+      "type": "object",
+      "required": [
+        "name",
+        "type",
+        "status",
+        "variant",
+        "bandwidth"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "bandwidth": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 64
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive",
+            "pending",
+            "suspended",
+            "in-progress",
+            "failed",
+            "rejected",
+            "completed"
+          ],
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "variant": {
+          "type": "string",
+          "description": "Service variant (e.g., Telstra Internet Direct Lite Adapt, Telstra Internet Direct Premium Adapt,Adaptive Fibre-NBN,Adaptive Fibre-Telstra)",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": [
+        "code",
+        "issue",
+        "suggested_action",
+        "field",
+        "value",
+        "location",
+        "link"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code.",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "issue": {
+          "type": "string",
+          "description": "Human-readable explanation of the error.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "suggested_action": {
+          "type": "string",
+          "description": "Recommended corrective action.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "field": {
+          "type": "string",
+          "description": "Name of the field causing the error (if applicable).",
+          "minLength": 0,
+          "maxLength": 64
+        },
+        "value": {
+          "type": "string",
+          "description": "The invalid value provided (if applicable).",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "location": {
+          "type": "string",
+          "description": "Where the error occurred.",
+          "enum": [
+            "query",
+            "header",
+            "path",
+            "body",
+            "method",
+            "server",
+            "decision"
+          ],
+          "minLength": 0,
+          "maxLength": 8
+        },
+        "link": {
+          "type": "string",
+          "description": "Reference URL for more information about this error code.",
+          "minLength": 0,
+          "maxLength": 256
+        }
+      }
+    },
+    "Service": {
+      "type": "object",
+      "required": [
+        "id",
+        "attributes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique service identifier",
+          "minLength": 0,
+          "maxLength": 16
+        },
+        "attributes": {
+          "$ref": "#/$defs/Attributes"
+        }
+      }
+    }
+  }
+}

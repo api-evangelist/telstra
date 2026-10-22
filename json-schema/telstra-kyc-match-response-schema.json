@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-kyc-match-response-schema.json",
+  "title": "KYC_MatchResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-kyc-match-api-openapi.yml#/components/schemas/KYC_MatchResponse",
+  "type": "object",
+  "properties": {
+    "idDocumentMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResultNotAvailable"
+        },
+        {
+          "description": "Indicates whether Id number associated to the ID document of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "nameMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the complete name of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "nameMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "givenNameMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether First name/given name of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "givenNameMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "familyNameMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether last name/ family name/ surname of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "familyNameMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "nameKanaHankakuMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResultNotAvailable"
+        },
+        {
+          "description": "Indicates whether complete name of the customer in Hankaku-Kana format (reading of name) for Japan matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "nameKanaHankakuMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "nameKanaZenkakuMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResultNotAvailable"
+        },
+        {
+          "description": "Indicates whether complete name of the customer in Zenkaku-Kana format (reading of name) for Japan matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "nameKanaZenkakuMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "middleNamesMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResultNotAvailable"
+        },
+        {
+          "description": "Indicates whether the middle names of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "middleNamesScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "familyNameAtBirthMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResultNotAvailable"
+        },
+        {
+          "description": "Indicates whether the Family Name At Birth of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "familyNameAtBirthMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "addressMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether complete address of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "addressMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "streetNameMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the street name of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "streetNameMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "streetNumberMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the street number of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "streetNumberMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "postalCodeMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the postal code / zip code of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "regionMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the region of the customer's address matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "regionMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "localityMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the locality of the customer's address matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "localityMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "countryMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the country of the customer's address matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "houseNumberExtensionMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the house number extension of the customer's address with the one on the Operator's system."
+        }
+      ]
+    },
+    "birthdateMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the birthdate of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "emailMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResult"
+        },
+        {
+          "description": "Indicates whether the email address of the customer matches with the one on the Operator's system."
+        }
+      ]
+    },
+    "emailMatchScore": {
+      "$ref": "#/$defs/MatchScoreResult"
+    },
+    "genderMatch": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/MatchResultNotAvailable"
+        },
+        {
+          "description": "Indicates whether the gender of the customer matches with the one on the Operator's system."
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "MatchResult": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false",
+        "not_available"
+      ]
+    },
+    "MatchResultNotAvailable": {
+      "type": "string",
+      "description": "Indicates that the attribute is not available to validate in Telstra's systems.",
+      "enum": [
+        "not_available"
+      ]
+    },
+    "MatchScoreResult": {
+      "type": "integer",
+      "description": "Indicates the similarity score assigned to the input value when it does not exactly match the value stored in Telstra's system. This property shall only be returned when the value of the corresponding match field is `false`.",
+      "minimum": 0,
+      "maximum": 100
+    }
+  }
+}

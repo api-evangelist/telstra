@@ -1,0 +1,20 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Pricing
+docs: https://dev.telstra.com/apis/messaging-api/Pricing
+description: 'Messaging API Free Trial: one free dedicated Australian Virtual Number; message up to 10 recipients
+  (Free Trial Numbers) and send up to 100 SMS/MMS for free. No time limit, but unused Free Trial Virtual Numbers
+  expire after 3 months. Same production host and API keys; upgrading a key to PAYG enables paid features (no separate
+  test/live key prefixes).'
+mode: free-trial-on-production
+limits:
+- 100 free messages
+- up to 10 recipients (Free Trial Numbers)
+- 1 free Virtual Number
+- no international messaging (FREE_TRIAL_INTERNATIONAL_ERR)
+- no sender names (FREE_TRIAL_SENDERNAME_ERR)
+operations:
+- createTrialNumbers
+- getTrialNumbers
+test_values: []
+note: No test card / magic number values are published.

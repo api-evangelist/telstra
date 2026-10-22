@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-get-service-sims-response-schema.json",
+  "title": "GetServiceSimsResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-iot-connectivity-service-api-openapi.yml#/components/schemas/GetServiceSimsResponse",
+  "properties": {
+    "sims": {
+      "items": {
+        "$ref": "#/$defs/ServiceSim"
+      },
+      "type": "array"
+    },
+    "count": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "count",
+    "sims"
+  ],
+  "type": "object",
+  "$defs": {
+    "BlockStatus": {
+      "enum": [
+        "BLOCKED",
+        "PENDING_BLOCK",
+        "PENDING_UNBLOCK",
+        "UNBLOCKED"
+      ],
+      "type": "string"
+    },
+    "ServiceSim": {
+      "properties": {
+        "imsi": {
+          "description": "International Mobile Subscriber Identity",
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "iccid": {
+          "type": "string"
+        },
+        "msisdn": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        },
+        "serviceStatus": {
+          "$ref": "#/$defs/ServiceStatus"
+        },
+        "lastConnected": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
+        },
+        "updatedAt": {
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
+        },
+        "deletedAt": {
+          "format": "date-time",
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "imei": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastBillDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "nextBillDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "totalDataAllocation": {
+          "type": "string"
+        },
+        "basePlanCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "basePlanDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "basePlanAllocation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "basePlanCost": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "bonusPlanCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bonusPlanDescription": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bonusPlanAllocation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bonusPlanCost": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "planType": {
+          "$ref": "#/$defs/Tag"
+        },
+        "totalData": {
+          "type": "string"
+        },
+        "uploadData": {
+          "type": "string"
+        },
+        "downloadData": {
+          "type": "string"
+        },
+        "dataCallCount": {
+          "type": "number"
+        },
+        "incomingVoiceCallCount": {
+          "type": "number"
+        },
+        "incomingVoiceCallDuration": {
+          "type": "string"
+        },
+        "outgoingVoiceCallCount": {
+          "type": "number"
+        },
+        "outgoingVoiceCallDuration": {
+          "type": "string"
+        },
+        "incomingSmsCount": {
+          "type": "number"
+        },
+        "outgoingSmsCount": {
+          "type": "number"
+        },
+        "cellName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cellLatitude": {
+          "type": "string"
+        },
+        "cellLongitude": {
+          "type": "string"
+        },
+        "blockStatus": {
+          "$ref": "#/$defs/BlockStatus"
+        },
+        "sourceSystem": {
+          "enum": [
+            "MICA",
+            "B2B"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "accountNumber",
+        "basePlanAllocation",
+        "basePlanCode",
+        "basePlanCost",
+        "basePlanDescription",
+        "blockStatus",
+        "bonusPlanAllocation",
+        "bonusPlanCode",
+        "bonusPlanCost",
+        "bonusPlanDescription",
+        "cellLatitude",
+        "cellLongitude",
+        "cellName",
+        "cidn",
+        "createdAt",
+        "dataCallCount",
+        "deletedAt",
+        "downloadData",
+        "groups",
+        "iccid",
+        "imei",
+        "imsi",
+        "incomingSmsCount",
+        "incomingVoiceCallCount",
+        "incomingVoiceCallDuration",
+        "lastBillDate",
+        "lastConnected",
+        "msisdn",
+        "nextBillDate",
+        "outgoingSmsCount",
+        "outgoingVoiceCallCount",
+        "outgoingVoiceCallDuration",
+        "planType",
+        "serialNumber",
+        "serviceStatus",
+        "sourceSystem",
+        "totalData",
+        "totalDataAllocation",
+        "updatedAt",
+        "uploadData"
+      ],
+      "type": "object"
+    },
+    "ServiceStatus": {
+      "description": "Current service status for a SIM:\n* `AC` - Active\n* `TS` - Temporarily suspended. A suspended SIM will automatically be reactivated in 28 days unless activated manually\n* `TD` - Temporarily disabled\n* `DE` - Deactivated\n",
+      "enum": [
+        "AC",
+        "TS",
+        "TD",
+        "DE"
+      ],
+      "type": "string"
+    },
+    "Tag": {
+      "enum": [
+        "STANDARD",
+        "SHARED"
+      ],
+      "type": "string"
+    }
+  }
+}

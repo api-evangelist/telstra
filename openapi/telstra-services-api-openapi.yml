@@ -1,0 +1,1478 @@
+openapi: 3.2.0
+info:
+  title: Telstra Services API
+  version: '1.0'
+  description: 'Operations tagged Services across 2 of this provider''s published API definitions: telstra-bandwidth-and-plan-modification-api-openapi.json, telstra-iot-connectivity-service-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/connectivity/v0
+  description: Telstra Products API (Production)
+tags:
+- name: Services
+  description: Retrieve services
+paths:
+  /services:
+    get:
+      operationId: listCustomerServices
+      tags:
+      - Services
+      summary: List services for a customer (by CIDN)
+      description: Retrieves a paginated list of services belonging to the specified customer (CIDN). Supports filtering by `type`, `status`, and `name`. Returns total record count, applied filters, and supports pagination. Handles empty results, invalid filters, and rate limiting per Telstra standards.
+      security:
+      - OAuth2ClientCredentials:
+        - fixed-connectivity:modify-bandwidth:modify
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: OAuth2 token for authentication.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+        example: IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ
+      - name: X-Correlation-Id
+        in: header
+        required: true
+        description: Unique Correlation Id for each transaction to be used by all consumers.
+        schema:
+          type: string
+          minLength: 36
+          maxLength: 36
+        example: f7c94213-36df-44cc-935f-025bb52cad42
+      - name: Content-Type
+        in: header
+        required: true
+        description: Accepting with application/json.
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Accept
+        in: header
+        required: true
+        description: Accept type of response (application/json).
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: type
+        in: query
+        required: false
+        description: Filter by service type (case-insensitive exact match).
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 64
+        examples:
+          tidAdapt:
+            value: tid-adapt
+          adaptiveFibre:
+            value: adaptive-fibre
+      - name: status
+        in: query
+        required: false
+        description: Filter by service status.
+        schema:
+          type: string
+          enum:
+          - active
+          - in-progress
+          - failed
+          - rejected
+          - completed
+          minLength: 1
+          maxLength: 32
+        example: active
+      - name: name
+        in: query
+        required: false
+        description: Filter by service name (case-insensitive contains).
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+        example: Ultra
+      - name: page
+        in: query
+        required: false
+        description: 1-based page index.
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        example: 2
+      - name: limit
+        in: query
+        required: false
+        description: Page size (max 200).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        example: 25
+      - name: Telstra-api-version
+        in: header
+        required: false
+        description: B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 16
+        example: '1.2'
+      - name: Accept-Charset
+        in: header
+        required: true
+        description: Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.
+        schema:
+          type: string
+          enum:
+          - UTF-8
+          - ISO-8859-1
+          - US-ASCII
+          minLength: 5
+          maxLength: 10
+        example: UTF-8
+      - name: Content-Language
+        in: header
+        required: true
+        description: Language of the request content (e.g., en, en-US).
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 8
+        example: en-AU
+      - name: variant
+        in: query
+        required: false
+        description: Filter by service variant (case-insensitive exact match).
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 200
+        examples:
+          lite:
+            value: Telstra Internet Direct Lite Adapt
+          premium:
+            value: Telstra Internet Direct Premium Adapt
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              description: Total number of records matching the filter (across all pages).
+              schema:
+                type: integer
+                example: 120
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServicesPage'
+              examples:
+                success:
+                  summary: Paginated success
+                  value:
+                    page: 2
+                    limit: 25
+                    totalRecords: 120
+                    filters:
+                      status: active
+                      type: tid-adapt
+                      variant: Telstra Internet Direct Premium Adapt
+                    data:
+                      services:
+                      - id: AAZZ000000123457
+                        attributes:
+                          name: Internet
+                          type: tid-adapt
+                          status: active
+                          variant: Telstra Internet Direct Premium Adapt
+                          bandwidth: 800Mbps
+                emptyResult:
+                  summary: No matching records
+                  value:
+                    page: 1
+                    limit: 25
+                    totalRecords: 0
+                    filters:
+                      status: active
+                      name: abc
+                      variant: Telstra Internet Direct Lite Adapt
+                    data:
+                      services: []
+                emptyResultWithInfo:
+                  summary: No matching records (informational error included under 200)
+                  value:
+                    page: 1
+                    limit: 25
+                    totalRecords: 0
+                    filters:
+                      status: active
+                      name: abc
+                      variant: Telstra Internet Direct Lite Adapt
+                    data:
+                      services: []
+                    errors:
+                    - code: NO_MATCHING_RECORDS
+                      issue: No services found matching the provided filters.
+                      suggested_action: Verify filter values or remove one or more filters to broaden the search.
+                      field: status,name,variant
+                      value: active,abc,Telstra Internet Direct Lite Adapt
+                      location: query
+                      link: https://api.example.com/docs/errors#NO_MATCHING_RECORDS
+        '400':
+          description: Bad Request — invalid filters or pagination parameters.
+          headers:
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                invalidFilter:
+                  summary: Invalid filter value
+                  value:
+                    errors:
+                    - code: FIELD_INVALID
+                      issue: The type is invalid.
+                      suggested_action: Check the type. It should be one of [tid-adapt, adaptive-fibre].
+                      field: type
+                      value: abc
+                      location: query
+                      link: https://api.example.com/docs/errors#FIELD_INVALID
+                invalidFilterVariant:
+                  summary: Invalid variant filter value
+                  value:
+                    errors:
+                    - code: FIELD_INVALID
+                      issue: The variant is invalid.
+                      suggested_action: Check the variant. It should be one of [Telstra Internet Direct Lite Adapt, Telstra Internet Direct Premium Adapt].
+                      field: variant
+                      value: wrong-variant
+                      location: query
+                      link: https://api.example.com/docs/errors#FIELD_INVALID
+                invalidPagination:
+                  summary: Invalid pagination parameter
+                  value:
+                    errors:
+                    - code: FIELD_INVALID
+                      issue: The size is invalid
+                      suggested_action: Check the size. It should be between 1 and 200.
+                      field: limit
+                      value: '500'
+                      location: query
+                      link: https://api.example.com/docs/errors#FIELD_INVALID
+                missingRequired:
+                  summary: Missing required parameter
+                  value:
+                    errors:
+                    - code: FIELD_MISSING
+                      issue: The 'cidn' is missing.
+                      suggested_action: Please provide all required fields.
+                      field: cidn
+                      value: ''
+                      location: query
+                      link: https://api.example.com/docs/errors#FIELD_MISSING
+        '401':
+          description: Unauthorized — missing or invalid token.
+          headers:
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: Missing or invalid authentication token
+                  value:
+                    errors:
+                    - code: INVALID_TOKEN
+                      issue: The Authentication Token is Missing or Invalid.
+                      suggested_action: Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.
+                      field: Authorization
+                      value: ''
+                      location: header
+                      link: https://api.example.com/docs/errors#INVALID_TOKEN
+        '403':
+          description: Forbidden — caller not permitted to view this customer’s services.
+          headers:
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                forbidden:
+                  summary: Caller not permitted
+                  value:
+                    errors:
+                    - code: RESOURCE_AUTH_ERR
+                      issue: You don't have permission to access this resource.
+                      suggested_action: Check the permissions associated with your account.
+                      location: decision
+                      link: https://api.example.com/docs/errors#RESOURCE_AUTH_ERR
+        '404':
+          description: Not Found — no service for given cidn
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                notFound:
+                  summary: Not found
+                  value:
+                    errors:
+                    - code: NOT_FOUND
+                      issue: No service found for the given cidn.
+                      suggested_action: Verify serviceId and then retry.
+                      location: body
+                      link: https://api.example.com/docs/errors#NOT_FOUND
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          headers:
+            Retry-After:
+              description: Seconds until the next allowed request.
+              schema:
+                type: integer
+                example: 30
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                rateLimit:
+                  summary: Rate limit exceeded
+                  value:
+                    errors:
+                    - code: TOO_MANY_REQUESTS
+                      issue: The API rate limit has been reached.
+                      suggested_action: Reduce the number of concurrent calls and try again.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.example.com/docs/errors#TOO_MANY_REQUESTS
+        '500':
+          description: Internal Server Error.
+          headers:
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                serverError:
+                  summary: Unexpected server error
+                  value:
+                    errors:
+                    - code: INTERNAL_SERVER_ERROR
+                      issue: An unexpected error occurred.
+                      suggested_action: Please try again later. If the issue persists, Contact Telstra support with your correlationId.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR
+                technicalFailure:
+                  summary: Non-recoverable technical error
+                  value:
+                    errors:
+                    - code: TECHNICAL_FAILURE
+                      issue: An unexpected error occurred.
+                      suggested_action: Please try again later. If the issue persists, Contact Telstra support with your correlationId.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.example.com/docs/errors#TECHNICAL_FAILURE
+        '503':
+          description: Service Unavailable.
+          headers:
+            Retry-After:
+              description: Seconds until the next allowed request.
+              schema:
+                type: integer
+                example: 30
+            Content-Language:
+              description: The language used in the response content (e.g., en, en-US).
+              schema:
+                type: string
+                example: en-US
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                serviceUnavailable:
+                  summary: Service temporarily unavailable
+                  value:
+                    errors:
+                    - code: SERVICE_UNAVAILABLE
+                      issue: Service is temporarily unavailable due to maintenance or overload.
+                      suggested_action: Retry after the specified period.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.example.com/docs/errors#SERVICE_UNAVAILABLE
+    servers:
+    - url: https://prod.okapi.ogw.evolve.okapi.telstra.com/connectivity/v0
+      description: Telstra Products API (Production)
+  /ogw-service-api-blue-v1/serviceapiblue/service-api/v2/services:
+    servers:
+    - description: Production OGW to get service data
+      url: https://prod.okapi.ogw.evolve.okapi.telstra.com
+    get:
+      operationId: getServices
+      parameters:
+      - description: Current page number
+        in: query
+        name: pageNumber
+        schema:
+          type: integer
+      - description: Size of the page
+        in: query
+        name: pageSize
+        schema:
+          type: integer
+      - description: Order Fields By
+        in: query
+        name: orderBy
+        schema:
+          type: string
+      - description: Order Direction
+        in: query
+        name: orderDirection
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+      - description: Account Number
+        in: query
+        name: accountNumber
+        schema:
+          $ref: '#/components/schemas/Query'
+      - description: imsi filter
+        explode: true
+        in: query
+        name: imsi
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: iccid filter
+        explode: true
+        in: query
+        name: iccid
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: msisdn filter
+        explode: true
+        in: query
+        name: msisdn
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: serialNumber filter
+        explode: true
+        in: query
+        name: serialNumber
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: serviceStatus filter
+        explode: true
+        in: query
+        name: serviceStatus
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: lastConnected filter
+        explode: true
+        in: query
+        name: lastConnected
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: createdAt filter
+        explode: true
+        in: query
+        name: createdAt
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: updatedAt filter
+        explode: true
+        in: query
+        name: updatedAt
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: imei filter
+        explode: true
+        in: query
+        name: imei
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: imeiSv filter
+        explode: true
+        in: query
+        name: imeiSv
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: lastBillDate filter
+        explode: true
+        in: query
+        name: lastBillDate
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: nextBillDate filter
+        explode: true
+        in: query
+        name: nextBillDate
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: totalDataAllocation filter
+        explode: true
+        in: query
+        name: totalDataAllocation
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: basePlanCode filter
+        explode: true
+        in: query
+        name: basePlanCode
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: basePlanDescription filter
+        explode: true
+        in: query
+        name: basePlanDescription
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: basePlanAllocation filter
+        explode: true
+        in: query
+        name: basePlanAllocation
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: basePlanCost filter
+        explode: true
+        in: query
+        name: basePlanCost
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: bonusPlanCode filter
+        explode: true
+        in: query
+        name: bonusPlanCode
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: bonusPlanDescription filter
+        explode: true
+        in: query
+        name: bonusPlanDescription
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: bonusPlanAllocation filter
+        explode: true
+        in: query
+        name: bonusPlanAllocation
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: bonusPlanCost filter
+        explode: true
+        in: query
+        name: bonusPlanCost
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: totalData filter
+        explode: true
+        in: query
+        name: totalData
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: uploadData filter
+        explode: true
+        in: query
+        name: uploadData
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: downloadData filter
+        explode: true
+        in: query
+        name: downloadData
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: dataCallCount filter
+        explode: true
+        in: query
+        name: dataCallCount
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: incomingVoiceCallCount filter
+        explode: true
+        in: query
+        name: incomingVoiceCallCount
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: incomingVoiceCallDuration filter
+        explode: true
+        in: query
+        name: incomingVoiceCallDuration
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: outgoingVoiceCallCount filter
+        explode: true
+        in: query
+        name: outgoingVoiceCallCount
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: outgoingVoiceCallDuration filter
+        explode: true
+        in: query
+        name: outgoingVoiceCallDuration
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: incomingSmsCount filter
+        explode: true
+        in: query
+        name: incomingSmsCount
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: outgoingSmsCount filter
+        explode: true
+        in: query
+        name: outgoingSmsCount
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: cellName filter
+        explode: true
+        in: query
+        name: cellName
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: cellLatitude filter
+        explode: true
+        in: query
+        name: cellLatitude
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: cellLongitude filter
+        explode: true
+        in: query
+        name: cellLongitude
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: groups id filter
+        explode: true
+        in: query
+        name: groupId
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: groups name filter
+        explode: true
+        in: query
+        name: groupName
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: inSession filter
+        explode: true
+        in: query
+        name: inSession
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: ipAddress filter
+        explode: true
+        in: query
+        name: ipAddress
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: blockStatus filter
+        explode: true
+        in: query
+        name: blockStatus
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: planType filter
+        explode: true
+        in: query
+        name: planType
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      - description: sourceSystem filter
+        explode: true
+        in: query
+        name: sourceSystem
+        schema:
+          $ref: '#/components/schemas/QueryFilter'
+        style: deepObject
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetServiceSimsResponse'
+                type: array
+          description: The request was successfully processed
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+          description: 'Invalid Input Parameter Provided
+
+
+            The request is missing Authorization parameters.
+
+            Refer to the sample code for generate authentication token in the link for more details [https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication](https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication)
+
+            '
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+          description: 'User has not provided access credentials
+
+
+            TECH-ERR - Either the token has expired or incorrect token was used. <br/><br/>
+
+            OR <br/><br/>
+
+            TECH-ERR - Technical error : Invalid API call as no apiproduct match found. Credit card billing method is not supported. Update billing method to Telstra Account from update billing method page. If you don''t have a Telstra Account ending with 0 but ABN is available then you can request for a Telstra Account by filling the details in this link https://dev.telstra.com/content/requesting-telstra-billing-account
+
+            If problem persists, write a post in ICM Service API forum page [https://dev.telstra.com/telstradev-forum/icm-service-api-forum](https://dev.telstra.com/telstradev-forum/icm-service-api-forum) for the TelstraDev admin to check the issue.
+
+            Refer to the sample code for **generate authentication token** in the link for more details [https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication](https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication)
+
+            '
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+          description: 'User lacks roles to access this resource
+
+
+            Authorization credentials passed and accepted but account does not have permission <br/><br/>
+
+            OR <br/><br/>
+
+            SpikeArrest-The API call rate limit has been exceeded.
+
+            You will receive a SpikeArrest error in two possible situations:
+
+            A: You have exceeded your free trial quota. If you would like to continue using the ICM Service API, please upgrade to a paid plan by creating a company with Telstra Billing details (not, credit card is no longer accepted for this API product).
+
+            B: Concurrent API Calls are higher than supported, reduce the concurrent calls and try again. If problem persists, contact us at [telstradev@team.telstra.com](telstradev@team.telstra.com).
+
+            '
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+          description: "Requested resource not found\n\nThe URL is incorrect. Correct the URL and try again.\n\nFor Free Trial:\nA Free Trial MSISDN may have been previously provisioned. Free Trial developers can be provisioned with only 1 Free Trial MSISDN.\nUse only the default App \"Free Trial APIs\". If a new app was created, it will throw this error.\nFor paid version:\nIf you are a customer with Telstra account (not credit card), use the keys available under https://dev.telstra.com/user/me/apps under the App name \"Production Keys\".\nExecute `GET all services` call to ensure you get successful response. \n\nIf valid response is not found, Please raise an issue with ICM Support [ICMSupport@team.telstra.com](ICMSupport@team.telstra.com) along with request details and error details.\n"
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+          description: 'Internal Server Error
+
+
+            Technical error: A server error has occurred while processing your request or the endpoints provided does not exist in the API.
+
+
+            If the error persists even after re-try, check our https://dev.telstra.com/api/status page to ensure the service is up and running. If the service is not up and running check our forum page [https://dev.telstra.com/telstradev-forum/icm-service-api-forum](https://dev.telstra.com/telstradev-forum/icm-service-api-forum) and leave a post to confirm the outage for the Telstradev admin to check the issue.
+
+            '
+      security:
+      - bearerAuth: []
+      summary: Get Filtered Paginated List Of Services
+      tags:
+      - Services
+  /ogw-service-api-blue-v1/serviceapiblue/service-api/v2/services/{imsi}:
+    servers:
+    - description: Production OGW to get service data
+      url: https://prod.okapi.ogw.evolve.okapi.telstra.com
+    get:
+      operationId: getService
+      parameters:
+      - description: Sim IMSI
+        in: path
+        name: imsi
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceSim'
+                type: array
+          description: The request was successfully processed
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+          description: 'Invalid Input Parameter Provided
+
+
+            The request is missing Authorization parameters.
+
+            Refer to the sample code for generate authentication token in the link for more details [https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication](https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication)
+
+            '
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+          description: 'User has not provided access credentials
+
+
+            TECH-ERR - Either the token has expired or incorrect token was used. <br/><br/>
+
+            OR <br/><br/>
+
+            TECH-ERR - Technical error : Invalid API call as no apiproduct match found. Credit card billing method is not supported. Update billing method to Telstra Account from update billing method page. If you don''t have a Telstra Account ending with 0 but ABN is available then you can request for a Telstra Account by filling the details in this link https://dev.telstra.com/content/requesting-telstra-billing-account
+
+            If problem persists, write a post in ICM Service API forum page [https://dev.telstra.com/telstradev-forum/icm-service-api-forum](https://dev.telstra.com/telstradev-forum/icm-service-api-forum) for the TelstraDev admin to check the issue.
+
+            Refer to the sample code for **generate authentication token** in the link for more details [https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication](https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication)
+
+            '
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+          description: 'User lacks roles to access this resource
+
+
+            Authorization credentials passed and accepted but account does not have permission <br/><br/>
+
+            OR <br/><br/>
+
+            SpikeArrest-The API call rate limit has been exceeded.
+
+            You will receive a SpikeArrest error in two possible situations:
+
+            A: You have exceeded your free trial quota. If you would like to continue using the ICM Service API, please upgrade to a paid plan by creating a company with Telstra Billing details (not, credit card is no longer accepted for this API product).
+
+            B: Concurrent API Calls are higher than supported, reduce the concurrent calls and try again. If problem persists, contact us at [telstradev@team.telstra.com](telstradev@team.telstra.com).
+
+            '
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+          description: 'Requested resource not found
+
+
+            The URL is incorrect. Correct the URL and try again.
+
+
+            For Free Trial:
+
+            A Free Trial MSISDN may have been previously provisioned. Free Trial developers can be provisioned with only 1 Free Trial MSISDN.
+
+            Use only the default App "Free Trial APIs". If a new app was created, it will throw this error.
+
+            For paid version:
+
+            If you are a customer with Telstra account (not credit card), use the keys available under https://dev.telstra.com/user/me/apps under the App name "Production Keys".
+
+            Execute `GET single service` call to ensure you get successful response.
+
+
+            If valid response is not found, Please raise an issue with ICM Support [ICMSupport@team.telstra.com](ICMSupport@team.telstra.com) along with request details and error details.
+
+            '
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+          description: 'Internal Server Error
+
+
+            Technical error: A server error has occurred while processing your request or the endpoints provided does not exist in the API.
+
+
+            If the error persists even after re-try, check our https://dev.telstra.com/api/status page to ensure the service is up and running. If the service is not up and running check our forum page [https://dev.telstra.com/telstradev-forum/icm-service-api-forum](https://dev.telstra.com/telstradev-forum/icm-service-api-forum) and leave a post to confirm the outage for the Telstradev admin to check the issue.
+
+            '
+      security:
+      - bearerAuth: []
+      summary: Get Single Service
+      tags:
+      - Services
+components:
+  schemas:
+    Attributes:
+      type: object
+      required:
+      - name
+      - type
+      - status
+      - variant
+      - bandwidth
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          example: Premium Broadband
+        type:
+          type: string
+          minLength: 1
+          maxLength: 64
+          example: Broadband
+        bandwidth:
+          type: string
+          minLength: 4
+          maxLength: 64
+          example: 800 Mbps
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          - pending
+          - suspended
+          - in-progress
+          - failed
+          - rejected
+          - completed
+          minLength: 1
+          maxLength: 32
+          example: active
+        variant:
+          type: string
+          description: Service variant (e.g., Telstra Internet Direct Lite Adapt, Telstra Internet Direct Premium Adapt,Adaptive Fibre-NBN,Adaptive Fibre-Telstra)
+          minLength: 1
+          maxLength: 128
+          example: Telstra Internet Direct Lite Adapt
+    Errors:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    ServicesPage:
+      type: object
+      required:
+      - page
+      - limit
+      - totalRecords
+      - data
+      properties:
+        page:
+          type: integer
+          minimum: 1
+          maximum: 10000
+          example: 1
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 200
+          example: 25
+        totalRecords:
+          type: integer
+          minimum: 0
+          maximum: 10000
+          example: 0
+        filters:
+          type: object
+          description: Echo of applied filters.
+          additionalProperties:
+            type: string
+            minLength: 1
+            maxLength: 128
+          example:
+            status: active
+            name: abc
+        data:
+          type: object
+          properties:
+            services:
+              type: array
+              items:
+                $ref: '#/components/schemas/Service'
+              minItems: 0
+              maxItems: 200
+        errors:
+          type: array
+          description: Optional informational errors (e.g., NO_MATCHING_RECORDS). Present only for 200 OK informational signaling.
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    Service:
+      type: object
+      required:
+      - id
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Unique service identifier
+          minLength: 0
+          maxLength: 16
+          example: AAZZ000000123456
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      - field
+      - value
+      - location
+      - link
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+          minLength: 1
+          maxLength: 32
+        issue:
+          type: string
+          description: Human-readable explanation of the error.
+          minLength: 1
+          maxLength: 256
+          example: Requested newBandwidth exceeds supported Adaptive Fibre capacity
+        suggested_action:
+          type: string
+          description: Recommended corrective action.
+          minLength: 1
+          maxLength: 256
+          example: Due to physical change required, proceed to Adaptive Network Centre to raise request
+        field:
+          type: string
+          description: Name of the field causing the error (if applicable).
+          minLength: 0
+          maxLength: 64
+          example: type
+        value:
+          type: string
+          description: The invalid value provided (if applicable).
+          minLength: 0
+          maxLength: 128
+          example: abc
+        location:
+          type: string
+          description: Where the error occurred.
+          enum:
+          - query
+          - header
+          - path
+          - body
+          - method
+          - server
+          - decision
+          minLength: 0
+          maxLength: 8
+          example: query
+        link:
+          type: string
+          description: Reference URL for more information about this error code.
+          minLength: 0
+          maxLength: 256
+          example: https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT
+    UnauthorizedError:
+      properties:
+        status:
+          enum:
+          - 401
+          type: number
+        message:
+          type: string
+      type: object
+    InternalServerError:
+      properties:
+        status:
+          enum:
+          - 500
+          type: number
+        message:
+          type: string
+      type: object
+    Tag:
+      enum:
+      - STANDARD
+      - SHARED
+      type: string
+    Query:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+    ServiceSim:
+      properties:
+        imsi:
+          description: International Mobile Subscriber Identity
+          type: string
+        accountNumber:
+          type: string
+        iccid:
+          type: string
+        msisdn:
+          type: string
+        serialNumber:
+          type: string
+        serviceStatus:
+          $ref: '#/components/schemas/ServiceStatus'
+        lastConnected:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          readOnly: true
+          type: string
+        updatedAt:
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          format: date-time
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        imei:
+          type:
+          - string
+          - 'null'
+        lastBillDate:
+          format: date-time
+          type: string
+        nextBillDate:
+          format: date-time
+          type: string
+        totalDataAllocation:
+          type: string
+        basePlanCode:
+          type:
+          - string
+          - 'null'
+        basePlanDescription:
+          type:
+          - string
+          - 'null'
+        basePlanAllocation:
+          type:
+          - string
+          - 'null'
+        basePlanCost:
+          type:
+          - number
+          - 'null'
+        bonusPlanCode:
+          type:
+          - string
+          - 'null'
+        bonusPlanDescription:
+          type:
+          - string
+          - 'null'
+        bonusPlanAllocation:
+          type:
+          - string
+          - 'null'
+        bonusPlanCost:
+          type:
+          - number
+          - 'null'
+        planType:
+          $ref: '#/components/schemas/Tag'
+        totalData:
+          type: string
+        uploadData:
+          type: string
+        downloadData:
+          type: string
+        dataCallCount:
+          type: number
+        incomingVoiceCallCount:
+          type: number
+        incomingVoiceCallDuration:
+          type: string
+        outgoingVoiceCallCount:
+          type: number
+        outgoingVoiceCallDuration:
+          type: string
+        incomingSmsCount:
+          type: number
+        outgoingSmsCount:
+          type: number
+        cellName:
+          type:
+          - string
+          - 'null'
+        cellLatitude:
+          type: string
+        cellLongitude:
+          type: string
+        blockStatus:
+          $ref: '#/components/schemas/BlockStatus'
+        sourceSystem:
+          enum:
+          - MICA
+          - B2B
+          type: string
+      required:
+      - accountNumber
+      - basePlanAllocation
+      - basePlanCode
+      - basePlanCost
+      - basePlanDescription
+      - blockStatus
+      - bonusPlanAllocation
+      - bonusPlanCode
+      - bonusPlanCost
+      - bonusPlanDescription
+      - cellLatitude
+      - cellLongitude
+      - cellName
+      - cidn
+      - createdAt
+      - dataCallCount
+      - deletedAt
+      - downloadData
+      - groups
+      - iccid
+      - imei
+      - imsi
+      - incomingSmsCount
+      - incomingVoiceCallCount
+      - incomingVoiceCallDuration
+      - lastBillDate
+      - lastConnected
+      - msisdn
+      - nextBillDate
+      - outgoingSmsCount
+      - outgoingVoiceCallCount
+      - outgoingVoiceCallDuration
+      - planType
+      - serialNumber
+      - serviceStatus
+      - sourceSystem
+      - totalData
+      - totalDataAllocation
+      - updatedAt
+      - uploadData
+      type: object
+    FilterValue:
+      oneOf:
+      - items:
+          oneOf:
+          - type: number
+          - type: boolean
+          - format: date-time
+            type: string
+        type: array
+      - format: date-time
+        type: string
+      - type: number
+      - type: boolean
+    NotFoundError:
+      properties:
+        status:
+          enum:
+          - 404
+          type: number
+        message:
+          type: string
+      type: object
+    QueryFilter:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+      - $ref: '#/components/schemas/FilterObject'
+    ServiceStatus:
+      description: 'Current service status for a SIM:
+
+        * `AC` - Active
+
+        * `TS` - Temporarily suspended. A suspended SIM will automatically be reactivated in 28 days unless activated manually
+
+        * `TD` - Temporarily disabled
+
+        * `DE` - Deactivated
+
+        '
+      enum:
+      - AC
+      - TS
+      - TD
+      - DE
+      type: string
+    ForbiddenError:
+      properties:
+        status:
+          enum:
+          - 403
+          type: number
+        message:
+          type: string
+      type: object
+    FilterObject:
+      properties:
+        eq:
+          $ref: '#/components/schemas/FilterValue'
+        eqOrNull:
+          $ref: '#/components/schemas/FilterValue'
+        gt:
+          $ref: '#/components/schemas/FilterValue'
+        gte:
+          $ref: '#/components/schemas/FilterValue'
+        jq:
+          $ref: '#/components/schemas/FilterValue'
+        lt:
+          $ref: '#/components/schemas/FilterValue'
+        lte:
+          $ref: '#/components/schemas/FilterValue'
+        match:
+          oneOf:
+          - type: string
+        range:
+          items:
+            $ref: '#/components/schemas/FilterValue'
+          maxItems: 2
+          minItems: 2
+          type: array
+        isNull:
+          type: boolean
+        in:
+          $ref: '#/components/schemas/FilterValue'
+        neq:
+          $ref: '#/components/schemas/FilterValue'
+      type: object
+    BlockStatus:
+      enum:
+      - BLOCKED
+      - PENDING_BLOCK
+      - PENDING_UNBLOCK
+      - UNBLOCKED
+      type: string
+    GetServiceSimsResponse:
+      properties:
+        sims:
+          items:
+            $ref: '#/components/schemas/ServiceSim'
+          type: array
+        count:
+          type: number
+      required:
+      - count
+      - sims
+      type: object
+    BadRequestError:
+      properties:
+        status:
+          enum:
+          - 400
+          type: number
+        message:
+          type: string
+      type: object
+    OrderDirection:
+      enum:
+      - DESC
+      - ASC
+      type: string
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth2 client-credentials flow (Cat-1).
+      flows:
+        clientCredentials:
+          tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token
+          scopes:
+            fixed-connectivity:modify-bandwidth:modify: combined scope for all the end points in package
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- telstra-bandwidth-and-plan-modification-api-openapi.json
+- telstra-iot-connectivity-service-api-openapi.json

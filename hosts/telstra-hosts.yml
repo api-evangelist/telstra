@@ -1,0 +1,186 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 15
+  own: 3
+  other_domain: 8
+  platform: 4
+  roles:
+  - api
+  - collections
+  - docs
+  - other
+  - source
+  - status
+  - website
+hosts:
+- host: api.com.au
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: api.com.au
+  role: api
+  relation: other-domain
+- host: api.telstra.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: telstra.com
+  role: api
+  relation: other-domain
+- host: app.getpostman.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - Postman
+  serves:
+  - api-collections
+  - cdn
+  vendor: postman
+  registrable_domain: getpostman.com
+  role: collections
+  relation: platform
+- host: crowdsupport.telstra.com.au
+  found_by:
+  - probed
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: telstra.com.au
+  role: other
+  relation: own
+- host: dev.telstra.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - Portal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - Pricing
+  - Signup
+  - StatusPage
+  - Blog
+  - Support
+  serves:
+  - docs
+  registrable_domain: telstra.com
+  role: docs
+  relation: other-domain
+- host: exchange.telstra.com.au
+  found_by:
+  - probed
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: telstra.com.au
+  role: other
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  - GitHub
+  - SDKs
+  - License
+  - Tools
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: prod.okapi.ogw.evolve.okapi.telstra.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: telstra.com
+  role: other
+  relation: other-domain
+- host: products.api.telstra.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: telstra.com
+  role: api
+  relation: other-domain
+- host: tapi.telstra.com
+  found_by:
+  - probed
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: telstra.com
+  role: other
+  relation: other-domain
+- host: tdev.statuspage.io
+  found_by:
+  - vendor-detect
+  types: []
+  serves:
+  - status-page
+  vendor: statuspage
+  registrable_domain: statuspage.io
+  role: status
+  relation: other-domain
+- host: telstra.com
+  found_by:
+  - probed
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: telstra.com
+  role: other
+  relation: other-domain
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: www.postman.com
+  found_by:
+  - pointer
+  types:
+  - PostmanWorkspace
+  serves: []
+  registrable_domain: postman.com
+  role: other
+  relation: platform
+- host: www.telstra.com.au
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  - TermsOfService
+  - PrivacyPolicy
+  - Newsroom
+  - HelpCenter
+  serves:
+  - cdn
+  vendor: cloudfront
+  registrable_domain: telstra.com.au
+  role: website
+  relation: own

@@ -1,108 +1,85 @@
-# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
-# harvested from the provider. `method: generated` so the economics campaign may replace it with a
-# dated, verbatim transcription; every figure below is unverified until it does.
-method: generated
-plans: 0.1
-provider: telstra
-title: Telstra Messaging Commercial Plans
-description: |
-  Plans surface for the Telstra Messaging API as published on dev.telstra.com.
-  Telstra exposes a Free Trial tier and a Paid commercial tier. Pricing for the
-  Paid tier is negotiated under a Telstra commercial agreement; the Free Trial
-  offers a fixed quota of messages over a fixed window using Telstra-supplied
-  test numbers.
-sources:
-  - https://dev.telstra.com
-  - https://github.com/telstra/MessagingAPI-SDK-python
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Pricing
+name: Telstra pricing
+audience: developer-api
+pricing_basis: per-call
+published: true
+currency: AUD
+delivery:
+  delivery: managed
+summary_text: With the Telstra Messaging API, you only pay for the messages you send. Domestic SMS cost $0.06 and
+  MMS cost from $0.25. International SMS cost $0.13 and MMS cost from $0.40 (all prices excl. GST).
 plans:
-  - id: free-trial
-    name: Free Trial
-    description: |
-      Sandbox-style trial for evaluating the Messaging API. Includes a fixed
-      message allowance dispatched from Telstra-supplied trial numbers; replies
-      are restricted to whitelisted recipient numbers.
-    entries:
-      - geo: AU
-        label: Trial Messages
-        price: 0
-        unit: 1000
-        metric: message
-        timeFrame: trial
-        description: Approximately 1000 free messages during the trial period.
-      - geo: AU
-        label: Trial Period
-        price: 0
-        unit: 30
-        metric: day
-        timeFrame: trial
-        description: 30 day trial window.
-    elements:
-      - name: Send SMS to whitelisted Australian numbers
-      - name: Send MMS to whitelisted Australian numbers
-      - name: Receive replies on Telstra-supplied trial number
-      - name: Delivery status callbacks
-  - id: paid
-    name: Paid (Commercial)
-    description: |
-      Production tier with negotiated per-message pricing under a Telstra
-      commercial agreement. Includes provisioned dedicated virtual numbers,
-      international reach, and SLA-backed delivery.
-    entries:
-      - geo: AU
-        label: SMS — Australia
-        price: Negotiated
-        unit: 1
-        metric: message
-        timeFrame: usage
-      - geo: AU
-        label: MMS — Australia
-        price: Negotiated
-        unit: 1
-        metric: message
-        timeFrame: usage
-      - geo: International
-        label: SMS — International
-        price: Negotiated
-        unit: 1
-        metric: message
-        timeFrame: usage
-      - geo: AU
-        label: Dedicated Virtual Number
-        price: Negotiated
-        unit: 1
-        metric: number
-        timeFrame: month
-    elements:
-      - name: Dedicated virtual mobile number subscription
-      - name: Two-way SMS and MMS
-      - name: International outbound SMS coverage
-      - name: Production rate limits negotiated per agreement
-      - name: SLA-backed delivery
-x-canonical:
-  generated: '2026-10-08'
-  vocabulary: all/0-working/economics/plans-canonical.yml
-  models:
-  - free
-  units:
-  - message
-  - period
-  plans:
-  - name: Free Trial
-    access: other
-    model: free
-    model_how: derived
-    units:
-    - message
-    - period
-    periods:
-    - term
-  - name: Paid (Commercial)
-    access: other
-    model: free
-    model_how: derived
-    units:
-    - message
-    - other
-    periods:
-    - month
-    - per-use
+- name: Free Trial
+  description: One free Virtual Number; message up to 10 recipients and send up to 100 SMS/MMS for free.
+  price: 0
+  price_text: Send 100 free messages
+  features:
+  - Enterprise-grade reliability
+  - Send 100 free messages
+  - Send audio, image or text
+  - Get 1 free Virtual Number
+  limits:
+  - up to 10 recipients
+  - up to 100 SMS/MMS
+  - unused Free Trial Virtual Numbers will expire after 3 months
+- name: PAYG - Domestic SMS
+  description: Price per sent message, domestic, excl. GST
+  price: 0.06
+  price_text: $0.06
+  features:
+  - There is no charge for receiving messages.
+  limits: []
+- name: PAYG - Domestic MMS small (< 600 KB)
+  price: 0.25
+  price_text: $0.25
+  features: []
+  limits: []
+- name: PAYG - Domestic MMS large (>= 600 KB)
+  price: 0.4
+  price_text: $0.40
+  features: []
+  limits: []
+- name: PAYG - International SMS
+  description: international messaging is a best-effort service
+  price: 0.13
+  price_text: $0.13
+  features: []
+  limits: []
+- name: PAYG - International MMS small (< 600 KB)
+  price: 0.4
+  price_text: $0.40
+  features: []
+  limits: []
+- name: PAYG - International MMS large (>= 600 KB)
+  price: 0.6
+  price_text: $0.60
+  features: []
+  limits: []
+- name: Virtual Numbers 1-5
+  description: Cost per Virtual Number (excl. GST) per month
+  price_text: Free
+  features: []
+  limits:
+  - you can assign up to 20 numbers
+- name: Virtual Numbers 6-20
+  description: Cost per Virtual Number (excl. GST) per month
+  price: 15
+  price_text: $15
+  features: []
+  limits: []
+- name: Delivery Notifications
+  description: Charged per delivery notification once the message has sent
+  price: 0.01
+  price_text: A $0.01 (excl. GST) charge is incurred per delivery notification.
+  features: []
+  limits: []
+- name: Enterprise Plan
+  description: Named on the Pricing page ("Telstra PAYG and Enterprise Plans"); no price published.
+  price: Contact sales
+  price_text: To access Telstra PAYG and Enterprise Plans
+  features: []
+  limits: []
+note: Requires a 10-digit Telstra Billing Account and a business registered and operating in Australia. Covers the
+  Messaging API only; other Telstra APIs (CAMARA / network APIs) publish no prices.

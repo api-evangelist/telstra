@@ -1,0 +1,210 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints
+format: custom-json
+envelope:
+  shape: '{"errors": [ {} ]}'
+  field: errors[].code
+note: Messaging API v3 code / suggested_action tables, transcribed from the Endpoints reference.
+problems:
+- status: 400
+  title: RECIPIENT_OPTOUT
+  type: RECIPIENT_OPTOUT
+  description: Use GET/recipient-optouts/{number} to check which numbers have opted out of receiving messages from
+    a Virtual Number.
+  remediation: Use GET/recipient-optouts/{number} to check which numbers have opted out of receiving messages from
+    a Virtual Number.
+- status: 400
+  title: TAGS_ERR
+  type: TAGS_ERR
+  description: Ensure you've assigned no more than 10 tags, using up to 64 characters for each.
+  remediation: Ensure you've assigned no more than 10 tags, using up to 64 characters for each.
+- status: 400
+  title: SENDERNAME_ERR
+  type: SENDERNAME_ERR
+  description: SenderName not approved. Request your senderName by submitting form at Link
+  remediation: SenderName not approved. Request your senderName by submitting form at Link
+- status: 400
+  title: MODERATION_ERR
+  type: MODERATION_ERR
+  description: Please remove any swear words or offensive language.
+  remediation: Please remove any swear words or offensive language.
+- status: 400
+  title: FIELD_INVALID
+  type: FIELD_INVALID
+  description: Check the field and the field formatting are correct.
+  remediation: Check the field and the field formatting are correct.
+- status: 400
+  title: FIELD_LENGTH_ERR
+  type: FIELD_LENGTH_ERR
+  description: Check the field is within character limits.
+  remediation: Check the field is within character limits.
+- status: 400
+  title: FIELD_MISSING
+  type: FIELD_MISSING
+  description: Ensure you've supplied all the required fields.
+  remediation: Ensure you've supplied all the required fields.
+- status: 400
+  title: MULTIMEDIA_TOO_LARGE
+  type: MULTIMEDIA_TOO_LARGE
+  description: Reduce the multimedia file size and try again.
+  remediation: Reduce the multimedia file size and try again.
+- status: 401
+  title: TOKEN_INVALID
+  type: TOKEN_INVALID
+  description: Check the access token.
+  remediation: Check the access token.
+- status: 401
+  title: TOKEN_EXPIRED
+  type: TOKEN_EXPIRED
+  description: Please refresh the token.
+  remediation: Please refresh the token.
+- status: 402
+  title: ACCOUNT_ERR
+  type: ACCOUNT_ERR
+  description: Contact support for help with your account.
+  remediation: Contact support for help with your account.
+- status: 402
+  title: RATE_PLAN_ERR
+  type: RATE_PLAN_ERR
+  description: Contact support for help with your account.
+  remediation: Contact support for help with your account.
+- status: 402
+  title: ACCOUNT_NOT_LINKED
+  type: ACCOUNT_NOT_LINKED
+  description: Check you've registered for the Messaging API here.
+  remediation: Check you've registered for the Messaging API here.
+- status: 402
+  title: ACCOUNT_LIMIT_ERROR
+  type: ACCOUNT_LIMIT_ERROR
+  description: Check the credit and limits on your account here.
+  remediation: Check the credit and limits on your account here.
+- status: 402
+  title: FREE_TRIAL_INTERNATIONAL_ERR
+  type: FREE_TRIAL_INTERNATIONAL_ERR
+  description: Move to a paid plan to send a message to an international destination.
+  remediation: Move to a paid plan to send a message to an international destination.
+- status: 403
+  title: RESOURCE_AUTH_ERR
+  type: RESOURCE_AUTH_ERR
+  description: Check the permissions associated with your account.
+  remediation: Check the permissions associated with your account.
+- status: 403
+  title: INSUFFICIENT_SCOPE
+  type: INSUFFICIENT_SCOPE
+  description: The access token you generated does not have sufficient permissions for this request.
+  remediation: The access token you generated does not have sufficient permissions for this request.
+- status: 404
+  title: RESOURCE_TEMP_ERR
+  type: RESOURCE_TEMP_ERR
+  description: Check the API status page to see if an active incident is causing a temporary issue with the resource.
+  remediation: Check the API status page to see if an active incident is causing a temporary issue with the resource.
+- status: 404
+  title: RESOURCE_NOT_FOUND
+  type: RESOURCE_NOT_FOUND
+  description: Check the endpoint is correct.
+  remediation: Check the endpoint is correct.
+- status: 405
+  title: METHOD_INVALID
+  type: METHOD_INVALID
+  description: Ensure the method is POST.
+  remediation: Ensure the method is POST.
+- status: 413
+  title: PAYLOAD_TOO_LARGE
+  type: PAYLOAD_TOO_LARGE
+  description: Reduce body payload size
+  remediation: Reduce body payload size
+- status: 429
+  title: TOO_MANY_REQUESTS
+  type: TOO_MANY_REQUESTS
+  description: Reduce the number of concurrent calls.
+  remediation: Reduce the number of concurrent calls.
+- status: 500
+  title: INTERNAL_TIMEOUT
+  type: INTERNAL_TIMEOUT
+  description: Try the call again. If the issue persists, check the API status page to see if there's an active
+    incident.
+  remediation: Try the call again. If the issue persists, check the API status page to see if there's an active
+    incident.
+- status: 500
+  title: INTERNAL_SERVER_ERR
+  type: INTERNAL_SERVER_ERR
+  description: Check the API status page to see if an active incident is causing the internal error.
+  remediation: Check the API status page to see if an active incident is causing the internal error.
+- status: 500
+  title: NETWORK_ERR
+  type: NETWORK_ERR
+  description: Please try again later.
+  remediation: Please try again later.
+- status: 400
+  title: ID_NOT_ASSIGNED
+  type: ID_NOT_ASSIGNED
+  description: Ensure the messageId corresponds to a message that has been sent from/to this account.
+  remediation: Ensure the messageId corresponds to a message that has been sent from/to this account.
+- status: 400
+  title: TIMEFRAME_ERR
+  type: TIMEFRAME_ERR
+  description: Ensure the messageId corresponds to a message that is not more than 30 days old.
+  remediation: Ensure the messageId corresponds to a message that is not more than 30 days old.
+- status: 406
+  title: MEDIA_TYPE_INVALID
+  type: MEDIA_TYPE_INVALID
+  description: Check the media type in the Accept header. It should be application/json.
+  remediation: Check the media type in the Accept header. It should be application/json.
+- status: 415
+  title: PAYLOAD_MEDIA_TYPE_ERR
+  type: PAYLOAD_MEDIA_TYPE_ERR
+  description: Check the media type in the Accept header. It should be application/json.
+  remediation: Check the media type in the Accept header. It should be application/json.
+- status: 422
+  title: LOGIC_ERR
+  type: LOGIC_ERR
+  description: Check the logic of the request and try again.
+  remediation: Check the logic of the request and try again.
+- status: 400
+  title: UPDATE_INVALID_MSG_SENT
+  type: UPDATE_INVALID_MSG_SENT
+  description: The message can't be updated because it's already been sent.
+  remediation: The message can't be updated because it's already been sent.
+- status: 400
+  title: ID_INVALID
+  type: ID_INVALID
+  description: Ensure the messageId corresponds to an outgoing message.
+  remediation: Ensure the messageId corresponds to an outgoing message.
+- status: 400
+  title: DELETE_INVALID_MSG_SENT
+  type: DELETE_INVALID_MSG_SENT
+  description: The message can't be deleted because it's already been sent.
+  remediation: The message can't be deleted because it's already been sent.
+- status: 400
+  title: VIRTUAL_NUM_INVALID
+  type: VIRTUAL_NUM_INVALID
+  description: Check the number is a valid Virtual Number.
+  remediation: Check the number is a valid Virtual Number.
+- status: 400
+  title: VIRTUAL_NUM_UNASSIGNED
+  type: VIRTUAL_NUM_UNASSIGNED
+  description: Check the number is assigned to your account.
+  remediation: Check the number is assigned to your account.
+- status: 404
+  title: VIRTUAL_NUM_UNKNOWN
+  type: VIRTUAL_NUM_UNKNOWN
+  description: Check the number is a valid Virtual Number.
+  remediation: Check the number is a valid Virtual Number.
+- status: 403
+  title: FREE_TRIAL_ERR
+  type: FREE_TRIAL_ERR
+  description: This call is only applicable to Free Trial users. Check if the call is required.
+  remediation: This call is only applicable to Free Trial users. Check if the call is required.
+- status: 402
+  title: FREE_TRIAL_SENDERNAME_ERR
+  type: FREE_TRIAL_SENDERNAME_ERR
+  description: SenderNames are allowed only for paid accounts. Move to a paid account to use this feature.
+  remediation: SenderNames are allowed only for paid accounts. Move to a paid account to use this feature.
+- status: 504
+  title: GATEWAY_TIMEOUT
+  type: GATEWAY_TIMEOUT
+  description: The service is temporarily down. Check the [API Live Status page] (https://dev.telstra.com/api/status)
+    or contact support.
+  remediation: The service is temporarily down. Check the [API Live Status page] (https://dev.telstra.com/api/status)
+    or contact support.

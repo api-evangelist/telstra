@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-retrieve-task-list-success-response-schema.json",
+  "title": "RetrieveTaskListSuccessResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-field-workforce-partners-api-openapi.yml#/components/schemas/RetrieveTaskListSuccessResponse",
+  "required": [
+    "correlationId",
+    "data",
+    "method",
+    "path",
+    "status",
+    "time"
+  ],
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999,
+      "description": "The http response code indicating the nature of completion."
+    },
+    "time": {
+      "type": "string",
+      "description": "The current date/time at time of response in UTC",
+      "format": "date-time",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "code": {
+      "type": "string",
+      "description": "The error code of the scenario. Populated in error case only",
+      "minLength": 1
+    },
+    "correlationId": {
+      "maxLength": 50,
+      "minLength": 1,
+      "type": "string",
+      "description": "The correlationId automatically generated or the value from the request if provided."
+    },
+    "message": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "type": "string",
+      "description": "The error message. Populated in error case only."
+    },
+    "requestId": {
+      "maxLength": 50,
+      "minLength": 1,
+      "type": "string",
+      "description": "An identifier assigned to track the request."
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The URI of the API request."
+    },
+    "method": {
+      "maxLength": 10,
+      "minLength": 1,
+      "type": "string",
+      "description": "The HTTP method of the request"
+    },
+    "data": {
+      "required": [
+        "partnerID",
+        "taskList"
+      ],
+      "type": "object",
+      "properties": {
+        "partnerID": {
+          "type": "string",
+          "description": "The partner ID as per the request.",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "taskList": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array of tasks which meet the given query parameters under the partner. An empty array will be returned if no matches are found.",
+          "items": {
+            "$ref": "#/$defs/taskListDetail"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "taskListDetail": {
+      "type": "object",
+      "required": [
+        "taskID",
+        "host",
+        "status",
+        "createdDate",
+        "dueDate",
+        "category",
+        "lastChangeBy",
+        "lastChangeDate"
+      ],
+      "properties": {
+        "taskID": {
+          "type": "string",
+          "description": "The task ID.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "host": {
+          "type": "string",
+          "description": "The Telstra host system of the task.",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the task in WFM Partner Gateway.",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "createdDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The date/time in UTC when the task was created and assigned to the partner. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "dueDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The due date/time in UTC by when the task must be completed by the partner. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The category of the task.",
+          "maxLength": 50,
+          "enum": [
+            "ASSURANCE - COMMITMENT",
+            "ASSURANCE - APPOINTMENT",
+            "ACTIVATION - APPOINTMENT",
+            "ACTIVATION - COMMITMENT"
+          ]
+        },
+        "acceptedDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The acceptance date/time in UTC for the task. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "rejectedDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The rejection date/time in UTC for the task. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "travelDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The travel date/time in UTC for the task. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "onsiteDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The onsite date/time in UTC for the task. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "completedDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The completed date/time in UTC for the task. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "lastChangeBy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Indicates the source of the last change to the task record in WFM Partner Gateway.",
+          "maxLength": 250
+        },
+        "lastChangeDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The last change date/time in UTC for the task. Format - yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        }
+      }
+    }
+  }
+}

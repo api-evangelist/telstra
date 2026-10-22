@@ -1,133 +1,234 @@
 openapi: 3.2.0
 info:
-  title: Telstra Messaging Authentication API
-  description: 'The Telstra Messaging API provides programmatic SMS and MMS messaging
-
-    services in Australia and select international destinations. Built on
-
-    the Telstra mobile network, the API supports outbound and inbound
-
-    SMS/MMS, delivery status callbacks, virtual numbers, and provisioning
-
-    workflows. Authentication uses OAuth 2.0 client credentials with the
-
-    NSMS scope.'
-  version: 2.2.10
-  contact:
-    name: Telstra Developer Support
-    url: https://dev.telstra.com
-  termsOfService: https://www.telstra.com.au/business-enterprise/legal/messaging-api-terms-of-service
-  license:
-    name: Telstra Developer License
-    url: https://github.com/telstra/tdev-doc-license
-  x-logo:
-    url: https://www.telstra.com.au/etc/designs/telstrav8/clientlibs/img/Telstra_Symbol.svg
+  title: Telstra Authentication API
+  version: '1.0'
+  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: telstra-iot-connectivity-service-api-openapi.json, telstra-messaging-api-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
-- url: https://tapi.telstra.com/v2
-  description: Production Server
-security:
-- OAuth2ClientCredentials:
-  - NSMS
+- url: https://products.api.telstra.com/messaging/v3
+  description: Messaging API
 tags:
 - name: Authentication
-  description: OAuth 2.0 client credentials token issuance.
 paths:
-  /oauth/token:
+  /v2/oauth/token:
+    servers:
+    - description: Production OKAPI2 to get tokens
+      url: https://tapi.telstra.com
     post:
-      summary: Telstra Generate OAuth Token
-      description: Generate an OAuth 2.0 bearer token using the client credentials grant with the NSMS scope.
-      operationId: generateToken
       tags:
       - Authentication
-      security: []
+      summary: Generate OAuth2 token
+      description: 'To generate an OAuth2 Authentication token, pass through your `Client key` and `Client secret` that you received when you registered for the **API Free Trial** Product.
+
+        The grant_type should be left as `client_credentials` and the scope as `NSMS`. The token will expire in one hour.'
+      operationId: authToken
       requestBody:
-        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/OAuthTokenRequest'
+              required:
+              - client_id
+              - client_secret
+              - grant_type
+              properties:
+                client_id:
+                  type: string
+                  description: ''
+                client_secret:
+                  type: string
+                  description: ''
+                grant_type:
+                  type: string
+                  default: client_credentials
+                scope:
+                  type: string
+                  description: NSMS
+        required: true
       responses:
         '200':
-          description: Token issued successfully.
+          description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OAuthTokenResponse'
+                $ref: '#/components/schemas/OAuthResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          description: 'grant_type is incorrect. grant_type should be "client_credentials" (without quotes).
+
+            Refer to the sample code for generate authentication token in the link for more details [https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication](https://dev.telstra.com/content/telstra-iot-connectivity-service-api#section/Authentication)
+
+            '
+          content: {}
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: 'Either client_id or client_secret or both are not valid.
+
+
+            Ensure the client_id and client_secret matches with your keys.  Keys can be found under [https://dev.telstra.com/user/me/apps](https://dev.telstra.com/user/me/apps) and ensure there are no white spaces in client_id and client_secret
+
+            '
+          content: {}
+        '404':
+          description: 'The requested URI does not exist
+
+            '
+          content: {}
+        '503':
+          description: 'The service is currently unavailable.
+
+
+            Please correct the API endpoint and try again. If the error persists even after re-try, check our [https://dev.telstra.com/api/status](https://dev.telstra.com/api/status) page to ensure the service is up and running.
+
+            If the service is not up and running check our forum page [https://dev.telstra.com/telstradev-forum/icm-service-api-forum](https://dev.telstra.com/telstradev-forum/icm-service-api-forum) and leave a post to confirm the outage for the Telstradev admin to check the issue.
+
+            '
+          content: {}
+        default:
+          description: 'An internal error occurred when processing the request.
+
+
+            If the error persists even after re-try, check our [https://dev.telstra.com/api/status](https://dev.telstra.com/api/status) page to ensure the service is up and running. If the service is not up and running check our forum page [https://dev.telstra.com/telstradev-forum/icm-service-api-forum](https://dev.telstra.com/telstradev-forum/icm-service-api-forum) and leave a post to confirm the outage for the Telstradev admin to check the issue.
+
+            '
+          content: {}
+      x-code-samples:
+      - lang: curl
+        source: "#!/bin/bash\n# Obtain these keys from the Telstra Developer Portal\nCLIENT_KEY=\"your client key\"\nCLIENT_SECRET=\"your client secret\"\n\ncurl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \\\n-d 'grant_type=client_credentials&client_id=$CLIENT_KEY&client_secret=$CLIENT_SECRET&scope=NSMS' \\\n'https://tapi.telstra.com/v2/oauth/token'  \n"
+  /oauth/token:
+    post:
+      description: 'To generate an OAuth2 Authentication token, pass through your `Client key` and `Client secret` that you received at Telstra Developer account.
+
+
+        The value for grant_type is `client_credentials` and value for scope is `free-trial-numbers:read free-trial-numbers:write messages:read messages:write reports:read reports:write virtual-numbers:read virtual-numbers:write`.
+
+
+        The token will expire in one hour.'
+      summary: Generate OAuth2 token
+      tags:
+      - Authentication
+      security:
+      - {}
+      servers:
+      - url: https://products.api.telstra.com/v2
+        description: OAuth2 server
+      operationId: postOauthToken
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                grant_type:
+                  type: string
+                  default: client_credentials
+                scope:
+                  type: string
+                  default: free-trial-numbers:read free-trial-numbers:write messages:read messages:write reports:read reports:write virtual-numbers:read virtual-numbers:write
+              required:
+              - client_id
+              - client_secret
+              - grant_type
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    description: OAuth access token
+                    type: string
+                  token_type:
+                    description: OAuth token type
+                    type: string
+                  expires_in:
+                    description: OAuth expiry time in seconds. Tokens expire in one hour.
+                    type: string
+        '400':
+          description: '`grant_type` is incorrect. `grant_type` should be `client_credentials` (without quotes).
+
+            Refer to generate authentication token tutorial in the link for more details https://dev.telstra.com/apis/messaging-api/tutorials/get-an-access-token
+
+            '
+        '401':
+          description: 'Either client_id or client_secret or both are not valid.
+
+            '
+        '404':
+          description: 'The requested URI does not exist
+
+            '
+        '503':
+          description: 'The service is currently unavailable.
+
+            '
+        default:
+          description: 'An internal error occurred when processing the request.
+
+
+            If the error persists even after re-try, check out https://tdev.statuspage.io/ page to ensure the service is up and running.
+
+            '
+      x-codeSamples:
+      - lang: curl
+        source: '#!/bin/bash
+
+          # Obtain these keys from the Telstra Developer Portal
+
+          CLIENT_KEY="your client key"
+
+          CLIENT_SECRET="your client secret"
+
+
+          curl -X POST -H ''Content-Type: application/x-www-form-urlencoded'' \
+
+          -d ''grant_type=client_credentials&client_id=$CLIENT_KEY&client_secret=$CLIENT_SECRET&scope=free-trial-numbers:read free-trial-numbers:write messages:read messages:write virtual-numbers:read virtual-numbers:write reports:read reports:write'' \
+
+          ''https://products.api.telstra.com/v2/oauth/token''
+
+          '
+      x-operation-id-source: normalized
+      x-operation-id-original: authToken
+    servers:
+    - url: https://products.api.telstra.com/messaging/v3
+      description: Messaging API
 components:
   schemas:
-    ErrorResponse:
+    OAuthResponse:
+      title: OAuthResponse
       type: object
-      required:
-      - status
-      - code
-      - message
-      properties:
-        status:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
-    OAuthTokenRequest:
-      type: object
-      required:
-      - client_id
-      - client_secret
-      - grant_type
-      properties:
-        client_id:
-          type: string
-          description: The application's client ID issued by dev.telstra.com.
-        client_secret:
-          type: string
-          description: The application's client secret.
-        grant_type:
-          type: string
-          enum:
-          - client_credentials
-        scope:
-          type: string
-          default: NSMS
-    OAuthTokenResponse:
-      type: object
-      required:
-      - access_token
-      - expires_in
-      - token_type
       properties:
         access_token:
           type: string
-          description: Bearer token for subsequent API calls.
-        expires_in:
-          type: string
-          description: Token lifetime in seconds (commonly 3599).
+          description: OAuth access token
         token_type:
           type: string
-          enum:
-          - Bearer
-  responses:
-    BadRequest:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+          description: OAuth token type
+        expires_in:
+          type: string
+          description: OAuth expiry time in seconds. Tokens expire in one hour.
   securitySchemes:
-    OAuth2ClientCredentials:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearer_auth:
       type: oauth2
-      description: OAuth 2.0 client credentials grant against https://tapi.telstra.com/v2/oauth/token with the NSMS scope.
       flows:
         clientCredentials:
-          tokenUrl: https://tapi.telstra.com/v2/oauth/token
+          tokenUrl: https://products.api.telstra.com/v2/oauth/token
           scopes:
-            NSMS: Send and receive SMS/MMS through Telstra Messaging.
+            free-trial-numbers:read: read information for free trial numbers
+            free-trial-numbers:write: write information for free trial numbers
+            messages:read: read information for messages
+            messages:write: write information for messages
+            reports:read: read information for reports
+            reports:write: write information for reports
+            virtual-numbers:read: read information for virtual-numbers
+            virtual-numbers:write: write information for virtual numbers
+x-refined-from:
+- telstra-iot-connectivity-service-api-openapi.json
+- telstra-messaging-api-openapi.json

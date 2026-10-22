@@ -1,0 +1,382 @@
+openapi: 3.2.0
+info:
+  title: Bandwidth Modification Access Token Request API
+  version: 0.4.0
+  description: '# Introduction
+
+    This OpenAPI document combines the Customer Services, Modify Bandwidth, Fetch Status, and Pricing APIs for Telstra connectivity and product solutions. ## Features
+
+    Connectivity API provides below features. | Feature | | Description |
+
+    |---|---|---|
+
+    |`Retrieve Services` | | Retrieve, filter, and paginate customer services. |
+
+    |`Fetch status` | | Fetch status of request by unique RequestId. |
+
+    |`Modify Bandwidth` | | Submit bandwidth modification requests for Telstra Internet Direct , Adaptive Fibre and Adaptive Broadband.|
+
+    |`Pricing API` | | Retirves list prices for the given product.Filter with product and product specific attributes|
+
+
+    ## Version Control
+
+    This section will be used to keep track of the template version history. | Version | Date | Summary of Change. | 0.4.0 | 2026-04-10 | added AB modify plan API end point and uplift of Get services
+
+
+    | 0.3.0 | 2026-03-10 | added Pricing API in the scope
+
+    | 0.2.0 | 2026-02-28 | Combined release of specification with AF modify BW API included in the scope
+
+
+    | 0.1.0 | 2026-01-28 | Combined release of specification with Retrieve Services, TID BW modify, and Fetch Status (generic endpoint)
+
+    | 0.0.0 | 2025-12-15 | Initial release of the API specification for Retrieve Service, Modify TID BW, and Fetch Status
+
+
+    ##
+
+
+    ---
+
+
+    ## Get Services API
+
+    The Retrieve Services API provides a unified interface for discovering and viewing Telstra connectivity services associated with an account. It returns service details, identifiers, status, and product-specific characteristics in a consistent format, enabling customers to inventory, manage, and monitor their services. -----
+
+
+    ## Modify APIs
+
+    The Modify Service API allows customers to submit changes to an existing Telstra connectivity service. Supported modifications are validated against product-specific business rules and service constraints before a modification request is created. The API provides a consistent and secure mechanism to manage service changes while maintaining service integrity and compliance with Telstra product policies. ------
+
+
+    ## Fetch Status API
+
+    The Fetch Status API enables customers to retrieve the current status of previously submitted modification requests. It provides visibility into the order fulfilment lifecycle by returning status information. This allows customers to monitor request progress and determine when an modification has been successfully completed. The API supports secure access through OAuth2 and follows Telstra''s standards for headers, error handling, and documentation. -------
+
+
+    ## Pricing API
+
+    The Pricing API provides a unified interface to retrieve Telstra product pricing information. The prices returned depend on your commercial relationship with Telstra:
+
+    - If a Frame Agreement (FA) is in effect, pricing applicable under that agreement will be returned. - If no Frame Agreement (FA) is in effect, the standard list price will be returned. **All prices returned by this API exclude GST**
+
+
+    .**Pricing made available through the Price API is confidential and must only be used for your internal business purposes in connection with your Telstra services.**
+
+
+    The API supports filtering by product, charge type, and product-specific attributes, and returns results in a consistent, offset-based paginated format. The API is designed for both broad and fine-grained price discovery, enabling clients to:
+
+    - Retrieve list prices for all or specific products
+
+    - Filter results using product attributes (e.g., bandwidth, zone, variant)
+
+    - Select between recurring and one-off charges
+
+    - Page through large result sets using `offset` and `limit` query parameters (client-driven pagination)
+
+    - Receive detailed error information in a standard envelope
+
+
+    This API is suitable for integration into quoting tools, product catalogs, and customer-facing applications where up-to-date, accurate pricing is required.'
+servers:
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/connectivity/v0
+  description: Telstra Products API (Production)
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Access Token Request
+  description: Request for access token to make the API request
+paths:
+  /token:
+    post:
+      tags:
+      - Access Token Request
+      summary: Request for OAuth2 access token
+      description: To generate an OAuth2 access token, use your `Client ID` and `Client secret` that you get from the Telstra Developer portal.
+      security: []
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        description: Accepting with application/json.
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Content-Type
+        in: header
+        required: false
+        description: Accepting with application/json.
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Accept
+        in: header
+        required: false
+        description: Accept type of response (application/json).
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Accept-Charset
+        in: header
+        required: false
+        description: Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.
+        schema:
+          type: string
+          enum:
+          - UTF-8
+          - ISO-8859-1
+          - US-ASCII
+          minLength: 5
+          maxLength: 10
+        example: UTF-8
+      - name: Content-Language
+        in: header
+        required: false
+        description: Language of the request content (e.g., en, en-US).
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 8
+        example: en-AU
+      servers:
+      - url: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect
+        description: OAuth2 server
+      operationId: authToken
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  description: Client ID generated on your Telstra Developer account
+                  type: string
+                  default: your-client-id
+                client_secret:
+                  description: Client Secret generated on your Telstra Developer account
+                  type: string
+                  default: your-client-secret
+                grant_type:
+                  type: string
+                  default: client_credentials
+                scope:
+                  type: string
+                  default: fixed-connectivity:modify-bandwidth:modify
+              required:
+              - grant_type
+              - scope
+              - client_id
+              - client_secret
+            example:
+              client_id: your-client-id
+              client_secret: your-client-secret
+              grant_type: client_credentials
+              scope: fixed-connectivity:modify-bandwidth:modify
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    description: OAuth access token
+                    type: string
+                  token_type:
+                    description: OAuth token type
+                    type: string
+                  expires_in:
+                    description: OAuth expiry time in seconds.
+                    type: string
+                  scope:
+                    description: Scopes requested for during Authentication Request
+                    type: string
+        '400':
+          description: '`grant_type` is incorrect. `grant_type` should be `client_credentials`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: grant_type` is incorrect
+                  value:
+                    errors:
+                    - code: INVALID_GRANT
+                      issue: grant_type` is incorrect.
+                      suggested_action: grant_type` should be `client_credentials.
+                      location: header
+                      link: https://api.example.com/docs/errors#INVALID_GRANT
+        '401':
+          description: Either client_id or client_secret or both are not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: client_id or client_secret` is incorrect
+                  value:
+                    errors:
+                    - code: INVALID_CLIENT_SECRET
+                      issue: client_id or client_secret` is incorrect.
+                      suggested_action: provide correct details.
+                      location: header
+                      link: https://api.example.com/docs/errors#INVALID_CLIENT_SECRET
+        '404':
+          description: The requested URI does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: The requested URI does not exist
+                  value:
+                    errors:
+                    - code: INVALID_URI
+                      issue: The requested URI does not exist.
+                      suggested_action: provide correct details.
+                      location: header
+                      link: https://api.example.com/docs/errors#INVALID_URI
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: Too Many Requests
+                  value:
+                    errors:
+                    - code: TOO_MANY_REQUESTS
+                      issue: Too Many Requests.
+                      suggested_action: ''
+                      location: header
+                      link: https://api.example.com/docs/errors#TOO_MANY_REQUESTS
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: Internal Server Error
+                  value:
+                    errors:
+                    - code: INTERNAL_SERVER_ERROR
+                      issue: An unexpected error has occured.
+                      suggested_action: ''
+                      location: header
+                      link: https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR
+        '503':
+          description: The service is currently unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: The service is currently unavailable.
+                  value:
+                    errors:
+                    - code: SERVICE_UNAVAILABLE
+                      issue: The server is temporarily unable to handle the request (maintenance/overload).
+                      suggested_action: ''
+                      location: header
+                      link: https://api.example.com/docs/errors#SERVICE_UNAVAILABLE
+        default:
+          description: An internal error occurred when processing the request.
+components:
+  schemas:
+    Errors:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      - field
+      - value
+      - location
+      - link
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+          minLength: 1
+          maxLength: 32
+        issue:
+          type: string
+          description: Human-readable explanation of the error.
+          minLength: 1
+          maxLength: 256
+          example: Requested newBandwidth exceeds supported Adaptive Fibre capacity
+        suggested_action:
+          type: string
+          description: Recommended corrective action.
+          minLength: 1
+          maxLength: 256
+          example: Due to physical change required, proceed to Adaptive Network Centre to raise request
+        field:
+          type: string
+          description: Name of the field causing the error (if applicable).
+          minLength: 0
+          maxLength: 64
+          example: type
+        value:
+          type: string
+          description: The invalid value provided (if applicable).
+          minLength: 0
+          maxLength: 128
+          example: abc
+        location:
+          type: string
+          description: Where the error occurred.
+          enum:
+          - query
+          - header
+          - path
+          - body
+          - method
+          - server
+          - decision
+          minLength: 0
+          maxLength: 8
+          example: query
+        link:
+          type: string
+          description: Reference URL for more information about this error code.
+          minLength: 0
+          maxLength: 256
+          example: https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth2 client-credentials flow (Cat-1).
+      flows:
+        clientCredentials:
+          tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token
+          scopes:
+            fixed-connectivity:modify-bandwidth:modify: combined scope for all the end points in package

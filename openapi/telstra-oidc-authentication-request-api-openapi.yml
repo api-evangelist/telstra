@@ -1,0 +1,161 @@
+openapi: 3.2.0
+info:
+  title: Telstra OIDC Authentication Request API
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-refined-note:
+  - x-camara-commonalities differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged OIDC Authentication Request across 4 of this provider''s published API definitions: telstra-device-swap-api-openapi.json, telstra-kyc-match-api-openapi.json, telstra-kyc-tenure-api-openapi.json, telstra-number-verification-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: '{apiRoot}/device-swap/v1'
+  variables:
+    apiRoot:
+      default: http://localhost:8080
+      description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api/kyc/kyc-match/v0.2
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api/kyc/kyc-tenure/v0.2
+tags:
+- name: OIDC Authentication Request
+  description: Request authorisation grant
+paths:
+  /auth:
+    get:
+      description: Use your `client id` that you get from the Telstra Developer portal.
+      tags:
+      - OIDC Authentication Request
+      summary: Get authorization code for your application
+      security:
+      - {}
+      operationId: authCode
+      servers:
+      - url: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect
+      parameters:
+      - description: Client ID generated on your Telstra Developer account
+        in: query
+        name: client_id
+        schema:
+          type: string
+      - description: Redirect URI for your application backend to receive the Auth Code.
+        in: query
+        name: redirect_uri
+        schema:
+          type: string
+          default: http://localhost:8080/auth
+      - description: OpenID scope and purpose. [Refer to Github](https://github.com/camaraproject/IdentityAndConsentManagement/blob/r3.3/documentation/CAMARA-Security-Interoperability.md#missing-openid-scope)
+        in: query
+        name: scope
+        schema:
+          type: string
+          default: openid device-swap:check dpv:FraudPreventionAndDetection
+      - description: Your application generates a random string and sends it to the authorization server using the state parameter.
+        in: query
+        name: state
+        schema:
+          type: string
+          default: state
+      - description: Authorisation request response type
+        in: query
+        name: response_type
+        schema:
+          type: string
+          default: code
+      responses:
+        '302':
+          description: 'Redirect to the client�s ''redirect_uri'' with the authorization code or error responses.  '
+          headers:
+            Location:
+              description: The URL to redirect to with a 'code' parameter ( containing the authentication code for the `/token` request) and a 'state' parameter (containing the customer reference for tracking). URL parameters could also include 'error' and 'error_description'.
+              schema:
+                type: string
+                format: uri
+    servers:
+    - url: '{apiRoot}/device-swap/v1'
+      variables:
+        apiRoot:
+          default: http://localhost:8080
+          description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+  /ext/ciba/auth:
+    post:
+      description: Use your `client_id` and `client_secret` that you get from the Telstra Developer portal.
+      tags:
+      - OIDC Authentication Request
+      summary: Get authorization request ID for your application and end-user
+      security:
+      - {}
+      operationId: authReqId
+      servers:
+      - url: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  description: Client ID generated on your Telstra Developer account
+                  type: string
+                  default: your-client-id
+                client_secret:
+                  description: Client Secret generated on your Telstra Developer account
+                  type: string
+                  default: your-client-secret
+                scope:
+                  description: OpenID scope and purpose. [Refer to Github](https://github.com/camaraproject/IdentityAndConsentManagement/blob/r3.3/documentation/CAMARA-Security-Interoperability.md#missing-openid-scope)
+                  type: string
+                  default: openid dpv:FraudPreventionAndDetection kyc-match:match
+                login_hint:
+                  description: A hint to the OpenID Provider regarding the end-user for whom authentication is being requested. The value must contain a phone number which identifies the end-user.
+                  type: string
+                  default: tel:+61462925583
+              required:
+              - client_id
+              - client_secret
+              - scope
+              - login_hint
+            example:
+              client_id: your-client-id
+              client_secret: your-client-secret
+              scope: openid dpv:FraudPreventionAndDetection kyc-match:match
+              login_hint: tel:+61462925583
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  auth_req_id:
+                    description: A unique identifier to identify the authentication request made by the Client.
+                    type: string
+                  expires_in:
+                    description: Expiry time of the auth_req_id in seconds.
+                    type: number
+                  interval:
+                    description: Minimum amount of time the Client must wait between polling requests to the token endpoint in seconds.
+                    type: number
+        '400':
+          description: '`scope` or `login_hint` are invalid or missing'
+        '401':
+          description: Either client_id or client_secret or both are not valid.
+        '404':
+          description: The requested URI does not exist.
+        '503':
+          description: The service is currently unavailable.
+        default:
+          description: An internal error occurred when processing the request.
+    servers:
+    - url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api/kyc/kyc-match/v0.2
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+x-refined-from:
+- telstra-device-swap-api-openapi.json
+- telstra-kyc-match-api-openapi.json
+- telstra-kyc-tenure-api-openapi.json
+- telstra-number-verification-api-openapi.json

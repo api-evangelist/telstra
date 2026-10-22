@@ -1,0 +1,687 @@
+openapi: 3.2.0
+info:
+  title: Bandwidth Modification Status API
+  version: 0.4.0
+  description: '# Introduction
+
+    This OpenAPI document combines the Customer Services, Modify Bandwidth, Fetch Status, and Pricing APIs for Telstra connectivity and product solutions. ## Features
+
+    Connectivity API provides below features. | Feature | | Description |
+
+    |---|---|---|
+
+    |`Retrieve Services` | | Retrieve, filter, and paginate customer services. |
+
+    |`Fetch status` | | Fetch status of request by unique RequestId. |
+
+    |`Modify Bandwidth` | | Submit bandwidth modification requests for Telstra Internet Direct , Adaptive Fibre and Adaptive Broadband.|
+
+    |`Pricing API` | | Retirves list prices for the given product.Filter with product and product specific attributes|
+
+
+    ## Version Control
+
+    This section will be used to keep track of the template version history. | Version | Date | Summary of Change. | 0.4.0 | 2026-04-10 | added AB modify plan API end point and uplift of Get services
+
+
+    | 0.3.0 | 2026-03-10 | added Pricing API in the scope
+
+    | 0.2.0 | 2026-02-28 | Combined release of specification with AF modify BW API included in the scope
+
+
+    | 0.1.0 | 2026-01-28 | Combined release of specification with Retrieve Services, TID BW modify, and Fetch Status (generic endpoint)
+
+    | 0.0.0 | 2025-12-15 | Initial release of the API specification for Retrieve Service, Modify TID BW, and Fetch Status
+
+
+    ##
+
+
+    ---
+
+
+    ## Get Services API
+
+    The Retrieve Services API provides a unified interface for discovering and viewing Telstra connectivity services associated with an account. It returns service details, identifiers, status, and product-specific characteristics in a consistent format, enabling customers to inventory, manage, and monitor their services. -----
+
+
+    ## Modify APIs
+
+    The Modify Service API allows customers to submit changes to an existing Telstra connectivity service. Supported modifications are validated against product-specific business rules and service constraints before a modification request is created. The API provides a consistent and secure mechanism to manage service changes while maintaining service integrity and compliance with Telstra product policies. ------
+
+
+    ## Fetch Status API
+
+    The Fetch Status API enables customers to retrieve the current status of previously submitted modification requests. It provides visibility into the order fulfilment lifecycle by returning status information. This allows customers to monitor request progress and determine when an modification has been successfully completed. The API supports secure access through OAuth2 and follows Telstra''s standards for headers, error handling, and documentation. -------
+
+
+    ## Pricing API
+
+    The Pricing API provides a unified interface to retrieve Telstra product pricing information. The prices returned depend on your commercial relationship with Telstra:
+
+    - If a Frame Agreement (FA) is in effect, pricing applicable under that agreement will be returned. - If no Frame Agreement (FA) is in effect, the standard list price will be returned. **All prices returned by this API exclude GST**
+
+
+    .**Pricing made available through the Price API is confidential and must only be used for your internal business purposes in connection with your Telstra services.**
+
+
+    The API supports filtering by product, charge type, and product-specific attributes, and returns results in a consistent, offset-based paginated format. The API is designed for both broad and fine-grained price discovery, enabling clients to:
+
+    - Retrieve list prices for all or specific products
+
+    - Filter results using product attributes (e.g., bandwidth, zone, variant)
+
+    - Select between recurring and one-off charges
+
+    - Page through large result sets using `offset` and `limit` query parameters (client-driven pagination)
+
+    - Receive detailed error information in a standard envelope
+
+
+    This API is suitable for integration into quoting tools, product catalogs, and customer-facing applications where up-to-date, accurate pricing is required.'
+servers:
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/connectivity/v0
+  description: Telstra Products API (Production)
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Status
+  description: Fetch status of requests
+paths:
+  /requests/fetch-status:
+    post:
+      tags:
+      - Status
+      operationId: fetchRequestStatus
+      summary: Fetch status of submitted request
+      description: Retrieves the current status and outcome of a previously submitted request by passing in `requestId`. Returns status values (`accepted`, `in-progress`, `completed`, `rejected`, `failed`) and a Telstra-compliant error envelope for business rule and technical failures. Supports polling guidance and correlation for troubleshooting.
+      security:
+      - OAuth2ClientCredentials:
+        - fixed-connectivity:modify-bandwidth:modify
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: OAuth2 token for authentication.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+        example: IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ
+      - name: X-Correlation-Id
+        in: header
+        required: true
+        description: Unique Correlation Id for each transaction to be used by all consumers.
+        schema:
+          type: string
+          minLength: 36
+          maxLength: 36
+        example: f7c94213-36df-44cc-935f-025bb52cad42
+      - name: Content-Type
+        in: header
+        required: true
+        description: Accepting with application/json.
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Accept
+        in: header
+        required: true
+        description: Accept type of response (application/json).
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Accept-Charset
+        in: header
+        required: true
+        description: Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.
+        schema:
+          type: string
+          enum:
+          - UTF-8
+          - ISO-8859-1
+          - US-ASCII
+          minLength: 5
+          maxLength: 10
+        example: UTF-8
+      - name: Content-Language
+        in: header
+        required: true
+        description: Language of the request content (e.g., en, en-US).
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 8
+        example: en-AU
+      - name: Telstra-api-version
+        in: header
+        required: false
+        description: B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 16
+        example: '1.2'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchStatusRequest'
+      responses:
+        '200':
+          description: Status fetched successfully (may include errors)
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchStatusResponse'
+              examples:
+                accepted:
+                  summary: Status accepted
+                  value:
+                    requestId: e7b8c2a0-4f3b-4e2a-9c1a-2b7e8d9f6a1b
+                    status: accepted
+                    submittedAt: '2025-10-27T10:41:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: 30S
+                    services:
+                    - _id: AAZZ000000123456
+                      status: accepted
+                      error: []
+                    errors: []
+                inProgress:
+                  summary: Status in-progress
+                  value:
+                    requestId: b1a2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d
+                    status: in-progress
+                    submittedAt: '2025-10-27T10:45:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: 60S
+                    services:
+                    - _id: AAZZ000000123456
+                      status: in-progress
+                      error: []
+                    errors: []
+                completed:
+                  summary: Status completed
+                  value:
+                    requestId: c2d3e4f5-6a7b-8c9d-0e1f-2a3b4c5d6e7f
+                    status: completed
+                    submittedAt: '2025-10-27T10:50:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: completed
+                      error: []
+                    errors: []
+                contractInvalid:
+                  summary: Status rejected due to contract invalid
+                  value:
+                    requestId: d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8g
+                    status: rejected
+                    submittedAt: '2025-10-27T11:10:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: rejected
+                      error:
+                      - code: CONTRACT_INVALID
+                        issue: Customer contract does not permit bandwidth modification for this offer.
+                        suggested_action: Contact your account manager to review contract terms or eligibility.
+                        field: contractValidity
+                        value: no-permit
+                        location: decision
+                        link: https://api.example.com/docs/errors#CONTRACT_INVALID
+                    errors: []
+                creditRiskNoSell:
+                  summary: Status rejected due to credit risk no-sell
+                  value:
+                    requestId: e4f5a6b7-8c9d-0e1f-2a3b4c5d6e7f8g9h
+                    status: rejected
+                    submittedAt: '2025-10-27T11:11:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: rejected
+                      error:
+                      - code: CREDIT_RISK_NO_SELL
+                        issue: Customer account is marked as 'no-sell' due to credit risk rating.
+                        suggested_action: Contact finance/risk team to resolve account status.
+                        field: creditRiskRating
+                        value: no-sell
+                        location: decision
+                        link: https://api.example.com/docs/errors#CREDIT_RISK_NO_SELL
+                    errors: []
+                newBwGtAfSupport:
+                  summary: Status rejected due to newBandwidth exceeding Adaptive Fibre support
+                  value:
+                    requestId: f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8g9h0i
+                    status: rejected
+                    submittedAt: '2025-10-27T11:12:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: rejected
+                      error:
+                      - code: NEW_BW_GT_AF_SUPPORT
+                        issue: Requested newBandwidth exceeds supported Adaptive Fibre capacity.
+                        suggested_action: Due to physical change required, proceed to Adaptive Network Centre to raise request
+                        field: newBandwidth
+                        value: 2Gbps
+                        location: decision
+                        link: https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT
+                    errors: []
+                newBwGtIfSupport:
+                  summary: Status rejected due to newBandwidth exceeding Interface Type support
+                  value:
+                    requestId: f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8g9h0i
+                    status: rejected
+                    submittedAt: '2025-10-27T11:12:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: rejected
+                      error:
+                      - code: NEW_BW_GT_IF_SUPPORT
+                        issue: Requested newBandwidth exceeds supported Interface Type.
+                        suggested_action: Due to physical change required, proceed to Adaptive Network Centre to raise request.
+                        field: newBandwidth
+                        value: 2Gbps
+                        location: decision
+                        link: https://api.example.com/docs/errors#NEW_BW_GT_IF_SUPPORT
+                    errors: []
+                newBwNotSupported:
+                  summary: Status rejected due to newBandwidth not supported by access
+                  value:
+                    requestId: f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8g9h0i
+                    status: rejected
+                    submittedAt: '2025-10-27T11:12:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: rejected
+                      error:
+                      - code: NEW_BW_NOT_SUPPORTED
+                        issue: Underlying access does not support requested newBandwidth.
+                        suggested_action: Choose a lower Bandwidth within Interface Limit or proceed to Adaptive Network Centre to raise request.
+                        field: newBandwidth
+                        value: 6Gbps
+                        location: decision
+                        link: https://api.example.com/docs/errors#NEW_BW_NOT_SUPPORTED_SUPPORT
+                    errors: []
+                failed:
+                  summary: Status failed with non-recoverable technical error
+                  value:
+                    requestId: a6b7c8d9-0e1f-2a3b-4c5d-6e7f8g9h0i1j
+                    status: failed
+                    submittedAt: '2025-10-27T11:00:00Z'
+                    submittedBy: abc@xyz.com
+                    pollAfter: '0'
+                    services:
+                    - _id: AAZZ000000123456
+                      status: failed
+                      error:
+                      - code: TECHNICAL_FAILURE
+                        issue: The request failed due to a non-recoverable technical error. Please contact support with your requestId and correlationId.
+                        suggested_action: Contact Telstra support for assistance.
+                        field: ''
+                        value: ''
+                        location: server
+                        link: https://api.example.com/docs/errors#TECHNICAL_FAILURE
+                    errors: []
+        '400':
+          description: Bad Request — invalid or incomplete input
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                missingRequired:
+                  summary: Missing required field(s)
+                  value:
+                    errors:
+                    - code: FIELD_MISSING
+                      issue: The 'requestId' is missing.
+                      suggested_action: Please provide all required fields.
+                      field: requestId
+                      value: ''
+                      location: body
+                      link: https://api.example.com/docs/errors#FIELD_MISSING
+        '401':
+          description: Unauthorized — missing or invalid token
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: Missing or invalid authentication token
+                  value:
+                    errors:
+                    - code: INVALID_TOKEN
+                      issue: The Authentication Token is Missing or Invalid.
+                      suggested_action: Check the Authentication Token. It should be the same you received in the Generate Authentication Token response.
+                      field: Authorization
+                      value: ''
+                      location: header
+                      link: https://api.example.com/docs/errors#INVALID_TOKEN
+        '403':
+          description: Forbidden — caller not permitted to fetch status
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                forbidden:
+                  summary: Caller not permitted
+                  value:
+                    errors:
+                    - code: RESOURCE_AUTH_ERR
+                      issue: You don't have permission to access this resource.
+                      suggested_action: Check the permissions associated with your account.
+                      location: body
+                      link: https://api.example.com/docs/errors#RESOURCE_AUTH_ERR
+        '404':
+          description: Not Found — request not found for given transactionId/serviceId/cidn
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                notFound:
+                  summary: Request not found
+                  value:
+                    errors:
+                    - code: NOT_FOUND
+                      issue: No request found for the provided requestId/serviceId/cidn.
+                      suggested_action: Verify requestId and retry.
+                      location: body
+                      link: https://api.example.com/docs/errors#NOT_FOUND
+        '429':
+          description: Too Many Requests — rate limit exceeded
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+            Retry-After:
+              description: Seconds until the client may retry.
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                rateLimited:
+                  summary: Rate limit exceeded
+                  value:
+                    errors:
+                    - code: TOO_MANY_REQUESTS
+                      issue: The API rate limit has been reached.
+                      suggested_action: Reduce the number of concurrent calls and try again.
+                      field: ''
+                      value: ''
+                      location: header
+                      link: https://api.example.com/docs/errors#TOO_MANY_REQUESTS
+        '500':
+          description: Internal Server Error — unexpected server-side error occurred
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                internalError:
+                  summary: Unexpected server error
+                  value:
+                    errors:
+                    - code: INTERNAL_ERROR
+                      issue: An unexpected error occurred.
+                      suggested_action: Please try again later. If the issue persists, Contact Telstra support with your correlationId.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.example.com/docs/errors#INTERNAL_ERROR
+        '503':
+          description: Service Unavailable — temporary maintenance or overload
+          headers:
+            Content-Language:
+              description: Language of the response content.
+              schema:
+                type: string
+                example: en-AU
+            Retry-After:
+              description: Seconds until the client may retry.
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unavailable:
+                  summary: Service temporarily unavailable
+                  value:
+                    errors:
+                    - code: SERVICE_UNAVAILABLE
+                      issue: Service temporarily unavailable (maintenance/overload).
+                      suggested_action: Retry after a short delay or check the status page for outage updates.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.example.com/docs/errors#SERVICE_UNAVAILABLE
+components:
+  schemas:
+    Errors:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    FetchStatusResponse:
+      type: object
+      required:
+      - requestId
+      - cidn
+      - status
+      - submittedAt
+      - submittedBy
+      - pollAfter
+      - services
+      - errors
+      properties:
+        requestId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        cidn:
+          type: string
+          minLength: 10
+          maxLength: 10
+          example: '7896618019'
+        status:
+          type: string
+          description: Overall request status
+          minLength: 1
+          maxLength: 32
+        submittedAt:
+          type: string
+          minLength: 1
+          maxLength: 32
+        submittedBy:
+          type: string
+          minLength: 1
+          maxLength: 128
+        pollAfter:
+          type: string
+          description: Indicator for recommended next polling interval duration
+          minLength: 1
+          maxLength: 10
+        services:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items:
+            type: object
+            required:
+            - _id
+            - status
+            properties:
+              _id:
+                type: string
+                description: Service identifier
+                minLength: 1
+                maxLength: 64
+              status:
+                type: string
+                description: Service-level status
+                minLength: 1
+                maxLength: 32
+              error:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+                minItems: 0
+                maxItems: 10
+        errors:
+          type: array
+          description: Request-level errors (kept empty in examples; service-level errors preferred)
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      - field
+      - value
+      - location
+      - link
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+          minLength: 1
+          maxLength: 32
+        issue:
+          type: string
+          description: Human-readable explanation of the error.
+          minLength: 1
+          maxLength: 256
+          example: Requested newBandwidth exceeds supported Adaptive Fibre capacity
+        suggested_action:
+          type: string
+          description: Recommended corrective action.
+          minLength: 1
+          maxLength: 256
+          example: Due to physical change required, proceed to Adaptive Network Centre to raise request
+        field:
+          type: string
+          description: Name of the field causing the error (if applicable).
+          minLength: 0
+          maxLength: 64
+          example: type
+        value:
+          type: string
+          description: The invalid value provided (if applicable).
+          minLength: 0
+          maxLength: 128
+          example: abc
+        location:
+          type: string
+          description: Where the error occurred.
+          enum:
+          - query
+          - header
+          - path
+          - body
+          - method
+          - server
+          - decision
+          minLength: 0
+          maxLength: 8
+          example: query
+        link:
+          type: string
+          description: Reference URL for more information about this error code.
+          minLength: 0
+          maxLength: 256
+          example: https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT
+    FetchStatusRequest:
+      type: object
+      required:
+      - requestId
+      properties:
+        requestId:
+          type: string
+          description: Unique UUID for the request submitted.
+          example: f7c94213-36df-44cc-935f-025bb52cad42
+          minLength: 36
+          maxLength: 36
+          format: uuid
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth2 client-credentials flow (Cat-1).
+      flows:
+        clientCredentials:
+          tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token
+          scopes:
+            fixed-connectivity:modify-bandwidth:modify: combined scope for all the end points in package

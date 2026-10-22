@@ -1,0 +1,646 @@
+openapi: 3.2.0
+info:
+  title: IoT Outage Outage Service API
+  version: 0.0.0
+  description: '# Introduction
+
+
+    This API specification represents the Outage API and its available endpoints.
+
+
+    # Version Control
+
+    Below table gives version details of the APIs:
+
+    | Version | Date | Summary of Changes | Endpoint | Changes By |
+
+    |---------| --------|---------------------|------------|------------|
+
+    | 0.0.0 | 08/01/2026 |Initial Version of Outage API Spec | `Get Outage` | IoT NaaP
+
+
+    # Features
+
+    The combined API provides the following features:
+
+
+    | Feature | Product | Description |
+
+    |---|---|---
+
+    |`Get Outage` | `Outage` | Retrieve outage details for a given suburb and state. |
+
+
+    # Getting Access to the API
+
+
+    You need to subscribe to IoT Outage Product on Telstra Dev Portal and wait for it to be approved.
+
+
+    To create a token, first create your API keys in your Telstra Developer account.
+
+
+    On the Dashboard, under ‘Account overview’, click on ‘View API keys’.
+
+
+    # Frequently Asked Questions
+
+
+    **Q: Who will Provide Support for these APIs?**
+
+
+    A: For support, please contact **telstradev@team.telstra.com**.'
+servers:
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api
+tags:
+- name: Outage Service
+  description: Retrieve the outage status for a specific subu`rb and state
+paths:
+  /outage/v0/status:
+    get:
+      security:
+      - OAuth2:
+        - iot-naap-outage:read
+        - iot-naap-outage:write
+      tags:
+      - Outage Service
+      summary: Get outage status by Suburb, State, and Postcode
+      description: Retrieve the outage status for a specific suburb.
+      parameters:
+      - in: header
+        name: Authorization
+        description: A header in the format 'Bearer {access_token}'
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        example: Bearer wbigcbAF4Z5xpge7kkG1IS210pmG
+      - in: header
+        name: Accept-Charset
+        description: Acceptable character set for the response
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        example: utf-8
+      - in: header
+        name: Accept
+        description: Acceptable character set for the response
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        example: application/json
+      - in: header
+        name: Correlation-Id
+        required: true
+        description: Unique Correlation Id for each transaction to be used by all consumers
+        schema:
+          type: string
+          minLength: 36
+          maxLength: 36
+        example: f7c94213-36df-44cc-935f-025bb52cad42
+      - in: header
+        name: Content-Language
+        required: true
+        description: The language of the content
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        example: en-au
+      - in: header
+        name: Content-Type
+        required: true
+        description: Content Type
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        example: application/json
+      - in: query
+        name: suburb
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        required: true
+        description: 'The suburb or town within Australia. Note: This will be the primary search mechanism. Please ensure the correct postcode and state are provided. Please refer to the following link https://auspost.com.au/postcode/suburb-index/a'
+        example: melbourne
+      - in: query
+        name: state
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+          enum:
+          - QLD
+          - NSW
+          - ACT
+          - VIC
+          - TAS
+          - SA
+          - WA
+          - NT
+        required: true
+        description: The state abbreviation of the location. National-level (NAT) outages may also be included in the response, as they can impact services within the selected state.
+        example: VIC
+      - in: query
+        name: postcode
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 10
+        required: true
+        description: The postcode of the location
+        example: '3000'
+      responses:
+        '200':
+          description: Outage status retrieved successfully
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+              example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutageStatusResponse'
+        '400':
+          description: Bad request
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                missingRequiredQueryParam:
+                  $ref: '#/components/examples/missingRequiredQueryParam'
+        '401':
+          description: Unauthorized - Missing or invalid Authorization header
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  $ref: '#/components/examples/unauthorized'
+        '403':
+          description: Forbidden
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                forbidden:
+                  $ref: '#/components/examples/forbidden'
+        '404':
+          description: Not Found
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                notFound:
+                  $ref: '#/components/examples/notFound'
+        '405':
+          description: Method Not Allowed
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                methodNotAllowed:
+                  $ref: '#/components/examples/methodNotAllowed'
+        '429':
+          description: Too Many Requests - Rate limit exceeded
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+            Retry-After:
+              description: The number of seconds to wait before retrying.
+              schema:
+                type: integer
+                format: int32
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                rateLimited:
+                  $ref: '#/components/examples/rateLimited'
+        '500':
+          description: Internal server error
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                internalServerError:
+                  $ref: '#/components/examples/internalServerError'
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Language:
+              description: The language of the content
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: en-au
+            Retry-After:
+              description: The number of seconds to wait before retrying.
+              schema:
+                type: integer
+                format: int32
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                serviceUnavailable:
+                  $ref: '#/components/examples/serviceUnavailable'
+      operationId: getOutageV0Status
+      x-operation-id-source: derived
+components:
+  examples:
+    unauthorized:
+      value:
+        errors:
+        - code: INVALID_TOKEN
+          issue: The Authentication Token is Missing or Invalid.
+          suggested_action: Check the Authentication Token. It should be valid, unexpired, and match the one issued by the authentication service.
+          field: Authorization
+          value: ''
+          location: header
+          link: https://api.example.com/docs/errors#INVALID_TOKEN
+    methodNotAllowed:
+      value:
+        errors:
+        - code: METHOD_NOT_ALLOWED
+          issue: The requested method is not allowed for this resource.
+          suggested_action: Use an allowed HTTP method for this endpoint.
+          field: ''
+          value: ''
+          location: method
+          link: https://api.example.com/docs/errors#METHOD_NOT_ALLOWED
+    notFound:
+      value:
+        errors:
+        - code: NOT_FOUND
+          issue: Resource not found.
+          suggested_action: Verify the resource identifier(s) and retry.
+          field: ''
+          value: ''
+          location: path
+          link: https://api.example.com/docs/errors#NOT_FOUND
+    missingRequiredQueryParam:
+      value:
+        errors:
+        - code: FIELD_MISSING
+          issue: Required query parameter is missing.
+          suggested_action: Provide required query parameters (e.g., suburb, state and postcode) and retry.
+          field: state
+          value: ''
+          location: query
+          link: https://api.example.com/docs/errors#FIELD_MISSING
+    rateLimited:
+      value:
+        errors:
+        - code: TOO_MANY_REQUESTS
+          issue: The API rate limit has been reached.
+          suggested_action: Reduce the number of concurrent calls and retry after the Retry-After duration.
+          field: Retry-After
+          value: ''
+          location: header
+          link: https://api.example.com/docs/errors#TOO_MANY_REQUESTS
+    forbidden:
+      value:
+        errors:
+        - code: RESOURCE_AUTH_ERR
+          issue: You don't have permission to access this resource.
+          suggested_action: Check the permissions/scopes associated with your account and request the correct access if required.
+          field: ''
+          value: ''
+          location: path
+          link: https://api.example.com/docs/errors#RESOURCE_AUTH_ERR
+    internalServerError:
+      value:
+        errors:
+        - code: INTERNAL_SERVER_ERROR
+          issue: An unexpected error occurred.
+          suggested_action: Please try again later. If the issue persists, contact support with your Correlation-Id.
+          field: ''
+          value: ''
+          location: server
+          link: https://api.example.com/docs/errors#INTERNAL_SERVER_ERROR
+    serviceUnavailable:
+      value:
+        errors:
+        - code: SERVICE_UNAVAILABLE
+          issue: The server is temporarily unable to handle the request.
+          suggested_action: Check Retry-After and try the call again later.
+          field: Retry-After
+          value: ''
+          location: header
+          link: https://api.example.com/docs/errors#SERVICE_UNAVAILABLE
+  schemas:
+    Errors:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    OutageStatusItem:
+      type: object
+      properties:
+        state:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: The state abbreviation of the location
+          example: VIC
+        suburb:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: The suburb or town of the location
+          example: MELBOURNE
+        postcode:
+          type: string
+          minLength: 1
+          maxLength: 10
+          description: The postcode of the location
+          example: '3000'
+        start_timestamp:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Start time of the outage (with timezone)
+          example: 2025-09-29 21:43:00 Australia/Melbourne
+        end_timestamp:
+          type:
+          - string
+          - 'null'
+          minLength: 1
+          maxLength: 100
+          description: End time of the outage (with timezone), or null if ongoing
+          example: 2025-09-29 21:44:00 Australia/Melbourne
+        root_cause:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Root cause of the outage
+          example: Telstra Network (Hardware/Software/Config)
+        duration:
+          type: integer
+          minimum: 0
+          maximum: 100000000
+          description: Duration of the outage in seconds
+          example: 60
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: Description of the outage
+          example: Mobile services are now available.
+        is_planned:
+          type: boolean
+          description: Indicates if the outage is planned
+          example: false
+        technology:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Technology affected by the outage
+          example: 4G
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      - field
+      - value
+      - location
+      - link
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+          minLength: 1
+          maxLength: 32
+        issue:
+          type: string
+          description: Human-readable explanation of the error.
+          minLength: 1
+          maxLength: 256
+          example: Requested newBandwidth exceeds supported Adaptive Fibre capacity
+        suggested_action:
+          type: string
+          description: Recommended corrective action.
+          minLength: 1
+          maxLength: 256
+          example: Due to physical change required, proceed to Adaptive Network Centre to raise request
+        field:
+          type: string
+          description: Name of the field causing the error (if applicable).
+          minLength: 0
+          maxLength: 64
+          example: type
+        value:
+          type: string
+          description: The invalid value provided (if applicable).
+          minLength: 0
+          maxLength: 128
+          example: abc
+        location:
+          type: string
+          description: Where the error occurred.
+          enum:
+          - query
+          - header
+          - path
+          - body
+          - method
+          - server
+          - decision
+          minLength: 0
+          maxLength: 8
+          example: query
+        link:
+          type: string
+          description: Reference URL for more information about this error code.
+          minLength: 0
+          maxLength: 256
+          example: https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT
+    OutageStatusResponse:
+      type: object
+      properties:
+        correlation-id:
+          type: string
+          minLength: 36
+          maxLength: 36
+          description: Unique correlation ID for the request
+          example: abc123-correlation-id
+        status:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: The status of the response returned
+          example: 200
+        timestamp:
+          type: integer
+          minimum: 1
+          maximum: 9999999999999
+          description: The timestamp of the response returned
+          example: 1778644931047
+        past:
+          type: array
+          minItems: 0
+          maxItems: 100
+          description: Past outages for the suburb
+          items:
+            $ref: '#/components/schemas/OutageStatusItem'
+        near_future:
+          type: array
+          minItems: 0
+          maxItems: 100
+          description: Upcoming outages for the suburb in the next 24 hours
+          items:
+            $ref: '#/components/schemas/OutageStatusItem'
+        far_future:
+          type: array
+          minItems: 0
+          maxItems: 100
+          description: Scheduled outages far in the future
+          items:
+            $ref: '#/components/schemas/OutageStatusItem'
+        current:
+          type: array
+          minItems: 0
+          maxItems: 100
+          description: Current outages for the suburb
+          items:
+            $ref: '#/components/schemas/OutageStatusItem'
+      example:
+        correlation-id: abc123-correlation-id
+        status: 200
+        timestamp: 1778644931047
+        past:
+        - state: VIC
+          suburb: MELBOURNE
+          postcode: '3000'
+          start_timestamp: 2025-09-29 21:43:00 Australia/Melbourne
+          end_timestamp: 2025-09-29 21:44:00 Australia/Melbourne
+          root_cause: Telstra Network (Hardware/Software/Config)
+          duration: 60
+          description: Mobile services are now available.
+          is_planned: false
+          technology: 4G
+        near_future:
+        - state: VIC
+          suburb: MELBOURNE
+          postcode: '3000'
+          start_timestamp: 2025-10-01 08:00:00 Australia/Melbourne
+          end_timestamp: 2025-10-02 20:00:00 Australia/Melbourne
+          root_cause: Planned Maintenance
+          duration: 14400
+          description: Planned Maintenance. Customers may experience difficulties making and receiving calls or using data via their mobile service.
+          is_planned: true
+          technology: 4G
+        far_future:
+        - state: VIC
+          suburb: MELBOURNE
+          postcode: '3000'
+          start_timestamp: 2025-10-07 06:30:00 Australia/Melbourne
+          end_timestamp: 2025-10-13 06:30:00 Australia/Melbourne
+          root_cause: Planned Maintenance
+          duration: 604800
+          description: Planned Maintenance. Customers may experience difficulties making and receiving calls or using data via their mobile service.
+          is_planned: true
+          technology: 5G
+        current:
+        - state: VIC
+          suburb: MELBOURNE
+          postcode: '3000'
+          start_timestamp: 2025-09-24 01:01:00 Australia/Melbourne
+          end_timestamp: null
+          root_cause: Telstra Network (Hardware/Software/Config)
+          duration: 147540
+          description: A technical issue in Telstra's Network. Customers may experience difficulties making and receiving calls or using data via their mobile service.
+          is_planned: false
+          technology: 5G
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: This API will use OAuth2 security with **client_credentials** grant type.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/
+          tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-model/api/realms/network-auth/protocol/openid-connect/token
+          scopes:
+            iot-naap-outage:read: Read access for the IoT outage API.
+            iot-naap-outage:write: Write access for the IoT outage API.

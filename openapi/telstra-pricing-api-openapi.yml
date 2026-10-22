@@ -1,0 +1,884 @@
+openapi: 3.2.0
+info:
+  title: Bandwidth Modification Pricing API
+  version: 0.4.0
+  description: '# Introduction
+
+    This OpenAPI document combines the Customer Services, Modify Bandwidth, Fetch Status, and Pricing APIs for Telstra connectivity and product solutions. ## Features
+
+    Connectivity API provides below features. | Feature | | Description |
+
+    |---|---|---|
+
+    |`Retrieve Services` | | Retrieve, filter, and paginate customer services. |
+
+    |`Fetch status` | | Fetch status of request by unique RequestId. |
+
+    |`Modify Bandwidth` | | Submit bandwidth modification requests for Telstra Internet Direct , Adaptive Fibre and Adaptive Broadband.|
+
+    |`Pricing API` | | Retirves list prices for the given product.Filter with product and product specific attributes|
+
+
+    ## Version Control
+
+    This section will be used to keep track of the template version history. | Version | Date | Summary of Change. | 0.4.0 | 2026-04-10 | added AB modify plan API end point and uplift of Get services
+
+
+    | 0.3.0 | 2026-03-10 | added Pricing API in the scope
+
+    | 0.2.0 | 2026-02-28 | Combined release of specification with AF modify BW API included in the scope
+
+
+    | 0.1.0 | 2026-01-28 | Combined release of specification with Retrieve Services, TID BW modify, and Fetch Status (generic endpoint)
+
+    | 0.0.0 | 2025-12-15 | Initial release of the API specification for Retrieve Service, Modify TID BW, and Fetch Status
+
+
+    ##
+
+
+    ---
+
+
+    ## Get Services API
+
+    The Retrieve Services API provides a unified interface for discovering and viewing Telstra connectivity services associated with an account. It returns service details, identifiers, status, and product-specific characteristics in a consistent format, enabling customers to inventory, manage, and monitor their services. -----
+
+
+    ## Modify APIs
+
+    The Modify Service API allows customers to submit changes to an existing Telstra connectivity service. Supported modifications are validated against product-specific business rules and service constraints before a modification request is created. The API provides a consistent and secure mechanism to manage service changes while maintaining service integrity and compliance with Telstra product policies. ------
+
+
+    ## Fetch Status API
+
+    The Fetch Status API enables customers to retrieve the current status of previously submitted modification requests. It provides visibility into the order fulfilment lifecycle by returning status information. This allows customers to monitor request progress and determine when an modification has been successfully completed. The API supports secure access through OAuth2 and follows Telstra''s standards for headers, error handling, and documentation. -------
+
+
+    ## Pricing API
+
+    The Pricing API provides a unified interface to retrieve Telstra product pricing information. The prices returned depend on your commercial relationship with Telstra:
+
+    - If a Frame Agreement (FA) is in effect, pricing applicable under that agreement will be returned. - If no Frame Agreement (FA) is in effect, the standard list price will be returned. **All prices returned by this API exclude GST**
+
+
+    .**Pricing made available through the Price API is confidential and must only be used for your internal business purposes in connection with your Telstra services.**
+
+
+    The API supports filtering by product, charge type, and product-specific attributes, and returns results in a consistent, offset-based paginated format. The API is designed for both broad and fine-grained price discovery, enabling clients to:
+
+    - Retrieve list prices for all or specific products
+
+    - Filter results using product attributes (e.g., bandwidth, zone, variant)
+
+    - Select between recurring and one-off charges
+
+    - Page through large result sets using `offset` and `limit` query parameters (client-driven pagination)
+
+    - Receive detailed error information in a standard envelope
+
+
+    This API is suitable for integration into quoting tools, product catalogs, and customer-facing applications where up-to-date, accurate pricing is required.'
+servers:
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/connectivity/v0
+  description: Telstra Products API (Production)
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Pricing
+paths:
+  /services/price:
+    get:
+      tags:
+      - Pricing
+      operationId: listPricing
+      summary: List prices (simple query filters)
+      description: 'Returns list prices.
+
+        Valid combinations: - If `product` is omitted: returns list prices across all products. - If `product` is provided: returns list prices scoped to that product. - `attributes[...]` MUST ONLY be used when `product` is provided.
+
+        If `product` is omitted and `attributes[...]` is supplied, the service returns 400.'
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: OAuth2 token for authentication.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+        example: IYpGOTXFWA1hG7MoBkZnmDmvY7ZQ
+      - name: X-Correlation-Id
+        in: header
+        required: true
+        description: Unique Correlation Id for each transaction to be used by all consumers.
+        schema:
+          type: string
+          minLength: 36
+          maxLength: 36
+        example: f7c94213-36df-44cc-935f-025bb52cad42
+      - name: Content-Type
+        in: header
+        required: true
+        description: Accepting with application/json.
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Accept
+        in: header
+        required: true
+        description: Accept type of response (application/json).
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - name: Telstra-api-version
+        in: header
+        required: false
+        description: B2B2X Header-based API version. Specify the published API minor version (e.g., 1.2).
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 16
+        example: '1.2'
+      - name: Accept-Charset
+        in: header
+        required: true
+        description: Specifies the character sets that are acceptable for response. Default is UTF-8 if not specified.
+        schema:
+          type: string
+          enum:
+          - UTF-8
+          - ISO-8859-1
+          - US-ASCII
+          minLength: 5
+          maxLength: 10
+        example: UTF-8
+      - name: Content-Language
+        in: header
+        required: true
+        description: Language of the request content (e.g., en, en-US).
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 8
+        example: en-AU
+      - name: product
+        in: query
+        required: false
+        description: Optional product identifier.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+        example: tid-adapt
+      - name: chargeType
+        in: query
+        required: false
+        description: Filter by charge type.
+        schema:
+          $ref: '#/components/schemas/ChargeType'
+        example: RECURRING
+      - name: attributes
+        in: query
+        required: false
+        description: "Product-specific variation filters. Supported attributes by product: \n\n `adaptive-broadband`- plan (e.g. 50/20 Mbps),carriageServiceType (e.g. TC4), accessType (e.g. nbn)\n\n `Example: attribute[plan]=100/20Mbps&attribute[accessType]=nbn            `\n\n `adaptive-fibre`-bandwidth (e.g. 50 Mbps),zone (e.g. Zone ),variant (e.g. Adaptive Fibre - NBN).\n\n `Example: attribute[bandwidth]=50Mbps&attribute[zone]=zone1&attribute[variant]=Adaptive Fibre - NBN`\n\n`tid-adapt`- bandwidth (e.g. 50 Mbps),zone (e.g. Zone) ,variant (e.g. Telstra Internet Direct Lite Adapt)\n\n\n             Example: attributes[bandwidth]=500Mbps&attributes[zone]=National.\n            \n\nThese parameter MUST ONLY be used when `product` is provided.  \n- If `product` is omitted and `attributes[...]` is supplied, the service returns 400.  \n- `Unsupported attributes` for the selected product will return 400 FIELD_INVALID\n"
+        style: simple
+        explode: true
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        example:
+          bandwidth: 100 Mbps
+          zone: National
+          variant: Telstra Internet Direct Lite Adapt
+      - name: offset
+        in: query
+        required: false
+        description: Zero-based index of the first record to return.
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of records to return (max 500).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 500
+          default: 100
+        example: 25
+      responses:
+        '200':
+          description: List price response.
+          headers:
+            X-Correlation-Id:
+              description: Correlation ID echoed back for tracing.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPriceResponse'
+              examples:
+                withProduct:
+                  summary: With product filter (TID)
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=tid-adapt&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=tid-adapt&offset=0&limit=25
+                    data:
+                    - product: tid-adapt
+                      chargeType: RECURRING
+                      name: Telstra Internet Direct Lite Adapt - National - 50Mbps
+                      unit: AUD
+                      price: 120
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Lite Adapt - National - 50Mbps
+                      attributes:
+                        bandwidth: 50 Mbps
+                        zone: Zone 1
+                        variant: Telstra Internet Direct Lite Adapt
+                withoutProduct:
+                  summary: Without product filter (all products)
+                  value:
+                    paging:
+                      totalRecords: 8
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?offset=0&limit=25
+                    data:
+                    - product: adaptive-broadband
+                      chargeType: ONE_OFF
+                      name: Adaptive Broadband - 50/20 Mbps
+                      unit: AUD
+                      price: 80
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Broadband - 50/20 Mbps
+                      attributes:
+                        plan: 50/20 Mbps
+                        accessType: TC4
+                    - product: adaptive-broadband
+                      chargeType: RECURRING
+                      name: Adaptive Broadband 1000/400Mbps - nbn
+                      unit: AUD
+                      price: 144.55
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Broadband 1000/400Mbps - nbn
+                      attributes:
+                        bandwidth: 1000/400 Mbps
+                        accessType: nbn
+                        carriageServiceType: TC4
+                    - product: adaptive-fibre
+                      chargeType: RECURRING
+                      name: Adaptive Fibre - Zone 1 - 50 Mbps
+                      unit: AUD
+                      price: 150
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Fibre - Zone 1 - 50 Mbps
+                      attributes:
+                        bandwidth: 50 Mbps
+                        zone: Zone 1
+                        accessType: Adaptive Fibre - NBN
+                    - product: adaptive-fibre
+                      chargeType: ONE_OFF
+                      name: Adaptive Fibre modem purchase
+                      unit: AUD
+                      price: 200
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Fibre modem purchase
+                      attributes:
+                        device: TELSTRA SMART MODEM 4
+                    - product: tid-adapt
+                      chargeType: RECURRING
+                      name: Telstra Internet Direct Lite Adapt - National - 100Mbps
+                      unit: AUD
+                      price: 120
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Lite Adapt - National - 100Mbps
+                      attributes:
+                        bandwidth: 100 Mbps
+                        zone: National
+                        variant: Telstra Internet Direct Lite Adapt
+                    - product: tid-adapt
+                      chargeType: ONE_OFF
+                      name: Telstra Internet Direct Lite Adapt activation
+                      unit: AUD
+                      price: 300
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Lite Adapt activation
+                      attributes: {}
+                    - product: tid-adapt
+                      chargeType: RECURRING
+                      name: Telstra Internet Direct Premium Adapt - National - 400Mbps
+                      unit: AUD
+                      price: 720
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Premium Adapt - National - 400Mbps
+                      attributes:
+                        bandwidth: 400 Mbps
+                        zone: National
+                        variant: Telstra Internet Direct Premium Adapt
+                    - product: tid-adapt
+                      chargeType: ONE_OFF
+                      name: Telstra Internet Direct Premium Adapt activation
+                      unit: AUD
+                      price: 300
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Premium Adapt activation
+                      attributes: {}
+                tidRecurring:
+                  summary: TID product, recurring charge
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=tid-adapt&chargeType=RECURRING&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=tid-adapt&chargeType=RECURRING&offset=0&limit=25
+                    data:
+                    - product: tid-adapt
+                      chargeType: RECURRING
+                      name: Telstra Internet Direct Lite Adapt - National - 100Mbps
+                      unit: AUD
+                      price: 120
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Lite Adapt - National - 100Mbps
+                      attributes:
+                        bandwidth: 100 Mbps
+                        zone: National
+                        variant: Telstra Internet Direct Lite Adapt
+                tidOneOff:
+                  summary: TID product, one-off charge
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=tid-adapt&chargeType=ONE_OFF&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=tid-adapt&chargeType=ONE_OFF&offset=0&limit=25
+                    data:
+                    - product: tid-adapt
+                      chargeType: ONE_OFF
+                      name: Telstra Internet Direct Lite Adapt activation
+                      unit: AUD
+                      price: 300
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Telstra Internet Direct Lite Adapt activation
+                      attributes: {}
+                adaptiveBroadbandRecurring:
+                  summary: Adaptive Broadband, recurring charge
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=adaptive-broadband&chargeType=RECURRING&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=adaptive-broadband&chargeType=RECURRING&offset=0&limit=25
+                    data:
+                    - product: adaptive-broadband
+                      chargeType: RECURRING
+                      name: Adaptive Broadband 1000/400Mbps - nbn
+                      unit: AUD
+                      price: 144.55
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Broadband 1000/400Mbps - nbn
+                      attributes:
+                        bandwidth: 1000/400 Mbps
+                        accessType: nbn
+                        carriageServiceType: TC4
+                adaptiveBroadbandOneOff:
+                  summary: Adaptive Broadband, one-off charge
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=adaptive-broadband&chargeType=ONE_OFF&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=adaptive-broadband&chargeType=ONE_OFF&offset=0&limit=25
+                    data:
+                    - product: adaptive-broadband
+                      chargeType: ONE_OFF
+                      name: Adaptive Broadband modem purchase
+                      unit: AUD
+                      price: 261.81
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Broadband modem purchase
+                      attributes:
+                        device: TELSTRA SMART MODEM 4
+                adaptiveFibreRecurring:
+                  summary: Adaptive Fibre, recurring charge
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=adaptive-fibre&chargeType=RECURRING&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=adaptive-fibre&chargeType=RECURRING&offset=0&limit=25
+                    data:
+                    - product: adaptive-fibre
+                      chargeType: RECURRING
+                      name: Adaptive Fibre - Zone 1 - 50 Mbps
+                      unit: AUD
+                      price: 150
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Fibre - Zone 1 - 50 Mbps
+                      attributes:
+                        bandwidth: 50 Mbps
+                        zone: Zone 1
+                        accessType: Adaptive Fibre - NBN
+                adaptiveFibreOneOff:
+                  summary: Adaptive Fibre, one-off charge
+                  value:
+                    paging:
+                      totalRecords: 1
+                      offset: 0
+                      limit: 25
+                      nextPage: /prices?product=adaptive-fibre&chargeType=ONE_OFF&offset=25&limit=25
+                      previousPage: null
+                      lastPage: /prices?product=adaptive-fibre&chargeType=ONE_OFF&offset=0&limit=25
+                    data:
+                    - product: adaptive-fibre
+                      chargeType: ONE_OFF
+                      name: Adaptive Fibre modem purchase
+                      unit: AUD
+                      price: 200
+                      validFor:
+                        start: '2099-12-31'
+                        end: '2099-12-31'
+                      billDescription: Adaptive Fibre modem purchase
+                      attributes:
+                        device: TELSTRA SMART MODEM 4
+                noRecordsFound:
+                  summary: No records found
+                  value:
+                    paging:
+                      totalRecords: 0
+                      offset: 0
+                      limit: 25
+                      nextPage: null
+                      previousPage: null
+                      lastPage: null
+                    data: []
+                    errors:
+                    - code: NO_MATCHING_RECORDS
+                      issue: No pricing found matching the provided filters.
+                      suggested_action: Verify filter values or remove one or more filters to broaden the search.
+                      field: product,bandwidth
+                      value: tid-adapt,100mbps
+                      location: query
+                      link: https://api.example.com/docs/errors#NO_MATCHING_RECORDS
+        '400':
+          description: Bad Request — invalid filters or parameter combination.
+          headers:
+            Content-Language:
+              description: The language used in the response content (e.g., en, en‑AU).
+              schema:
+                type: string
+                example: en‑AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                attributesWithoutProduct:
+                  summary: attributes supplied without product
+                  value:
+                    errors:
+                    - code: FIELD_INVALID
+                      issue: The 'attributes' filter can only be used when 'product' is provided.
+                      suggested_action: Provide 'product' when using attributes[...] or remove attributes.
+                      field: attributes[bandwidth]
+                      value: 50 Mbps
+                      location: query
+                      link: https://api.telstra.com/docs/errors#FIELD_INVALID
+                invalidAttributeForProduct:
+                  summary: Attribute not valid for selected product
+                  value:
+                    errors:
+                    - code: FIELD_INVALID
+                      issue: The attribute 'plan' is not valid for product 'tid-adapt'.
+                      suggested_action: Remove or correct the attribute for the selected product.
+                      field: attributes[plan]
+                      value: 50/20 Mbps
+                      location: query
+                      link: https://api.telstra.com/docs/errors#FIELD_INVALID
+        '401':
+          description: Unauthorized — missing/invalid token.
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en‑AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                unauthorized:
+                  summary: Missing or invalid authentication token
+                  value:
+                    errors:
+                    - code: INVALID_TOKEN
+                      issue: The Authentication Token is Missing or Invalid.
+                      suggested_action: Check the Authentication Token. It should be valid and unexpired.
+                      field: Authorization
+                      value: ''
+                      location: header
+                      link: https://api.telstra.com/docs/errors#INVALID_TOKEN
+        '403':
+          description: Forbidden — caller not permitted to read prices.
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en‑AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                forbidden:
+                  summary: Caller not permitted
+                  value:
+                    errors:
+                    - code: RESOURCE_AUTH_ERR
+                      issue: You don't have permission to access this resource.
+                      suggested_action: Check the permissions and required scopes associated with your account.
+                      field: product
+                      value: adaptive-fibre
+                      location: path
+                      link: https://api.telstra.com/docs/errors#RESOURCE_AUTH_ERR
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          headers:
+            Retry-After:
+              description: Seconds until the next allowed request.
+              schema:
+                type: integer
+                example: 30
+            Content-Language:
+              schema:
+                type: string
+                example: en‑AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                rateLimit:
+                  summary: Rate limit exceeded
+                  value:
+                    errors:
+                    - code: TOO_MANY_REQUESTS
+                      issue: The API rate limit has been reached.
+                      suggested_action: Reduce the number of concurrent calls and try again.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.telstra.com/docs/errors#TOO_MANY_REQUESTS
+        '500':
+          description: Internal Server Error — unexpected server‑side error.
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en‑AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                serverError:
+                  summary: Unexpected server error
+                  value:
+                    errors:
+                    - code: INTERNAL_SERVER_ERROR
+                      issue: An unexpected error occurred.
+                      suggested_action: Please try again later. If the issue persists, contact support with your correlationId.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.telstra.com/docs/errors#INTERNAL_SERVER_ERROR
+        '503':
+          description: Service Unavailable — temporary maintenance or overload.
+          headers:
+            Retry-After:
+              description: Seconds until the client may retry.
+              schema:
+                type: integer
+                minimum: 1
+            Content-Language:
+              schema:
+                type: string
+                example: en‑AU
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                serviceUnavailable:
+                  summary: Service temporarily unavailable
+                  value:
+                    errors:
+                    - code: SERVICE_UNAVAILABLE
+                      issue: Service is temporarily unavailable due to maintenance or overload.
+                      suggested_action: Retry after the specified period.
+                      field: ''
+                      value: ''
+                      location: server
+                      link: https://api.telstra.com/docs/errors#SERVICE_UNAVAILABLE
+components:
+  schemas:
+    ListPriceResponse:
+      type: object
+      required:
+      - paging
+      - data
+      properties:
+        paging:
+          type: object
+          required:
+          - totalRecords
+          - offset
+          - limit
+          - nextPage
+          - previousPage
+          - lastPage
+          properties:
+            totalRecords:
+              type: integer
+              description: Total number of price records matching the request.
+              minimum: 0
+              maximum: 1000000
+            offset:
+              type: integer
+              description: Zero-based index of the first record returned.
+              minimum: 0
+              maximum: 1000000
+            limit:
+              type: integer
+              description: Maximum number of records returned in this response.
+              minimum: 1
+              maximum: 500
+            nextPage:
+              type:
+              - string
+              - 'null'
+              format: uri
+              description: URL to the next page of results, or null if at end.
+              minLength: 1
+              maxLength: 2048
+            previousPage:
+              type:
+              - string
+              - 'null'
+              format: uri
+              description: URL to the previous page of results, or null if at start.
+              minLength: 1
+              maxLength: 2048
+            lastPage:
+              type:
+              - string
+              - 'null'
+              format: uri
+              description: URL to the last page of results, or null if only one page.
+              minLength: 1
+              maxLength: 2048
+        data:
+          type: array
+          minItems: 0
+          maxItems: 500
+          items:
+            $ref: '#/components/schemas/ListPrice'
+    Errors:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 0
+          maxItems: 10
+    ChargeType:
+      type: string
+      description: Type of charge for a list price.
+      enum:
+      - RECURRING
+      - ONE_OFF
+      minLength: 1
+      maxLength: 32
+    ListPrice:
+      type: object
+      description: 'A list price record. Includes product identifier and product-specific attributes. Note: This is list pricing only (no customer-specific pricing fields).
+
+        '
+      required:
+      - product
+      - chargeType
+      - name
+      - unit
+      - price
+      - validFor
+      - attributes
+      properties:
+        product:
+          type: string
+          minLength: 1
+          maxLength: 100
+        chargeType:
+          $ref: '#/components/schemas/ChargeType'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        unit:
+          type: string
+          pattern: ^[A-Z]{3}$
+          minLength: 1
+          maxLength: 3
+        price:
+          type: number
+          format: double
+        validFor:
+          type: object
+          required:
+          - start
+          - end
+          properties:
+            start:
+              type: string
+              format: date
+              description: Start date for which the price is valid (YYYY-MM-DD).
+              minLength: 1
+              maxLength: 10
+            end:
+              type: string
+              format: date
+              description: End date for which the price is valid (YYYY-MM-DD).
+              minLength: 1
+              maxLength: 10
+        billDescription:
+          type: string
+          minLength: 1
+          maxLength: 256
+        attributes:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      - field
+      - value
+      - location
+      - link
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code.
+          minLength: 1
+          maxLength: 32
+        issue:
+          type: string
+          description: Human-readable explanation of the error.
+          minLength: 1
+          maxLength: 256
+          example: Requested newBandwidth exceeds supported Adaptive Fibre capacity
+        suggested_action:
+          type: string
+          description: Recommended corrective action.
+          minLength: 1
+          maxLength: 256
+          example: Due to physical change required, proceed to Adaptive Network Centre to raise request
+        field:
+          type: string
+          description: Name of the field causing the error (if applicable).
+          minLength: 0
+          maxLength: 64
+          example: type
+        value:
+          type: string
+          description: The invalid value provided (if applicable).
+          minLength: 0
+          maxLength: 128
+          example: abc
+        location:
+          type: string
+          description: Where the error occurred.
+          enum:
+          - query
+          - header
+          - path
+          - body
+          - method
+          - server
+          - decision
+          minLength: 0
+          maxLength: 8
+          example: query
+        link:
+          type: string
+          description: Reference URL for more information about this error code.
+          minLength: 0
+          maxLength: 256
+          example: https://api.example.com/docs/errors#NEW_BW_GT_AF_SUPPORT
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth2 client-credentials flow (Cat-1).
+      flows:
+        clientCredentials:
+          tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect/token
+          scopes:
+            fixed-connectivity:modify-bandwidth:modify: combined scope for all the end points in package

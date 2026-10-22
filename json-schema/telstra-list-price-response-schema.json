@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-list-price-response-schema.json",
+  "title": "ListPriceResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml#/components/schemas/ListPriceResponse",
+  "type": "object",
+  "required": [
+    "paging",
+    "data"
+  ],
+  "properties": {
+    "paging": {
+      "type": "object",
+      "required": [
+        "totalRecords",
+        "offset",
+        "limit",
+        "nextPage",
+        "previousPage",
+        "lastPage"
+      ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Total number of price records matching the request.",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "offset": {
+          "type": "integer",
+          "description": "Zero-based index of the first record returned.",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of records returned in this response.",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "nextPage": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "URL to the next page of results, or null if at end.",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "previousPage": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "URL to the previous page of results, or null if at start.",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "lastPage": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "URL to the last page of results, or null if only one page.",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/ListPrice"
+      }
+    }
+  },
+  "$defs": {
+    "ChargeType": {
+      "type": "string",
+      "description": "Type of charge for a list price.",
+      "enum": [
+        "RECURRING",
+        "ONE_OFF"
+      ],
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "ListPrice": {
+      "type": "object",
+      "description": "A list price record. Includes product identifier and product-specific attributes. Note: This is list pricing only (no customer-specific pricing fields).\n",
+      "required": [
+        "product",
+        "chargeType",
+        "name",
+        "unit",
+        "price",
+        "validFor",
+        "attributes"
+      ],
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "chargeType": {
+          "$ref": "#/$defs/ChargeType"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "unit": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "minLength": 1,
+          "maxLength": 3
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "validFor": {
+          "type": "object",
+          "required": [
+            "start",
+            "end"
+          ],
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date",
+              "description": "Start date for which the price is valid (YYYY-MM-DD).",
+              "minLength": 1,
+              "maxLength": 10
+            },
+            "end": {
+              "type": "string",
+              "format": "date",
+              "description": "End date for which the price is valid (YYYY-MM-DD).",
+              "minLength": 1,
+              "maxLength": 10
+            }
+          }
+        },
+        "billDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

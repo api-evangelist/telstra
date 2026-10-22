@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-afmodify-bandwidth-request-schema.json",
+  "title": "AFModifyBandwidthRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml#/components/schemas/AFModifyBandwidthRequest",
+  "type": "object",
+  "required": [
+    "newBandwidth"
+  ],
+  "properties": {
+    "newBandwidth": {
+      "type": "string",
+      "description": "Requested new bandwidth value for the service. Allowed values [ 250 Mbps, 300Mbps, 400 Mbps, 500 Mbps, 600Mbps, 800Mbps, 1 Gbps, 2 Gbps, 4Gbps].For Telstra Fibre additional 6Gbps, 8Gbps and 10 Gbps is also supported.",
+      "minLength": 4,
+      "maxLength": 16,
+      "enum": [
+        "250 Mbps",
+        "300 Mbps",
+        "400 Mbps",
+        "500 Mbps",
+        "600 Mbps",
+        "800 Mbps",
+        "1 Gbps",
+        "2 Gbps",
+        "4 Gbps"
+      ]
+    }
+  }
+}

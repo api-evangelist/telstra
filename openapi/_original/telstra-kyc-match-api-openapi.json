@@ -1,0 +1,1003 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "description": "\nThis API provides the customer with the ability to compare the information it (Service Provider, SP) has for a particular mobile phone user with that on file (and verified) by Telstra in their data records, in order for the SP to confirm the accuracy of the information and provide a specific service to the mobile phone user.\n\n## Relevant Definitions and concepts\n\n* **KYC**: stands for Know Your Customer and it is the process of a business verifying the identity of their clients and assessing their suitability, along with the potential risks of illegal intentions towards the business relationship.\n\n* **Match Score**: a numerical value that quantifies the similarity between two pieces of text based on the words they contain. This score is often used in various applications like text comparison, plagiarism detection, information retrieval, and natural language processing. The score typically reflects how well the words in one text match the words in another text. In the context of this API, this score will be used to determine how much does the input information looks like the information stored in Telstra's system. The score will use the Jaro-Winkler distance algorithm.\nThe range of score values is between \"0\" and \"100\", where higher scores indicate a higher similarity between the two compared parameters.\n\n## API Functionality\n\nThis API allows API clients to verify the matching of a number of attributes related to a customer identity against the account data bound to their phone number.  The API is intended to be used in the following scenarios, for example:\n\n* To verify the user personal data during the digital registration of an account to a 3rd party service.\n\n* To prevent fraud, wrong or imprecise information, and/or facilitate the onboarding of a mobile phone user to a 3rd party service.\n\nThe following figure is the generic high-level flows of this API.\n\n<img width=\"848\" alt=\"KYC_Match_flow\" src=\"https://raw.githubusercontent.com/camaraproject/KnowYourCustomer/main/documentation/API_documentation/assets/kyc-match_flow.png\">\n\n## Resources and Operations overview\n\nThe API provides the following endpoint:\n\n* An endpoint to verify the matching of a number of attributes related to a mobile phone user identity against the account data bound to their phone number.\n\n## Authorization and authentication\n\nThe \"Camara Security and Interoperability Profile\" provides details on how a client requests an access token. Please refer to Identify and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the Profile.\n\nWhich specific authorization flows are to be used will be determined during onboarding process, happening between the API Client and the Telco Operator exposing the API, taking into account the declared purpose for accessing the API, while also being subject to the prevailing legal framework dictated by local legislation.\n\nIt is important to remark that in cases where personal user data is processed by the API, and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens becomes mandatory. This measure ensures that the API remains in strict compliance with user privacy preferences and regulatory obligations, upholding the principles of transparency and user-centric data control.\n",
+    "title": "Know Your Customer Match",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "0.2.1",
+    "x-camara-commonalities": "0.4.0"
+  },
+  "servers": [
+    {
+      "url": "https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api/kyc/kyc-match/v0.2"
+    }
+  ],
+  "tags": [
+    {
+      "name": "OIDC Authentication Request",
+      "description": "Request authorisation grant"
+    },
+    {
+      "name": "OIDC Access Token Request",
+      "description": "Request for access token to make the API request"
+    },
+    {
+      "name": "Match",
+      "description": "Operations to match a customer identity against the account data bound to their phone number."
+    }
+  ],
+  "paths": {
+    "/ext/ciba/auth": {
+      "post": {
+        "description": "Use your `client_id` and `client_secret` that you get from the Telstra Developer portal.",
+        "tags": [
+          "OIDC Authentication Request"
+        ],
+        "summary": "Get authorization request ID for your application and end-user",
+        "security": [
+          {}
+        ],
+        "operationId": "authReqId",
+        "servers": [
+          {
+            "url": "https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "description": "Client ID generated on your Telstra Developer account",
+                    "type": "string",
+                    "default": "your-client-id"
+                  },
+                  "client_secret": {
+                    "description": "Client Secret generated on your Telstra Developer account",
+                    "type": "string",
+                    "default": "your-client-secret"
+                  },
+                  "scope": {
+                    "description": "OpenID scope and purpose. [Refer to Github](https://github.com/camaraproject/IdentityAndConsentManagement/blob/r3.3/documentation/CAMARA-Security-Interoperability.md#missing-openid-scope)",
+                    "type": "string",
+                    "default": "openid dpv:FraudPreventionAndDetection kyc-match:match"
+                  },
+                  "login_hint": {
+                    "description": "A hint to the OpenID Provider regarding the end-user for whom authentication is being requested. The value must contain a phone number which identifies the end-user.",
+                    "type": "string",
+                    "default": "tel:+61462925583"
+                  }
+                },
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "scope",
+                  "login_hint"
+                ]
+              },
+              "example": {
+                "client_id": "your-client-id",
+                "client_secret": "your-client-secret",
+                "scope": "openid dpv:FraudPreventionAndDetection kyc-match:match",
+                "login_hint": "tel:+61462925583"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "auth_req_id": {
+                      "description": "A unique identifier to identify the authentication request made by the Client.",
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "description": "Expiry time of the auth_req_id in seconds.",
+                      "type": "number"
+                    },
+                    "interval": {
+                      "description": "Minimum amount of time the Client must wait between polling requests to the token endpoint in seconds.",
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`scope` or `login_hint` are invalid or missing"
+          },
+          "401": {
+            "description": "Either client_id or client_secret or both are not valid."
+          },
+          "404": {
+            "description": "The requested URI does not exist."
+          },
+          "503": {
+            "description": "The service is currently unavailable."
+          },
+          "default": {
+            "description": "An internal error occurred when processing the request."
+          }
+        }
+      }
+    },
+    "/token": {
+      "post": {
+        "tags": [
+          "OIDC Access Token Request"
+        ],
+        "summary": "Request for OAuth2 access token",
+        "description": "To generate an OAuth2 access token, use your `Client ID` and `Client secret` that you get from the Telstra Developer portal. You will also need the `auth_req_id` that was received in the previous leg.",
+        "security": [
+          {}
+        ],
+        "servers": [
+          {
+            "url": "https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect",
+            "description": "OAuth2 server"
+          }
+        ],
+        "operationId": "authToken",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "description": "Client ID generated on your Telstra Developer account",
+                    "type": "string",
+                    "default": "your-client-id"
+                  },
+                  "client_secret": {
+                    "description": "Client Secret generated on your Telstra Developer account",
+                    "type": "string",
+                    "default": "your-client-secret"
+                  },
+                  "grant_type": {
+                    "type": "string",
+                    "default": "urn:openid:params:grant-type:ciba"
+                  },
+                  "auth_req_id": {
+                    "type": "string",
+                    "default": "your-auth-req-id"
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "auth_req_id",
+                  "client_id",
+                  "client_secret"
+                ]
+              },
+              "example": {
+                "client_id": "your-client-id",
+                "client_secret": "your-client-secret",
+                "grant_type": "urn:openid:params:grant-type:ciba",
+                "auth_req_id": "your-auth-req-id"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "description": "OAuth access token",
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "description": "OAuth token type",
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "description": "OAuth expiry time in seconds.",
+                      "type": "string"
+                    },
+                    "scope": {
+                      "description": "Scopes requested for during Authentication Request",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`grant_type` is incorrect. `grant_type` should be `urn:openid:params:grant-type:ciba`."
+          },
+          "401": {
+            "description": "Either client_id or client_secret or both are not valid."
+          },
+          "404": {
+            "description": "The requested URI does not exist."
+          },
+          "503": {
+            "description": "The service is currently unavailable."
+          },
+          "default": {
+            "description": "An internal error occurred when processing the request."
+          }
+        }
+      }
+    },
+    "/match": {
+      "post": {
+        "tags": [
+          "Match"
+        ],
+        "summary": "Matching a customer identity by checking a set of attributes related against the account data bound to their phone number.",
+        "description": "Verify matching of a number of attributes related to a customer identity against the verified data bound to their phone number in Telstra's systems. Regardless of whether the `phoneNumber` is explicitly stated in the request body, at least one of the other fields must be provided, otherwise a `HTTP 400 - KNOW_YOUR_CUSTOMER.INVALID_PARAM_COMBINATION` error will be returned.\n\nIn order to proceed with the match check, some Operators may have the requirement to perform an additional level of validation based on the `idDocument` property. **Telstra does not enforce providing this requirement**.\n\nThe API will return the result of the matching process for each requested attribute. This means that the response will **only** contain the attributes for which validation has been requested. Possible values are:\n  - **true**: the attribute provided matches with the one in Telstra's systems.\n  - **false**: the attribute provided does not match with the one in Telstra's systems.\n  - **not_available**: the attribute is not available to validate.",
+        "operationId": "KYC_Match",
+        "security": [
+          {
+            "openId": [
+              "kyc-match:match"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-correlator"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KYC_MatchRequestBody"
+              },
+              "examples": {
+                "KYC_MatchRequestBodyExample": {
+                  "value": {
+                    "phoneNumber": "+61462925583",
+                    "idDocument": "66666666q",
+                    "name": "Federica Sanchez Arjona",
+                    "givenName": "Federica",
+                    "familyName": "Arjona",
+                    "nameKanaHankaku": "federica",
+                    "nameKanaZenkaku": "Ｆｅｄｅｒｉｃａ",
+                    "middleNames": "Sanchez",
+                    "familyNameAtBirth": "Arjona",
+                    "address": "12A/4B Exhibition Melbourne VIC 3000",
+                    "streetName": "Exhibition",
+                    "streetNumber": "4B",
+                    "postalCode": "3000",
+                    "region": "Melbourne",
+                    "locality": "VIC",
+                    "country": "AU",
+                    "houseNumberExtension": "12A",
+                    "birthdate": "1978-08-22",
+                    "email": "abc@example.com",
+                    "gender": "MALE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-correlator": {
+                "$ref": "#/components/headers/x-correlator"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KYC_MatchResponse"
+                },
+                "examples": {
+                  "KYC_Match200Example": {
+                    "value": {
+                      "idDocumentMatch": "not_available",
+                      "nameMatch": "false",
+                      "nameMatchScore": 89,
+                      "givenNameMatch": "true",
+                      "familyNameMatch": "true",
+                      "nameKanaHankakuMatch": "not_available",
+                      "nameKanaZenkakuMatch": "not_available",
+                      "middleNamesMatch": "not_available",
+                      "familyNameAtBirthMatch": "not_available",
+                      "addressMatch": "true",
+                      "streetNameMatch": "true",
+                      "streetNumberMatch": "true",
+                      "postalCodeMatch": "true",
+                      "regionMatch": "true",
+                      "localityMatch": "true",
+                      "countryMatch": "true",
+                      "houseNumberExtensionMatch": "true",
+                      "birthdateMatch": "false",
+                      "emailMatch": "false",
+                      "emailMatchScore": 87,
+                      "genderMatch": "not_available"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Generic400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Generic401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Generic403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Generic404"
+          },
+          "429": {
+            "$ref": "#/components/responses/Generic429"
+          },
+          "500": {
+            "$ref": "#/components/responses/Generic500"
+          },
+          "503": {
+            "$ref": "#/components/responses/Generic503"
+          },
+          "504": {
+            "$ref": "#/components/responses/Generic504"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "openId": {
+        "type": "openIdConnect",
+        "openIdConnectUrl": "https://example.com/.well-known/openid-configuration"
+      }
+    },
+    "headers": {
+      "x-correlator": {
+        "description": "Correlation id for the different services",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "parameters": {
+      "x-correlator": {
+        "name": "x-correlator",
+        "in": "header",
+        "description": "Correlation id for the different services",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "MatchResultNotAvailable": {
+        "type": "string",
+        "description": "Indicates that the attribute is not available to validate in Telstra's systems.",
+        "enum": [
+          "not_available"
+        ]
+      },
+      "KYC_MatchRequestBody": {
+        "type": "object",
+        "description": "Payload to validate the customer data.",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'."
+          },
+          "idDocument": {
+            "type": "string",
+            "description": "**Telstra does not match against this field and the match result will return not_available.** Id number associated to the official identity document in the country. It may contain alphanumeric characters."
+          },
+          "name": {
+            "type": "string",
+            "description": "Complete name of the customer, composed of first/given name and last/family/sur- name. Middle name should be omitted."
+          },
+          "givenName": {
+            "type": "string",
+            "description": "First/given name or compound first/given name of the customer."
+          },
+          "familyName": {
+            "type": "string",
+            "description": "Last name, family name, or surname of the customer."
+          },
+          "nameKanaHankaku": {
+            "type": "string",
+            "description": "**Telstra does not match against this field and the match result will return not_available.** Complete name of the customer in Hankaku-Kana format (reading of name) for Japan."
+          },
+          "nameKanaZenkaku": {
+            "type": "string",
+            "description": "**Telstra does not match against this field and the match result will return not_available.** Complete name of the customer in Zenkaku-Kana format (reading of name) for Japan."
+          },
+          "middleNames": {
+            "type": "string",
+            "description": "**Telstra does not match against this field and the match result will return not_available.** Middle name/s of the customer."
+          },
+          "familyNameAtBirth": {
+            "type": "string",
+            "description": "**Telstra does not match against this field and the match result will return not_available.** Last/family/sur- name at birth of the customer."
+          },
+          "address": {
+            "type": "string",
+            "description": "Complete address of the customer. Constructed in the format **houseNumberExtension (excluding type, eg. Unit) + streetNumber + streetName (excluding street type) + locality + region + postalCode**, with a single whitespace delimiter between each address element."
+          },
+          "streetName": {
+            "type": "string",
+            "description": "Name of the street of the customer's address. It should not include the type of the street."
+          },
+          "streetNumber": {
+            "type": "string",
+            "description": "The street number of the customer's address.  Number identifying a specific property on the 'streetName'."
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Zip code or postal code"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region/prefecture of the customer's address"
+          },
+          "locality": {
+            "type": "string",
+            "description": "Locality of the customer's address"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country of the customer's address. Format ISO 3166-1 alpha-2"
+          },
+          "houseNumberExtension": {
+            "type": "string",
+            "description": "Specific identifier of the house needed depending on the property type. For example, number of apartment in an apartment building. This should not include the type (eg. Unit, Apartment, etc)."
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "The birthdate of the customer, in ISO 8601 calendar date format (YYYY-MM-DD)."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the customer in the RFC specified format (local-part@domain)."
+          },
+          "gender": {
+            "type": "string",
+            "description": "**Telstra does not match against this field and the match result will return not_available.** Gender of the customer (Male/Female/Other).",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "OTHER"
+            ]
+          }
+        }
+      },
+      "MatchResult": {
+        "type": "string",
+        "enum": [
+          "true",
+          "false",
+          "not_available"
+        ]
+      },
+      "MatchScoreResult": {
+        "type": "integer",
+        "description": "Indicates the similarity score assigned to the input value when it does not exactly match the value stored in Telstra's system. This property shall only be returned when the value of the corresponding match field is `false`.",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "KYC_MatchResponse": {
+        "type": "object",
+        "properties": {
+          "idDocumentMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResultNotAvailable"
+              },
+              {
+                "description": "Indicates whether Id number associated to the ID document of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "nameMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the complete name of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "nameMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "givenNameMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether First name/given name of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "givenNameMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "familyNameMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether last name/ family name/ surname of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "familyNameMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "nameKanaHankakuMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResultNotAvailable"
+              },
+              {
+                "description": "Indicates whether complete name of the customer in Hankaku-Kana format (reading of name) for Japan matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "nameKanaHankakuMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "nameKanaZenkakuMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResultNotAvailable"
+              },
+              {
+                "description": "Indicates whether complete name of the customer in Zenkaku-Kana format (reading of name) for Japan matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "nameKanaZenkakuMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "middleNamesMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResultNotAvailable"
+              },
+              {
+                "description": "Indicates whether the middle names of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "middleNamesScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "familyNameAtBirthMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResultNotAvailable"
+              },
+              {
+                "description": "Indicates whether the Family Name At Birth of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "familyNameAtBirthMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "addressMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether complete address of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "addressMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "streetNameMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the street name of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "streetNameMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "streetNumberMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the street number of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "streetNumberMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "postalCodeMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the postal code / zip code of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "regionMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the region of the customer's address matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "regionMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "localityMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the locality of the customer's address matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "localityMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "countryMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the country of the customer's address matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "houseNumberExtensionMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the house number extension of the customer's address with the one on the Operator's system."
+              }
+            ]
+          },
+          "birthdateMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the birthdate of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "emailMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResult"
+              },
+              {
+                "description": "Indicates whether the email address of the customer matches with the one on the Operator's system."
+              }
+            ]
+          },
+          "emailMatchScore": {
+            "$ref": "#/components/schemas/MatchScoreResult"
+          },
+          "genderMatch": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MatchResultNotAvailable"
+              },
+              {
+                "description": "Indicates whether the gender of the customer matches with the one on the Operator's system."
+              }
+            ]
+          }
+        }
+      },
+      "ErrorInfo": {
+        "type": "object",
+        "required": [
+          "status",
+          "code",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP response status code"
+          },
+          "code": {
+            "type": "string",
+            "description": "Code given to this error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed error description"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Generic429": {
+        "description": "Too Many Requests",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ErrorInfo"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        429
+                      ]
+                    },
+                    "code": {
+                      "enum": [
+                        "TOO_MANY_REQUESTS"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "examples": {
+              "GENERIC_429_TOO_MANY_REQUESTS": {
+                "description": "Access to the API has been temporarily blocked due to rate or spike arrest limits being reached",
+                "value": {
+                  "status": 429,
+                  "code": "TOO_MANY_REQUESTS",
+                  "message": "Rate limit reached."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic400": {
+        "description": "Problem with the client request.\nIn addition to regular scenario of `INVALID_ARGUMENT`, another scenario may exist.\n\n- Indicated param combination is invalid (`\"code\": \"KNOW_YOUR_CUSTOMER.INVALID_PARAM_COMBINATION\",\"message\": \"Indicated parameter combination is invalid\"`)",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "examples": {
+              "InvalidArgument": {
+                "value": {
+                  "status": 400,
+                  "code": "INVALID_ARGUMENT",
+                  "message": "Client specified an invalid argument, request body or query param"
+                }
+              },
+              "InvalidParamCombination": {
+                "value": {
+                  "status": 400,
+                  "code": "KNOW_YOUR_CUSTOMER.INVALID_PARAM_COMBINATION",
+                  "message": "Indicated parameter combination is invalid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic401": {
+        "description": "Authentication problem with the client request. Unauthorized error.  Access Token related errors.",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "examples": {
+              "Unauthenticated": {
+                "value": {
+                  "status": 401,
+                  "code": "UNAUTHENTICATED",
+                  "message": "Request not authenticated due to missing, invalid, or expired credentials"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic403": {
+        "description": "Client does not have sufficient permission.\nIn addition to regular scenario of `PERMISSION_DENIED`, another scenarios may exist:\n\n- Phone number cannot be deducted from access token context.(`{\"code\": \"INVALID_TOKEN_CONTEXT\",\"message\": \"Phone number mismatch with access token context\"}`)\n",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "examples": {
+              "PermissionDenied": {
+                "value": {
+                  "status": 403,
+                  "code": "PERMISSION_DENIED",
+                  "message": "Client does not have sufficient permissions to perform this action"
+                }
+              },
+              "InvalidTokenContext": {
+                "value": {
+                  "status": 403,
+                  "code": "INVALID_TOKEN_CONTEXT",
+                  "message": "Phone number mismatch with access token context"
+                }
+              },
+              "IdDocumentRequired": {
+                "value": {
+                  "status": 403,
+                  "code": "KNOW_YOUR_CUSTOMER.ID_DOCUMENT_REQUIRED",
+                  "message": "The idDocument is required to perform the properties validation"
+                }
+              },
+              "IdDocumentMismatch": {
+                "value": {
+                  "status": 403,
+                  "code": "KNOW_YOUR_CUSTOMER.ID_DOCUMENT_MISMATCH",
+                  "message": "The idDocument needs to match the one associated with the provided phoneNumber"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic404": {
+        "description": "Not Found error. Error if URL is wrong / user is not found.\n",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "examples": {
+              "NotFound": {
+                "value": {
+                  "status": 404,
+                  "code": "NOT_FOUND",
+                  "message": "not_found_contractor/not_found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic500": {
+        "description": "Server error.  Problem with MNO's server side.  Some processing error within MNO's servers.",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "examples": {
+              "ServerError": {
+                "value": {
+                  "status": 500,
+                  "code": "INTERNAL",
+                  "message": "Server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic503": {
+        "description": "Service unavailable. Typically the server is down.  Problem with MNO's server side.  Any unexpected error within MNO's servers.",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "examples": {
+              "ServiceUnavailable": {
+                "value": {
+                  "status": 503,
+                  "code": "UNAVAILABLE",
+                  "message": "Service unavailable"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Generic504": {
+        "description": "Request time exceeded. If it happens repeatedly, consider reducing the request complexity",
+        "headers": {
+          "x-correlator": {
+            "$ref": "#/components/headers/x-correlator"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "example": {
+              "status": 504,
+              "code": "TIMEOUT",
+              "message": "Request timeout exceeded. Try later."
+            }
+          }
+        }
+      }
+    }
+  }
+}

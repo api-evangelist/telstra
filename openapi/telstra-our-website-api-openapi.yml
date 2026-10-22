@@ -1,0 +1,45 @@
+openapi: 3.2.0
+info:
+  title: Telstra Cloud Sight platform Our website API
+  version: 2.0.0
+  description: '# Introduction
+
+
+    Telstra Cloud Sight helps you simplify the management of your public cloud resources.
+
+
+    Manage the compliance, budget and security of your eligible clouds and their associated resources.
+
+
+    # Features
+
+
+    | Feature | Description | Benefits |
+
+    | --- | --- | --- |
+
+    | Online registration | You can now register for Telstra Cloud Sight using our simple online form. | Set up your Telstra Cloud Sight account how you want, when you want it. |
+
+    | Cost tracking | Track your costs across all clouds. | Helps keep track of your cloud spend and identify where you can lower costs. |
+
+    | Deploy compliant architectures | Use automated blueprints to build clouds that are compliant with industry standards and best practices | Removes labour intensive build work (or script development) to introduce security compliance into clouds. Frees critical resources to focus on development of apps in-cloud. Ensures that accounts are built with compliance from day-zero, reducing business risk of operating in the cloud.|
+
+    | Resource tagging | Create tag collections and assign them to a range of resources.| Tags can be used for categorising and grouping your accounts, simplifying your automation and reporting tasks. |
+
+    | Resource scheduling | Create schedules and apply them to a variety of resources so they can be powered on and off at any time of the day, including weekends. You can synchronise the schedule to your time zone. | Switch off resources when you don’t need them to help lower costs of operating your cloud. |
+
+    | Access management | Centralised, privilege based user management for the Telstra Cloud Sight platform and associated clouds. Simply assign users and roles according to duties they need to perform. | Simplify administration and ensure security of the Telstra Cloud Sight platform and associated clouds. |'
+servers:
+- url: https://www.telstra.com.au/business-enterprise/solutions/cloud-services/cloud-management/telstra-cloud-sight
+tags:
+- name: Our website
+paths:
+  /:
+    get:
+      description: You can visit the Telstra Cloud Sight website for further information, including demo videos.
+      summary: Website
+      tags:
+      - Our website
+      responses: {}
+      operationId: getRoot
+      x-operation-id-source: derived

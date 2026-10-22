@@ -1,0 +1,22 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints
+versioning:
+  scheme: semver
+  current: 3.0.0
+  header: Telstra-api-version
+  header_example: 3.1.0
+  evidence: 'Docs header shows "Current: 3.0.0 | Messaging API | v3.0.0"; every endpoint accepts a Telstra-api-version
+    header (Example: 3.1.0). Server path https://products.api.telstra.com/messaging/v3.'
+deprecation:
+  policy: null
+  note: No published deprecation policy or Sunset/Deprecation headers found on the Messaging API docs.
+sla: null
+status_page: https://tdev.statuspage.io/
+status_page_alternates:
+- https://dev.telstra.com/status
+retention:
+- GET /messages returns messages sent from/to your account in the last 30 days (FAQs).
+- Virtual Numbers that have not sent a message in 30 days (Free Trial) or sent/received a message in 18 months (paid
+  plans) will be automatically unassigned (FAQs).
+deprecated_operations: []

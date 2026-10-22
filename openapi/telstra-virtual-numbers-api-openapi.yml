@@ -1,0 +1,1673 @@
+openapi: 3.2.0
+info:
+  title: Messaging API v3.x virtual numbers API
+  version: 3.x
+  description: 'Send and receive SMS & MMS programmatically, leveraging Australia''s leading mobile network.
+
+    With Telstra''s Messaging API, we take out the complexity to allow seamless messaging integration into your app, with just a few lines of code.
+
+    Our REST API is enterprise grade, allowing you to communicate with engaging SMS & MMS messaging in your web and mobile apps in near real-time on a global scale.'
+servers:
+- url: https://products.api.telstra.com/messaging/v3
+  description: Messaging API
+security:
+- bearer_auth: []
+tags:
+- name: virtual numbers
+paths:
+  /virtual-numbers:
+    post:
+      security:
+      - bearer_auth: []
+      tags:
+      - virtual numbers
+      summary: assign a virtual number
+      description: 'When a recipient receives your message, you can choose whether they''ll see a Virtual Number or senderName (paid plans only) in the **from** field. If you want to use a Virtual Number, use this endpoint to assign one. Free Trial users can assign one Virtual Number, and those on a paid plan can assign up to **20**. If you need more than 20 virtual numbers on a paid plan, please contact us at telstradev@team.telstra.com
+
+
+        Virtual Numbers that have not sent a message in 30 days (Free Trial) or sent/received a message in 18 months (paid plans) will be automatically unassigned from your account. You can check the **lastUse** date of your Virtual Number at any time using GET /virtual-numbers/{virtual-number}.'
+      operationId: assignNumber
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/ContentLanguage'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        $ref: '#/components/requestBodies/numberPost'
+      responses:
+        '201':
+          description: 'A 201 Created response means a Virtual Number has been assigned to your account. You can find this 10-digit number in the response body.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Location:
+              schema:
+                type: string
+                example: /virtual-numbers/{virtual-number}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Virtual-number'
+        '400':
+          description: 'Bad Request
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TAGS_ERR | Ensure you''ve assigned no more than 10 tags, using up to 64 characters for each. |
+
+            | FIELD_INVALID | Check the field and the field formatting are correct. |
+
+            | FIELD_MISSING | Ensure you''ve supplied all the required fields. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | ACCOUNT_NOT_LINKED | Check you''ve registered for the Messaging API [here](https://dev.telstra.com). |
+
+            | ACCOUNT_LIMIT_ERROR | Check the maximum number of Virtual Numbers that can be assigned to your account. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_TEMP_ERR | Check the API status page to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is POST. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '413':
+          description: 'Payload Too Large
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | PAYLOAD_TOO_LARGE | Reduce body payload size |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the API [status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the API [status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+    get:
+      security:
+      - bearer_auth: []
+      tags:
+      - virtual numbers
+      summary: fetch all virtual numbers
+      description: Use this endpoint to fetch all Virtual Numbers currently assigned to your account.
+      operationId: getNumbers
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/numberFilter'
+      responses:
+        '200':
+          description: 'A 200 OK response means your request has been successful. Your Virtual Number(s) will be returned in the response body.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  virtualNumbers:
+                    type: array
+                    minItems: 0
+                    maxItems: 50
+                    items:
+                      $ref: '#/components/schemas/Virtual-number'
+                    description: 'The paginated results of your request. To fetch the next set of results, send another request and provide the succeeding offset value.
+
+                      '
+                  paging:
+                    $ref: '#/components/schemas/Paging'
+        '400':
+          description: 'Bad Request
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | FIELD_INVALID | Check the field and the field formatting are correct. |
+
+            | FIELD_MISSING | Ensure you''ve supplied all the required fields. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | ACCOUNT_NOT_LINKED | Check you''ve registered for the Messaging API [here](https://dev.telstra.com). |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_TEMP_ERR | Check the API status page to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is GET. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the API [status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the API [status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /virtual-numbers/{virtual-number}:
+    get:
+      security:
+      - bearer_auth: []
+      tags:
+      - virtual numbers
+      summary: fetch a virtual number
+      description: Fetch the tags, replyCallbackUrl and lastUse date for a Virtual Number.
+      operationId: getVirtualNumber
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/virtual-number'
+      responses:
+        '200':
+          description: 'A 200 OK response means your request has been successful.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Virtual-number'
+        '400':
+          description: "Bad Request\n\n| code | suggested_action |\n| :--- | :--- |\n| VIRTUAL_NUM_INVALID | Check the number is a valid Virtual Number. |\n| VIRTUAL_NUM_UNASSIGNED | Check the number is assigned to your account. |\n| FIELD_INVALID | Ensure the number is a 10-digit Australian mobile number in national format (e.g. 0412345678). |\n| FIELD_LENGTH_ERR | Ensure the number is 10 digits only (e.g. 0412345678). | \n| FIELD_MISSING | Please supply the number. |\n"
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | ACCOUNT_NOT_LINKED | Check you''ve registered for the Messaging API [here](https://dev.telstra.com). |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | VIRTUAL_NUM_UNKNOWN | Check the number is a valid Virtual Number. |
+
+            | RESOURCE_TEMP_ERR | Check the API status page to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is GET. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the API [status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the API [status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+    put:
+      security:
+      - bearer_auth: []
+      tags:
+      - virtual numbers
+      summary: update a virtual number
+      description: 'Use **virtual-number** to update the tags and/or replyCallbackUrl of a Virtual Number.
+
+
+        This request body will override the original POST /virtual-numbers call.'
+      operationId: updateNumber
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/ContentLanguage'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/ContentType'
+      - $ref: '#/components/parameters/virtual-number'
+      requestBody:
+        $ref: '#/components/requestBodies/numberPut'
+      responses:
+        '200':
+          description: 'A 200 OK response means metadata for the Virtual Number has been successfully updated.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Virtual-number'
+        '400':
+          description: "Bad Request\n\n| code | suggested_action |\n| :--- | :--- |\n| TAGS_ERR | Ensure you've assigned no more than 10 tags, using up to 64 characters for each. |\n| VIRTUAL_NUM_INVALID | Check the number is a valid Virtual Number. |\n| VIRTUAL_NUM_UNASSIGNED | Check the number is assigned to your account. |\n| FIELD_LENGTH_ERR | Check the field is within character limits. | \n| FIELD_INVALID | Check the field and the field formatting are correct. |\n| FIELD_MISSING | Please supply all required fields. |\n"
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access Token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | ACCOUNT_NOT_LINKED | Check you''ve registered for the Messaging API [here](https://dev.telstra.com). |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | VIRTUAL_NUM_UNKNOWN | Check the number is a valid Virtual Number. |
+
+            | RESOURCE_TEMP_ERR | Check the API status page to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is PUT. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '413':
+          description: 'Payload Too Large
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | PAYLOAD_TOO_LARGE | Reduce body payload size |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the API [status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the API [status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+    delete:
+      security:
+      - bearer_auth: []
+      tags:
+      - virtual numbers
+      summary: delete a virtual number
+      description: Use **virtual-number** to remove a Virtual Number that's been assigned to your account.
+      operationId: deleteNumber
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/ContentLanguage'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/ContentType'
+      - $ref: '#/components/parameters/virtual-number'
+      responses:
+        '204':
+          description: 'A 204 response means the Virtual Number has been successfully removed from your account.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+        '400':
+          description: "Bad Request\n\n| code | suggested_action |\n| :--- | :--- |\n| VIRTUAL_NUM_INVALID | Check the number is a valid Virtual Number. |\n| VIRTUAL_NUM_UNASSIGNED | Check the number is assigned to your account. |\n| FIELD_INVALID | Check the field and the field formatting are correct. |\n| FIELD_LENGTH_ERR | Check the field is within character limits. | \n| FIELD_MISSING | Please supply all required fields. |\n"
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access Token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | ACCOUNT_NOT_LINKED | Check you''ve registered for the Messaging API [here](https://dev.telstra.com). |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | VIRTUAL_NUM_UNKNOWN | Check the number is a valid Virtual Number. |
+
+            | RESOURCE_TEMP_ERR | Check the API status page to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is DELETE. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the API [status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the API [status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /virtual-numbers/{virtual-number}/optouts:
+    get:
+      security:
+      - bearer_auth: []
+      tags:
+      - virtual numbers
+      summary: Get recipient optouts list
+      description: 'Use this endpoint to fetch any mobile number(s) that have opted out of receiving messages from a Virtual Number assigned to your account.
+
+
+        Recipients can opt out at any time by sending an SMS with one of the industry standard keywords (case sensitive) such as STOP, STOPALL, UNSUBSCRIBE, QUIT, END, CANCEL and OPTOUT.
+
+
+        Recipients can opt in at any time by sending an SMS with one of the industry standard keywords (case sensitive) such as START, STARTALL, OPTIN, UNSTOP, SUBSCRIBE and RESUBSCRIBE.'
+      operationId: getRecipientOptouts
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/virtual-number'
+      responses:
+        '200':
+          description: Successful Response
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recipientOptouts:
+                    type: array
+                    minItems: 0
+                    maxItems: 50
+                    description: 'The paginated results of your request. To fetch the next set of results, send another request and provide the succeeding offset value.
+
+                      '
+                    items:
+                      $ref: '#/components/schemas/Recipient-optout'
+                  paging:
+                    $ref: '#/components/schemas/Paging'
+        '400':
+          description: 'Bad Request
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | VIRTUAL_NUM_INVALID | Check the number is a valid Virtual Number. |
+
+            | VIRTUAL_NUM_UNASSIGNED | Check the number is assigned to your account. |
+
+            | FIELD_INVALID | Ensure the number is a 10-digit Australian mobile number in national format (e.g. 0412345678). |
+
+            | FIELD_LENGTH_ERR | Ensure the number is 10 digits only (e.g. 0412345678). |
+
+            | FIELD_MISSING | Please supply the number. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | ACCOUNT_NOT_LINKED | Check you''ve registered for the Messaging API [here](https://dev.telstra.com). |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | VIRTUAL_NUM_UNKNOWN | Check the number is a valid Virtual Number. |
+
+            | RESOURCE_TEMP_ERR | Check the API status page to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is GET. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the API [status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the API [status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+components:
+  parameters:
+    ContentLanguage:
+      name: Content-Language
+      in: header
+      required: true
+      schema:
+        type: string
+        example: en-au
+    offset:
+      name: offset
+      description: 'Use the offset to navigate between the response results. An offset of 0 will display the first page of results, and so on.
+
+        '
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 0
+        minimum: 0
+        maximum: 999999
+    virtual-number:
+      name: virtual-number
+      in: path
+      description: 'Write the Virtual Number here, using national format (e.g. 0412345678).
+
+        '
+      required: true
+      schema:
+        type: string
+        minLength: 10
+        maxLength: 10
+        example: 0412345678
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/json
+    TelstraAPIVersion:
+      name: Telstra-api-version
+      in: header
+      required: false
+      schema:
+        type: string
+        example: 3.1.0
+    AcceptCharset:
+      name: Accept-Charset
+      in: header
+      required: true
+      schema:
+        type: string
+        example: utf-8
+    limit:
+      name: limit
+      in: query
+      description: 'Tell us how many results you want us to return, up to a maximum of 50.
+
+        '
+      schema:
+        type: integer
+        format: int32
+        default: 10
+        minimum: 1
+        maximum: 50
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/json
+    Authorization:
+      name: Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        example: Bearer <access_token>
+    numberFilter:
+      name: filter
+      in: query
+      description: Filter your Virtual Numbers by tag or by number.
+      schema:
+        type: string
+  schemas:
+    Recipient-optout:
+      type: object
+      properties:
+        optoutNumber:
+          type: string
+          minLength: 5
+          maxLength: 16
+          description: The mobile number that sent the optout request.
+        createTimestamp:
+          type: string
+          format: date-time
+          description: The date and time we received the optout request.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Error'
+    Paging:
+      type: object
+      properties:
+        nextPage:
+          type: string
+          description: The next page of results.
+        previousPage:
+          type: string
+          description: The previous page of results.
+        lastPage:
+          type: string
+          description: The last page of results.
+        totalCount:
+          type: number
+          description: The total number of pages.
+    Virtual-number:
+      type: object
+      properties:
+        virtualNumber:
+          type: string
+          minLength: 10
+          maxLength: 10
+          example: 401234567
+          description: 'The Virtual Number assigned to your account.
+
+            '
+        replyCallbackUrl:
+          type: string
+          example: http://www.example.com
+          description: The URL that replies to the Virtual Number will be posted to.
+        tags:
+          description: 'Any customisable tags assigned to the Virtual Number.
+
+            '
+          type: array
+          minItems: 0
+          maxItems: 10
+          items:
+            type: string
+            minLength: 1
+            maxLength: 64
+        lastUse:
+          description: The last time the Virtual Number was used to send a message.
+          type: string
+          format: date-time
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Unique code of the error
+        issue:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: The reason for the error
+        suggested_action:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: Suggest practical actions for this particular issue.
+        field:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: The field that caused the error
+        value:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: The value of the field that caused the error
+        location:
+          type: string
+          description: The location of the field that caused the error.
+          enum:
+          - body
+          - path
+          - query
+        link:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: URI for detailed information related to this error for the developer.
+  requestBodies:
+    numberPut:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              replyCallbackUrl:
+                type: string
+                example: http://www.example.com
+                description: "Tell us the URL that replies to the Virtual Number should be sent to.\n\nNote that if you don't include this field, any pre-existing replyCallbackUrl will be wiped.\n\nSample callback response:\n\n<pre><code class=\"language-sh\">{\n  \"to\":\"0476543210\", \n  \"from\":\"0401234567\", \n  \"timestamp\":\"2022-11-10T05:06:42.823Z\",\n  \"messageId\":\"75f263c0-60b5-11ed-8456-71ae4c63550d\", \n  \"messageContent\":\"Hi, example message\", \n  \"multimedia\": { \n    \"fileName\":\"image.jpeg\", \n    \"type\":\"image/jpeg\", \n    \"payload\":\"base64 payload\" \n  }\n}</code></pre>\n"
+              tags:
+                description: "Create your own tags and use them to fetch, sort and report on your Virtual Numbers through our other endpoints. You can assign up to 10 tags per number. \n\nNote that if you don't include this field, any pre-existing tags will be wiped.\n"
+                type: array
+                maxItems: 10
+                minItems: 1
+                items:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+    numberPost:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              replyCallbackUrl:
+                type: string
+                example: http://www.example.com
+                description: "Tell us the URL that replies to the Virtual Number should be sent to.\n\nSample callback response:\n\n<pre><code class=\"language-sh\">{\n  \"to\":\"0476543210\", \n  \"from\":\"0401234567\", \n  \"timestamp\":\"2022-11-10T05:06:42.823Z\", \n  \"messageId\":\"75f263c0-60b5-11ed-8456-71ae4c63550d\", \n  \"messageContent\":\"Hi, example message\", \n  \"multimedia\": { \n    \"fileName\":\"image.jpeg\", \n    \"type\":\"image/jpeg\", \n    \"payload\":\"base64 payload\"\n  }\n}</code></pre>\n"
+              tags:
+                description: 'Create your own tags and use them to fetch, sort and report on your Virtual Numbers through our other endpoints. You can assign up to 10 tags per number.
+
+                  '
+                type: array
+                maxItems: 10
+                minItems: 1
+                items:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+  securitySchemes:
+    bearer_auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://products.api.telstra.com/v2/oauth/token
+          scopes:
+            free-trial-numbers:read: read information for free trial numbers
+            free-trial-numbers:write: write information for free trial numbers
+            messages:read: read information for messages
+            messages:write: write information for messages
+            reports:read: read information for reports
+            reports:write: write information for reports
+            virtual-numbers:read: read information for virtual-numbers
+            virtual-numbers:write: write information for virtual numbers

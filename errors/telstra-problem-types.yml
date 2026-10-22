@@ -1,0 +1,79 @@
+generated: '2026-10-20'
+method: searched
+source: https://dev.telstra.com/apis/messaging-api/Endpoints
+format: custom-json
+envelope:
+  shape: '{"errors": [ {} ]}'
+  content_type: application/json
+note: Messaging API v3 does not use RFC 9457 problem+json; each status carries an errors[] array of code values.
+  See errors/telstra-error-codes.yml.
+problems:
+- status: 400
+  title: grant_type is incorrect. grant_type should be client_credentials (without quotes). Refer to generate authentication
+    token tutorial in the link for more details https://dev.telstra.com/apis/messaging-api/tutorials/get-an-access-token
+  type: telstra:messaging:400
+  description: 'Codes: RECIPIENT_OPTOUT, TAGS_ERR, SENDERNAME_ERR, MODERATION_ERR, FIELD_INVALID, FIELD_LENGTH_ERR,
+    FIELD_MISSING, MULTIMEDIA_TOO_LARGE, ID_NOT_ASSIGNED, TIMEFRAME_ERR, UPDATE_INVALID_MSG_SENT, ID_INVALID, DELETE_INVALID_MSG_SENT,
+    VIRTUAL_NUM_INVALID, VIRTUAL_NUM_UNASSIGNED'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 401
+  title: Either client_id or client_secret or both are not valid.
+  type: telstra:messaging:401
+  description: 'Codes: TOKEN_INVALID, TOKEN_EXPIRED'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 402
+  title: Payment Required
+  type: telstra:messaging:402
+  description: 'Codes: ACCOUNT_ERR, RATE_PLAN_ERR, ACCOUNT_NOT_LINKED, ACCOUNT_LIMIT_ERROR, FREE_TRIAL_INTERNATIONAL_ERR,
+    FREE_TRIAL_SENDERNAME_ERR'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 403
+  title: Forbidden
+  type: telstra:messaging:403
+  description: 'Codes: RESOURCE_AUTH_ERR, INSUFFICIENT_SCOPE, FREE_TRIAL_ERR'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 404
+  title: The requested URI does not exist
+  type: telstra:messaging:404
+  description: 'Codes: RESOURCE_TEMP_ERR, RESOURCE_NOT_FOUND, VIRTUAL_NUM_UNKNOWN'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 405
+  title: Method Not Allowed
+  type: telstra:messaging:405
+  description: 'Codes: METHOD_INVALID'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 406
+  title: Media type invalid
+  type: telstra:messaging:406
+  description: 'Codes: MEDIA_TYPE_INVALID'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 413
+  title: Payload Too Large
+  type: telstra:messaging:413
+  description: 'Codes: PAYLOAD_TOO_LARGE'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 415
+  title: Payload media type error
+  type: telstra:messaging:415
+  description: 'Codes: PAYLOAD_MEDIA_TYPE_ERR'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 422
+  title: Logic error
+  type: telstra:messaging:422
+  description: 'Codes: LOGIC_ERR'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 429
+  title: Too Many Requests
+  type: telstra:messaging:429
+  description: 'Codes: TOO_MANY_REQUESTS'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 500
+  title: Internal Server Error
+  type: telstra:messaging:500
+  description: 'Codes: INTERNAL_TIMEOUT, INTERNAL_SERVER_ERR, NETWORK_ERR'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml
+- status: 504
+  title: Gateway timeout
+  type: telstra:messaging:504
+  description: 'Codes: GATEWAY_TIMEOUT'
+  remediation: See suggested_action for each code in errors/telstra-error-codes.yml

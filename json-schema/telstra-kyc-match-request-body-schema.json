@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-kyc-match-request-body-schema.json",
+  "title": "KYC_MatchRequestBody",
+  "description": "Payload to validate the customer data.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-kyc-match-api-openapi.yml#/components/schemas/KYC_MatchRequestBody",
+  "type": "object",
+  "properties": {
+    "phoneNumber": {
+      "type": "string",
+      "description": "A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'."
+    },
+    "idDocument": {
+      "type": "string",
+      "description": "**Telstra does not match against this field and the match result will return not_available.** Id number associated to the official identity document in the country. It may contain alphanumeric characters."
+    },
+    "name": {
+      "type": "string",
+      "description": "Complete name of the customer, composed of first/given name and last/family/sur- name. Middle name should be omitted."
+    },
+    "givenName": {
+      "type": "string",
+      "description": "First/given name or compound first/given name of the customer."
+    },
+    "familyName": {
+      "type": "string",
+      "description": "Last name, family name, or surname of the customer."
+    },
+    "nameKanaHankaku": {
+      "type": "string",
+      "description": "**Telstra does not match against this field and the match result will return not_available.** Complete name of the customer in Hankaku-Kana format (reading of name) for Japan."
+    },
+    "nameKanaZenkaku": {
+      "type": "string",
+      "description": "**Telstra does not match against this field and the match result will return not_available.** Complete name of the customer in Zenkaku-Kana format (reading of name) for Japan."
+    },
+    "middleNames": {
+      "type": "string",
+      "description": "**Telstra does not match against this field and the match result will return not_available.** Middle name/s of the customer."
+    },
+    "familyNameAtBirth": {
+      "type": "string",
+      "description": "**Telstra does not match against this field and the match result will return not_available.** Last/family/sur- name at birth of the customer."
+    },
+    "address": {
+      "type": "string",
+      "description": "Complete address of the customer. Constructed in the format **houseNumberExtension (excluding type, eg. Unit) + streetNumber + streetName (excluding street type) + locality + region + postalCode**, with a single whitespace delimiter between each address element."
+    },
+    "streetName": {
+      "type": "string",
+      "description": "Name of the street of the customer's address. It should not include the type of the street."
+    },
+    "streetNumber": {
+      "type": "string",
+      "description": "The street number of the customer's address.  Number identifying a specific property on the 'streetName'."
+    },
+    "postalCode": {
+      "type": "string",
+      "description": "Zip code or postal code"
+    },
+    "region": {
+      "type": "string",
+      "description": "Region/prefecture of the customer's address"
+    },
+    "locality": {
+      "type": "string",
+      "description": "Locality of the customer's address"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country of the customer's address. Format ISO 3166-1 alpha-2"
+    },
+    "houseNumberExtension": {
+      "type": "string",
+      "description": "Specific identifier of the house needed depending on the property type. For example, number of apartment in an apartment building. This should not include the type (eg. Unit, Apartment, etc)."
+    },
+    "birthdate": {
+      "type": "string",
+      "description": "The birthdate of the customer, in ISO 8601 calendar date format (YYYY-MM-DD)."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address of the customer in the RFC specified format (local-part@domain)."
+    },
+    "gender": {
+      "type": "string",
+      "description": "**Telstra does not match against this field and the match result will return not_available.** Gender of the customer (Male/Female/Other).",
+      "enum": [
+        "MALE",
+        "FEMALE",
+        "OTHER"
+      ]
+    }
+  }
+}

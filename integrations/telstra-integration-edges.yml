@@ -1,7 +1,18 @@
-generated: '2026-10-19'
+generated: '2026-10-20'
 method: searched
+source:
+- https://azuremarketplace.microsoft.com/
+- https://zapier.com/apps/telstra/integrations
+- https://n8n.io/integrations/telstra/
+- https://composio.dev/toolkits/telstra
+- https://monid.ai/tools/telstra
 checked:
 - https://azuremarketplace.microsoft.com/
+- https://composio.dev/toolkits/telstra
+- https://monid.ai/tools/telstra
+- https://n8n.io/integrations/telstra/
+- https://zapier.com/apps/telstra/integrations
+summary: null
 marketplace_apps: []
 edges:
 - partner_name: Microsoft Azure Marketplace
@@ -20,5 +31,4 @@ edges:
   seller_name: Telstra Limited
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-19'
-source:
-- https://azuremarketplace.microsoft.com/
+templates: []

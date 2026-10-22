@@ -1,0 +1,78 @@
+name: Telstra agent skills
+generated: '2026-10-20'
+method: generated
+source: 'Packaged Agent Skills generated from the Telstra contracts under openapi/ (originals in openapi/_original/). Every
+  operationId was taken verbatim from the spec. No provider-published skills or AGENTS.md were found: https://dev.telstra.com/AGENTS.md
+  returns the portal HTML catch-all.'
+skills:
+- file: telstra-send-an-sms-or-mms.md
+  name: send-an-sms-or-mms
+  title: Send an SMS or MMS
+  api: openapi/telstra-messaging-api-openapi.yml
+  operations:
+  - authToken
+  - assignNumber
+  - getNumbers
+  - createTrialNumbers
+  - sendMessages
+  - getMessageById
+  - getMessages
+  - getRecipientOptouts
+- file: telstra-verify-a-mobile-number.md
+  name: verify-a-mobile-number
+  title: Verify a mobile number (network-based)
+  api: openapi/telstra-number-verification-api-openapi.yml
+  operations:
+  - authCode
+  - authToken
+  - phoneNumberVerify
+- file: telstra-check-sim-and-device-swap-risk.md
+  name: check-sim-and-device-swap-risk
+  title: Check SIM and device swap risk
+  api: openapi/telstra-sim-swap-api-openapi.yml
+  operations:
+  - authCode
+  - authToken
+  - checkSimSwap
+  - retrieveSimSwapDate
+  related_operations:
+  - api: openapi/telstra-device-swap-api-openapi.yml
+    operations:
+    - checkDeviceSwap
+    - retrieveDeviceSwapDate
+- file: telstra-match-customer-identity.md
+  name: match-customer-identity
+  title: Match customer identity (KYC)
+  api: openapi/telstra-kyc-match-api-openapi.yml
+  operations:
+  - authReqId
+  - authToken
+  - KYC_Match
+  related_operations:
+  - api: openapi/telstra-kyc-tenure-api-openapi.yml
+    operations:
+    - checkTenure
+- file: telstra-book-a-field-appointment.md
+  name: book-a-field-appointment
+  title: Book a field workforce appointment
+  api: openapi/telstra-field-workforce-partners-api-openapi.yml
+  operations:
+  - TaskList-Retrieve
+  - Task-Retrieve
+  - Appointment-QueryAvailableSlots
+  - Appointment-Reserve
+  - Appointment-Retrieve
+  - Appointment-Reschedule
+  - Appointment-Cancel
+- file: telstra-modify-service-bandwidth.md
+  name: modify-service-bandwidth
+  title: Modify service bandwidth or plan
+  api: openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml
+  operations:
+  - authToken
+  - listCustomerServices
+  - listPricing
+  - modifyBandwidth
+  - modifyAdaptivefibreBandwidth
+  - modifyAdaptiveBroadbandPlan
+  - fetchRequestStatus

@@ -1,0 +1,941 @@
+openapi: 3.2.0
+info:
+  title: Messaging API v3.x Reports API
+  version: 3.x
+  description: 'Send and receive SMS & MMS programmatically, leveraging Australia''s leading mobile network.
+
+    With Telstra''s Messaging API, we take out the complexity to allow seamless messaging integration into your app, with just a few lines of code.
+
+    Our REST API is enterprise grade, allowing you to communicate with engaging SMS & MMS messaging in your web and mobile apps in near real-time on a global scale.'
+servers:
+- url: https://products.api.telstra.com/messaging/v3
+  description: Messaging API
+security:
+- bearer_auth: []
+tags:
+- name: Reports
+paths:
+  /reports:
+    get:
+      security:
+      - bearer_auth: []
+      tags:
+      - Reports
+      summary: fetch all reports
+      description: Fetch details of all reports recently generated for your account. Use it to check the status of a report, plus fetch the report ID, status, report type and expiry date.
+      operationId: getReports
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: 'A 200 OK response means the call has been successful. Details of any report(s) generated for your account will be returned in the response.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReportsGet'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_TEMP_ERR | Check the [API status page](https://dev.telstra.com/api/status) to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is GET. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the [API status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the [API status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /reports/{reportId}:
+    get:
+      security:
+      - bearer_auth: []
+      tags:
+      - Reports
+      summary: fetch a report
+      description: Fetch a download link for a report generated with POST /reports/{reportId} using the **reportId** returned in the response. Once ready, your report will be available for download for one week.
+      operationId: getReport
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/reportIdGet'
+      responses:
+        '200':
+          description: 'A 200 OK response means the call has been successful. Your download link (reportUrl) will be returned in the response.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportGet'
+        '400':
+          description: 'Bad Request
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | FIELD_INVALID | Check the field and the field formatting are correct. |
+
+            | FIELD_MISSING | Ensure you''ve supplied all the required fields. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_TEMP_ERR | Check the [API status page](https://dev.telstra.com/api/status) to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is GET. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the [API status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the [API status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /reports/messages:
+    post:
+      security:
+      - bearer_auth: []
+      tags:
+      - Reports
+      summary: submit a request for a messages report
+      description: 'Request a CSV report of messages (both incoming and outgoing) that have been sent to/from your account within the last three months. You can request details for a specific timeframe, and filter your messages by tags, recipient number or Virtual Number.
+
+
+        A 201 Created means your report has been queued for generation. Make a note of the reportId returned in the response. You''ll need this to check the status of your report and fetch your download link with GET reports/{reportId}. If you supplied a reportCallbackUrl in the request we''ll also notify it when your report is ready for download.
+
+
+        Once your report is generated, it will be available for download for one week. The expiry date is returned in the response.'
+      operationId: messagesReport
+      parameters:
+      - $ref: '#/components/parameters/TelstraAPIVersion'
+      - $ref: '#/components/parameters/ContentLanguage'
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/AcceptCharset'
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        $ref: '#/components/requestBodies/reportsMessagesPost'
+      responses:
+        '201':
+          description: 'A 201 Created response means the call has been successful. Your report is in the queue to be generated.
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Location:
+              schema:
+                type: string
+                example: /reports/messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reports-MessagesPost'
+        '400':
+          description: 'Bad Request
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | FIELD_INVALID | Check the field and the field formatting are correct. |
+
+            | FIELD_LENGTH_ERR | Check the field is within character limits. |
+
+            | FIELD_MISSING | Ensure you''ve supplied all the required fields. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '401':
+          description: 'Unauthorized
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOKEN_INVALID | Check the access token. |
+
+            | TOKEN_EXPIRED | Please refresh the token. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '402':
+          description: 'Payment Required
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | ACCOUNT_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            | RATE_PLAN_ERR | Contact [support](mailto:telstradev@team.telstra.com) for help with your account. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: 'Forbidden
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_AUTH_ERR | Check the permissions associated with your account. |
+
+            | INSUFFICIENT_SCOPE | The access token you generated does not have sufficient permissions for this request. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: 'Not Found
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | RESOURCE_TEMP_ERR | Check the [API status page](https://dev.telstra.com/api/status) to see if an active incident is causing a temporary issue with the resource. |
+
+            | RESOURCE_NOT_FOUND | Check the endpoint is correct. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '405':
+          description: 'Method Not Allowed
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | METHOD_INVALID | Ensure the method is POST. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '429':
+          description: 'Too Many Requests
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | TOO_MANY_REQUESTS | Reduce the number of concurrent calls. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+            Retry-After:
+              schema:
+                type: number
+                example: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: 'Internal Server Error
+
+
+            | code | suggested_action |
+
+            | :--- | :--- |
+
+            | INTERNAL_TIMEOUT | Try the call again. If the issue persists, check the [API status page](https://dev.telstra.com/api/status) to see if there''s an active incident. |
+
+            | INTERNAL_SERVER_ERR | Check the [API status page](https://dev.telstra.com/api/status) to see if an active incident is causing the internal error. |
+
+            | NETWORK_ERR | Please try again later. |
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        default:
+          description: 'Unexpected
+
+            '
+          headers:
+            Content-Language:
+              schema:
+                type: string
+                example: en-au
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+components:
+  parameters:
+    ContentLanguage:
+      name: Content-Language
+      in: header
+      required: true
+      schema:
+        type: string
+        example: en-au
+    offset:
+      name: offset
+      description: 'Use the offset to navigate between the response results. An offset of 0 will display the first page of results, and so on.
+
+        '
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 0
+        minimum: 0
+        maximum: 999999
+    AcceptCharset:
+      name: Accept-Charset
+      in: header
+      required: true
+      schema:
+        type: string
+        example: utf-8
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/json
+    TelstraAPIVersion:
+      name: Telstra-api-version
+      in: header
+      required: false
+      schema:
+        type: string
+        example: 3.1.0
+    reportIdGet:
+      name: reportId
+      in: path
+      description: 'Use the reportId returned in the POST /reports/{reportType} response.
+
+        '
+      required: true
+      schema:
+        type: string
+        format: uuid
+        minLength: 36
+        maxLength: 36
+    limit:
+      name: limit
+      in: query
+      description: 'Tell us how many results you want us to return, up to a maximum of 50.
+
+        '
+      schema:
+        type: integer
+        format: int32
+        default: 10
+        minimum: 1
+        maximum: 50
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/json
+    Authorization:
+      name: Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        example: Bearer <access_token>
+  requestBodies:
+    reportsMessagesPost:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - startDate
+            - endDate
+            properties:
+              startDate:
+                description: 'Set the time period you want to generate a report for by typing the start date (inclusive) here.
+
+
+                  Note that we only retain data for three months, so please ensure your startDate is not more than three months old.
+
+
+                  Use ISO format(yyyy-mm-dd), e.g. 2019-08-24.
+
+                  '
+                type: string
+                format: date
+                minLength: 10
+                maxLength: 10
+              endDate:
+                description: 'Type the end date (inclusive) of your reporting period here.
+
+
+                  Your endDate must be a date in the past, and less than three months from your startDate. Use ISO format(yyyy-mm-dd).
+
+                  '
+                type: string
+                format: date
+                minLength: 10
+                maxLength: 10
+              reportCallbackUrl:
+                description: "Tell us the callbackUrl you want us to notify when your report is ready for download.\n\nSample callback response:\n\n<pre><code class=\"language-sh\">{\n  \"reportId\":\"1520b774-46b0-4415-a05f-7bcb1c032c59\",\n  \"reportStatus\":\"completed\",\n  \"timestamp\":\"2022-11-10T05:06:42.823Z\"\n}</code></pre>\n"
+                type: string
+              filter:
+                description: "Filter your messages report by:\n  * tag - use one of the tags assigned to your message(s)\n  * number - either the Virtual Number used to send the message, or the Recipient Number the message was sent to.\n"
+                type: string
+            example:
+              startDate: '2022-08-24'
+              endDate: '2022-09-25'
+              reportCallbackUrl: https://www.example.com
+              filter: tag1
+  schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Error'
+    ReportGet:
+      type: object
+      properties:
+        reportId:
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          description: 'The UUID assigned to your report.
+
+            '
+        reportStatus:
+          type: string
+          description: "The status of the report. It will be either: \n      * **queued** - the report is in the queue for generation. \n      * **completed** - the report is ready for download. \n      * **failed** - the report failed to generate. Please try again.\n"
+        reportUrl:
+          type: string
+          description: Use this link to download your CSV file.
+      example:
+        reportId: 6940c774-4335-4d2b-b758-4ecb19412e85
+        reportStatus: completed
+        reportUrl: https://www.example.com
+    ReportsGet:
+      type: object
+      properties:
+        reportId:
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          description: 'Use this UUID to fetch your report with the GET /reports/{reportId} endpoint.
+
+            '
+        reportStatus:
+          type: string
+          description: "The status of the report. It will be either: \n      * **queued** - the report is in the queue for generation. \n      * **completed** - the report is ready for download. \n      * **failed** - the report failed to generate. Please try again.\n"
+        reportType:
+          type: string
+          description: The type of report generated.
+        reportExpiry:
+          type: string
+          format: date
+          description: 'The expiry date of your report. After this date, you will be unable to download your report.
+
+            '
+      example:
+        reportId: 6940c774-4335-4d2b-b758-4ecb19412e85
+        reportStatus: completed
+        reportType: messages
+        reportExpiry: '2023-01-01'
+    Reports-MessagesPost:
+      type: object
+      properties:
+        reportId:
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          description: 'When your report is ready for download, you can use this UUID to fetch it with the GET /reports/{reportId} endpoint.
+
+            '
+        reportCallbackUrl:
+          type: string
+          description: If you provided a reportCallbackUrl in your request, it will be returned here.
+        reportStatus:
+          type: string
+          description: "The status of the report. It will be either: \n      * **queued** - the report is in the queue for generation. \n      * **completed** - the report is ready for download. \n      * **failed** - the report failed to generate. Please try again.\n"
+      example:
+        reportId: 6940c774-4335-4d2b-b758-4ecb19412e85
+        reportCallbackUrl: https://www.example.com
+        reportStatus: queued
+    Error:
+      type: object
+      required:
+      - code
+      - issue
+      - suggested_action
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Unique code of the error
+        issue:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: The reason for the error
+        suggested_action:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: Suggest practical actions for this particular issue.
+        field:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: The field that caused the error
+        value:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: The value of the field that caused the error
+        location:
+          type: string
+          description: The location of the field that caused the error.
+          enum:
+          - body
+          - path
+          - query
+        link:
+          type: string
+          minLength: 1
+          maxLength: 99999
+          description: URI for detailed information related to this error for the developer.
+  securitySchemes:
+    bearer_auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://products.api.telstra.com/v2/oauth/token
+          scopes:
+            free-trial-numbers:read: read information for free trial numbers
+            free-trial-numbers:write: write information for free trial numbers
+            messages:read: read information for messages
+            messages:write: write information for messages
+            reports:read: read information for reports
+            reports:write: write information for reports
+            virtual-numbers:read: read information for virtual-numbers
+            virtual-numbers:write: write information for virtual numbers

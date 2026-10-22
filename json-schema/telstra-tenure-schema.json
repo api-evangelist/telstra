@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-tenure-schema.json",
+  "title": "Tenure",
+  "description": "Specifies date from which continuous tenure of the identified mobile subscriber is required to be confirmed",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-kyc-tenure-api-openapi.yml#/components/schemas/Tenure",
+  "type": "object",
+  "properties": {
+    "phoneNumber": {
+      "$ref": "#/$defs/PhoneNumber"
+    },
+    "tenureDate": {
+      "type": "string",
+      "description": "The date, in RFC 3339 / ISO 8601 compliant format \"YYYY-MM-DD\", from which continuous tenure of the identified network subscriber is required to be confirmed",
+      "format": "date"
+    }
+  },
+  "required": [
+    "tenureDate"
+  ],
+  "$defs": {
+    "PhoneNumber": {
+      "description": "**Telstra only uses three-legged access tokens, therefore this field must not be provided**. A public identifier addressing a telephone subscription. In mobile networks it corresponds to the MSISDN (Mobile Station International Subscriber Directory Number). In order to be globally unique it has to be formatted in international format, according to E.164 standard, prefixed with '+'.",
+      "type": "string",
+      "pattern": "^\\+[1-9][0-9]{4,14}$"
+    }
+  }
+}

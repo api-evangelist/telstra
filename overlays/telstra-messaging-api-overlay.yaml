@@ -1,0 +1,156 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist agent overlay for Messaging API v3.x
+  version: 1.0.0
+extends: ../openapi/_original/telstra-messaging-api-openapi.json
+x-generated: '2026-10-20'
+x-method: generated
+x-source: openapi/telstra-messaging-api-openapi.yml
+x-rationale: Adds agent-facing annotations (tool / read-only / destructive flags and candidate MCP tool names, matching mcp/telstra-mcp.yml)
+  and provenance without mutating the original contract.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance for this contract.
+  update:
+    x-apievangelist:
+      provider: telstra
+      profiled: '2026-10-20'
+      original: openapi/_original/telstra-messaging-api-openapi.json
+- target: $.paths['/oauth/token'].post
+  description: Agent annotations for authToken.
+  update:
+    x-agent-tool: false
+    x-agent-note: Token / authorization plumbing. Agents and MCP clients should not call this as a tool.
+- target: $.paths['/messages'].post
+  description: Agent annotations for sendMessages.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: send_messages
+- target: $.paths['/messages'].get
+  description: Agent annotations for getMessages.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_messages
+- target: $.paths['/messages/{messageId}'].get
+  description: Agent annotations for getMessageById.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_message_by_id
+- target: $.paths['/messages/{messageId}'].put
+  description: Agent annotations for updateMessageById.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: update_message_by_id
+- target: $.paths['/messages/{messageId}'].delete
+  description: Agent annotations for deleteMessageById.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: true
+    x-mcp-tool-name: delete_message_by_id
+- target: $.paths['/messages/{messageId}'].patch
+  description: Agent annotations for updateMessageTags.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: update_message_tags
+- target: $.paths['/virtual-numbers'].post
+  description: Agent annotations for assignNumber.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: assign_number
+- target: $.paths['/virtual-numbers'].get
+  description: Agent annotations for getNumbers.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_numbers
+- target: $.paths['/virtual-numbers/{virtual-number}'].get
+  description: Agent annotations for getVirtualNumber.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_virtual_number
+- target: $.paths['/virtual-numbers/{virtual-number}'].put
+  description: Agent annotations for updateNumber.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: update_number
+- target: $.paths['/virtual-numbers/{virtual-number}'].delete
+  description: Agent annotations for deleteNumber.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: true
+    x-mcp-tool-name: delete_number
+- target: $.paths['/virtual-numbers/{virtual-number}/optouts'].get
+  description: Agent annotations for getRecipientOptouts.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_recipient_optouts
+- target: $.paths['/free-trial-numbers'].post
+  description: Agent annotations for createTrialNumbers.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: create_trial_numbers
+- target: $.paths['/free-trial-numbers'].get
+  description: Agent annotations for getTrialNumbers.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_trial_numbers
+- target: $.paths['/reports'].get
+  description: Agent annotations for getReports.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_reports
+- target: $.paths['/reports/{reportId}'].get
+  description: Agent annotations for getReport.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_report
+- target: $.paths['/reports/messages'].post
+  description: Agent annotations for messagesReport.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: messages_report
+- target: $.paths['/sender-names'].get
+  description: Agent annotations for getSenderNames.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: get_sender_names
+- target: $.paths['/health-check'].get
+  description: Agent annotations for healthCheck.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: true
+    x-agent-destructive: false
+    x-mcp-tool-name: health_check

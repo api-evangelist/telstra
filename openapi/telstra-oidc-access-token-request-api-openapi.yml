@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: Telstra OIDC Access Token Request API
+  x-refined-note:
+  - x-camara-commonalities differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged OIDC Access Token Request across 5 of this provider''s published API definitions: telstra-device-swap-api-openapi.json, telstra-iot-outage-api-openapi.json, telstra-kyc-match-api-openapi.json, telstra-kyc-tenure-api-openapi.json, telstra-number-verification-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: '{apiRoot}/device-swap/v1'
+  variables:
+    apiRoot:
+      default: http://localhost:8080
+      description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api/kyc/kyc-match/v0.2
+- url: https://prod.okapi.ogw.evolve.okapi.telstra.com/mobility/products-api/kyc/kyc-tenure/v0.2
+tags:
+- name: OIDC Access Token Request
+  description: Request for access token to make the API request
+paths:
+  /token:
+    post:
+      tags:
+      - OIDC Access Token Request
+      summary: Request for OAuth2 access token
+      description: To generate an OAuth2 Access token, use your `Client ID` and `Client secret` that you get from the Telstra Developer portal. You will also need the `Code` that was received in the previous leg.
+      security:
+      - {}
+      servers:
+      - url: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-prod/api/realms/network-auth/protocol/openid-connect
+        description: OAuth2 server
+      operationId: authToken
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  description: Client ID generated on your Telstra Developer account
+                  type: string
+                client_secret:
+                  description: Client Secret generated on your Telstra Developer account
+                  type: string
+                grant_type:
+                  type: string
+                  default: authorization_code
+                code:
+                  type: string
+                redirect_uri:
+                  type: string
+                  default: http://localhost:8080/auth
+              required:
+              - grant_type
+              - code
+              - client_id
+              - client_secret
+              - redirect_uri
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    description: OAuth access token
+                    type: string
+                  token_type:
+                    description: OAuth token type
+                    type: string
+                  expires_in:
+                    description: OAuth expiry time in seconds.
+                    type: string
+                  scope:
+                    description: Scopes requested for during Authentication Request
+                    type: string
+        '400':
+          description: '`grant_type` is incorrect. `grant_type` should be `client_credentials` (without quotes).
+
+            '
+        '401':
+          description: 'Either client_id or client_secret or both are not valid.
+
+            '
+        '404':
+          description: 'The requested URI does not exist
+
+            '
+        '503':
+          description: 'The service is currently unavailable.
+
+            '
+        default:
+          description: 'An internal error occurred when processing the request.
+
+
+            If the error persists even after re-try, check out https://dev.telstra.com/status page to ensure the service is up and running.
+
+            '
+    servers:
+    - url: '{apiRoot}/device-swap/v1'
+      variables:
+        apiRoot:
+          default: http://localhost:8080
+          description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+    OAuth2:
+      type: oauth2
+      description: This API will use OAuth2 security with **client_credentials** grant type.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/
+          tokenUrl: https://prod.okapi.ogw.evolve.okapi.telstra.com/og-network-auth-model/api/realms/network-auth/protocol/openid-connect/token
+          scopes:
+            iot-naap-outage:read: Read access for the IoT outage API.
+            iot-naap-outage:write: Write access for the IoT outage API.
+x-refined-from:
+- telstra-device-swap-api-openapi.json
+- telstra-iot-outage-api-openapi.json
+- telstra-kyc-match-api-openapi.json
+- telstra-kyc-tenure-api-openapi.json
+- telstra-number-verification-api-openapi.json

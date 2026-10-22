@@ -1,0 +1,46 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist agent overlay for SIM Swap
+  version: 1.0.0
+extends: ../openapi/_original/telstra-sim-swap-api-openapi.json
+x-generated: '2026-10-20'
+x-method: generated
+x-source: openapi/telstra-sim-swap-api-openapi.yml
+x-rationale: Adds agent-facing annotations (tool / read-only / destructive flags and candidate MCP tool names, matching mcp/telstra-mcp.yml)
+  and provenance without mutating the original contract.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance for this contract.
+  update:
+    x-apievangelist:
+      provider: telstra
+      profiled: '2026-10-20'
+      original: openapi/_original/telstra-sim-swap-api-openapi.json
+- target: $.info
+  description: Flag that the captured contract declares no servers[]; no base URL is invented here.
+  update:
+    x-apievangelist-servers-note: No servers[] in the provider contract. See apis.yml baseURL / provider docs for the endpoint.
+- target: $.paths['/auth'].get
+  description: Agent annotations for authCode.
+  update:
+    x-agent-tool: false
+    x-agent-note: Token / authorization plumbing. Agents and MCP clients should not call this as a tool.
+- target: $.paths['/token'].post
+  description: Agent annotations for authToken.
+  update:
+    x-agent-tool: false
+    x-agent-note: Token / authorization plumbing. Agents and MCP clients should not call this as a tool.
+- target: $.paths['/retrieve-date'].post
+  description: Agent annotations for retrieveSimSwapDate.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: retrieve_sim_swap_date
+- target: $.paths['/check'].post
+  description: Agent annotations for checkSimSwap.
+  update:
+    x-agent-tool: true
+    x-agent-read-only: false
+    x-agent-destructive: false
+    x-mcp-tool-name: check_sim_swap

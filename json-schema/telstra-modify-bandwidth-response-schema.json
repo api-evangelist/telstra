@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-modify-bandwidth-response-schema.json",
+  "title": "ModifyBandwidthResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-bandwidth-and-plan-modification-api-openapi.yml#/components/schemas/ModifyBandwidthResponse",
+  "type": "object",
+  "required": [
+    "requestId",
+    "serviceId",
+    "status",
+    "submittedAt",
+    "submittedBy",
+    "pollAfter",
+    "errors"
+  ],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "serviceId": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 16
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "submittedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "submittedBy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "pollAfter": {
+      "type": "string",
+      "description": "Indicator for recommended next polling interval duration ISO 8601 duration format \"PT5M\" → 5 minutes \"PT2H\" → 2 hours \"P1D\" → 1 day \"P2W\" → 2 weeks",
+      "minLength": 1,
+      "maxLength": 10
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Error"
+      },
+      "minItems": 0,
+      "maxItems": 10
+    }
+  },
+  "$defs": {
+    "Error": {
+      "type": "object",
+      "required": [
+        "code",
+        "issue",
+        "suggested_action",
+        "field",
+        "value",
+        "location",
+        "link"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code.",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "issue": {
+          "type": "string",
+          "description": "Human-readable explanation of the error.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "suggested_action": {
+          "type": "string",
+          "description": "Recommended corrective action.",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "field": {
+          "type": "string",
+          "description": "Name of the field causing the error (if applicable).",
+          "minLength": 0,
+          "maxLength": 64
+        },
+        "value": {
+          "type": "string",
+          "description": "The invalid value provided (if applicable).",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "location": {
+          "type": "string",
+          "description": "Where the error occurred.",
+          "enum": [
+            "query",
+            "header",
+            "path",
+            "body",
+            "method",
+            "server",
+            "decision"
+          ],
+          "minLength": 0,
+          "maxLength": 8
+        },
+        "link": {
+          "type": "string",
+          "description": "Reference URL for more information about this error code.",
+          "minLength": 0,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

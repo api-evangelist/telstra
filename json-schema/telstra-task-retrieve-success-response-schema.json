@@ -1,0 +1,615 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/telstra/main/json-schema/telstra-task-retrieve-success-response-schema.json",
+  "title": "TaskRetrieveSuccessResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/telstra-field-workforce-partners-api-openapi.yml#/components/schemas/TaskRetrieveSuccessResponse",
+  "required": [
+    "correlationId",
+    "data",
+    "method",
+    "path",
+    "status",
+    "time"
+  ],
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999,
+      "description": "The http response code indicating the nature of completion."
+    },
+    "time": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "description": "The current date/time at time of response in UTC",
+      "format": "date-time"
+    },
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The error code of the scenario. Populated in error case only"
+    },
+    "correlationId": {
+      "maxLength": 50,
+      "type": "string",
+      "minLength": 1,
+      "description": "The correlationId automatically generated or the value from the request if provided."
+    },
+    "message": {
+      "maxLength": 1000,
+      "type": "string",
+      "minLength": 1,
+      "description": "The error message. Populated in error case only."
+    },
+    "requestId": {
+      "maxLength": 50,
+      "type": "string",
+      "minLength": 1,
+      "description": "An identifier assigned to track the request."
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The URI of the API request."
+    },
+    "method": {
+      "maxLength": 10,
+      "type": "string",
+      "minLength": 1,
+      "description": "The HTTP method of the request"
+    },
+    "data": {
+      "required": [
+        "taskID",
+        "host",
+        "status",
+        "createdDate",
+        "dueDate",
+        "category",
+        "customerDetails",
+        "addressDetails",
+        "exchangeCode",
+        "hostNumber",
+        "locationType",
+        "scheduleOfRatesDetails",
+        "jobDetails",
+        "contacts"
+      ],
+      "type": "object",
+      "properties": {
+        "taskID": {
+          "type": "string",
+          "description": "The task ID.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "host": {
+          "type": "string",
+          "description": "The Telstra host system of the task.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "containerID": {
+          "type": "string",
+          "description": "An identifier of the container/group to which this task is associated in the Telstra WFM system (if applicable)",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the task in WFM Partner Gateway.",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "createdDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The date/time in UTC when the task was created and assigned to the partner. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi"
+        },
+        "dueDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The due date/time in UTC by when the task must be completed by the partner. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "slot": {
+          "$ref": "#/$defs/slotInput"
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the task.",
+          "maxLength": 50,
+          "minLength": 1,
+          "enum": [
+            "ASSURANCE - COMMITMENT",
+            "ASSURANCE - APPOINTMENT",
+            "ACTIVATION - APPOINTMENT",
+            "ACTIVATION - COMMITMENT"
+          ]
+        },
+        "acceptedDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The acceptance date/time in UTC for the task. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "rejectedDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The rejection date/time in UTC for the task. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "travelDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The travel commencement date/time in UTC for the task. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "onsiteDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The onsite date/time in UTC for the task. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "completedDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The completion date/time in UTC for the task. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "customerDetails": {
+          "$ref": "#/$defs/customerDetailsInput"
+        },
+        "addressDetails": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/addressDetailsInput"
+          }
+        },
+        "exchangeCode": {
+          "type": "string",
+          "description": "The exchange code value for the area where the task will be performed",
+          "maxLength": 10,
+          "minLength": 1
+        },
+        "hostNumber": {
+          "type": "string",
+          "description": "This will indicate the reference for the task in the host system. For an activation task, this will be the order number. For an assurance task, this will be the trouble ticket reference.",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "locationType": {
+          "type": "string",
+          "description": "Indicates the type of location for where this task will be performed.",
+          "enum": [
+            "CAN",
+            "Customer",
+            "Exchange",
+            "Transmission"
+          ],
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "hostNotes": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Notes and further instructions which have been recorded by the Telstra system which submitted the task request."
+        },
+        "serviceID": {
+          "type": "string",
+          "description": "The main service ID related to this task. For example an FNN, username or similar value.",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "scheduleOfRatesDetails": {
+          "$ref": "#/$defs/scheduleOfRatesDetailsForTaskRetrieve"
+        },
+        "jobDetails": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/jobDetailsInputForTaskRetrieve"
+          }
+        },
+        "contacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/contactsInput"
+          }
+        },
+        "faultClearanceDetails": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/faultClearanceDetailsInputForTaskRetrieve"
+          }
+        },
+        "closureReason": {
+          "type": "string",
+          "description": "The closure reason code assigned by the partner for this completion of task. Will only be present for a closed task.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "closureComment": {
+          "type": "string",
+          "description": "The closure comment assigned by the partner for this completion of task. Will only be present for a closed task.",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "additionalAttributes": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/additionalAttributesInput"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "additionalAttributesInput": {
+      "description": "An array of name/value pairs of additional details related to the task (if present)",
+      "required": [
+        "category",
+        "name",
+        "value"
+      ],
+      "properties": {
+        "category": {
+          "type": "string",
+          "description": "Indicates the category of the attributes.",
+          "maxLength": 50,
+          "minLength": 1,
+          "enum": [
+            "PASS THROUGH DATA"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the attribute.",
+          "maxLength": 512,
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the attribute.",
+          "maxLength": 512,
+          "minLength": 1
+        }
+      }
+    },
+    "additionalSORsForTaskRetrieve": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The additional SOR code claimed by the partner. This value will only be present once the partner has.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "group": {
+          "type": "string",
+          "description": "The additional SOR group of the task (if applicable).",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "string",
+          "description": "The additional SOR code quantity claimed by the partner, in string format. This value will only be present once the partner has completed the task.",
+          "maxLength": 10,
+          "minLength": 1
+        },
+        "comment": {
+          "type": "string",
+          "description": "The additional SOR comment saved by the partner. This value will only be present once the partner has completed the task.",
+          "maxLength": 4000,
+          "minLength": 1
+        }
+      }
+    },
+    "addressDetailsInput": {
+      "description": "An array of addresses associated with this task. Each task should have at least one address present but their may be more in some cases.",
+      "required": [
+        "role",
+        "postCode",
+        "state",
+        "locality",
+        "streetAddress",
+        "unstructuredAddressLine"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "The role of this address with respect to the task.",
+          "enum": [
+            "TASK ADDRESS",
+            "OTHER"
+          ],
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "postCode": {
+          "type": "string",
+          "description": "The postcode value of the address.",
+          "maxLength": 4,
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "description": "The state value of the address.",
+          "maxLength": 10,
+          "minLength": 1
+        },
+        "locality": {
+          "type": "string",
+          "description": "The locality/suburb of the address.",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "streetAddress": {
+          "type": "string",
+          "description": "The street address component of the address. This may not contain the sub address details.",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "unstructuredAddressLine": {
+          "type": "string",
+          "description": "The full address in a single line, comma separated format. The partner should look for any sub address details in this field.",
+          "maxLength": 512,
+          "minLength": 1
+        }
+      }
+    },
+    "contactsInput": {
+      "description": "An array of contacts related to this task. There should be at least one contact per task.",
+      "required": [
+        "role",
+        "phoneNumber",
+        "name"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "The role type of this contact",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the contact person",
+          "maxLength": 32,
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the contact person",
+          "maxLength": 128,
+          "minLength": 1
+        }
+      }
+    },
+    "customerDetailsInput": {
+      "type": "object",
+      "description": "An object holding details of the customer",
+      "required": [
+        "name",
+        "medicalPriority"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the customer.",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "medicalPriority": {
+          "type": "boolean",
+          "description": "A flag which indicates whether the customer has a priority medical issue to help the partner to prioritise this customer's request. Valid values- false, true."
+        },
+        "customerID": {
+          "type": "string",
+          "description": "The customer ID (if available)",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "description": "The customer class/segment type (if available).",
+          "maxLength": 250,
+          "minLength": 1
+        }
+      }
+    },
+    "faultClearanceDetailsInputForTaskRetrieve": {
+      "description": "An array of fault clearance values recorded against the task which may be present for a closed assurance task. The partner can use the Reference Data - Retrieve operation to obtain the description of each code when required.",
+      "required": [
+        "clearanceActionCode",
+        "locationCode",
+        "partOfPlantCode",
+        "componentCode"
+      ],
+      "properties": {
+        "clearanceActionCode": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "A code which indicates the action taken to clear the fault condition."
+        },
+        "locationCode": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "A code which indicates the location of the fault condition."
+        },
+        "partOfPlantCode": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "A code which indicates the part of plant which had the fault condition."
+        },
+        "componentCode": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "A code which indicates the component related to the fault condition."
+        },
+        "causeCode": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "A code which indicates the root cause of the fault condition (if applicable)"
+        }
+      }
+    },
+    "jobDetailsInputForTaskRetrieve": {
+      "description": "An array of jobs under this task",
+      "required": [
+        "jobID",
+        "jobState",
+        "technologyType",
+        "actionType",
+        "resourceType",
+        "jobDuration",
+        "locationType"
+      ],
+      "properties": {
+        "jobID": {
+          "type": "string",
+          "description": "The job ID for the job.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "jobState": {
+          "type": "string",
+          "description": "The status of the job under the task within the Telstra WFM systems.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "technologyType": {
+          "type": "string",
+          "description": "The technologyType (T) value for the work required in this job. The combination of technologyType, actionType and resourceType is used in the Telstra WFM system to classify the work required for this job under the task.",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "actionType": {
+          "type": "string",
+          "description": "The actionType (A) value for the work required in this job.",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The resourceType (R) value for the work required in this job.",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "jobDuration": {
+          "type": "string",
+          "description": "The estimated duration configured for this T.A.R code combination in minutes.",
+          "maxLength": 10,
+          "minLength": 1
+        },
+        "jobDescription": {
+          "type": "string",
+          "description": "Additional notes/instructions recorded at the job level from the Telstra host system.",
+          "maxLength": 512,
+          "minLength": 1
+        },
+        "locationType": {
+          "type": "string",
+          "description": "Indicates the type of location for where this job will be performed. Sometimes in a multi job task certain jobs will be performed in different location types.",
+          "enum": [
+            "CAN",
+            "Customer",
+            "Exchange",
+            "Transmission"
+          ],
+          "maxLength": 256,
+          "minLength": 1
+        }
+      }
+    },
+    "primarySORForTaskRetrieve": {
+      "type": "object",
+      "description": "An object which holds the primary SOR details.",
+      "required": [
+        "group"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The primary SOR code claimed by the partner. This value will only be present once the partner has completed the task.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "group": {
+          "type": "string",
+          "description": "The primary SOR group of the task.",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "string",
+          "description": "The primary SOR code quantity claimed by the partner, in string format. This value will only be present once the partner has completed the task.",
+          "maxLength": 10,
+          "minLength": 1
+        },
+        "comment": {
+          "type": "string",
+          "description": "The primary SOR comment saved by the partner. This value will only be present once the partner has completed the task.",
+          "maxLength": 4000,
+          "minLength": 1
+        }
+      }
+    },
+    "scheduleOfRatesDetailsForTaskRetrieve": {
+      "type": "object",
+      "description": "An object which holds the schedule of rates details relevant to this task.",
+      "required": [
+        "primarySOR"
+      ],
+      "properties": {
+        "primarySOR": {
+          "$ref": "#/$defs/primarySORForTaskRetrieve"
+        },
+        "additionalSORs": {
+          "type": "array",
+          "minItems": 0,
+          "description": "An array which holds the additional SOR details for the task.",
+          "items": {
+            "$ref": "#/$defs/additionalSORsForTaskRetrieve"
+          }
+        }
+      }
+    },
+    "slotInput": {
+      "type": "object",
+      "description": "An object holding the details of the arrival window in which the technician is expected to arrive to the site to commence work. Mandatory when category is \"ASSURANCE - APPOINTMENT\" or \"ACTIVATION - APPOINTMENT\"",
+      "required": [
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The arrival slot start date/time in UTC. The technician must not commence work prior to this time. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        },
+        "endDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "The arrival slot end date/time in UTC. The technician should aim to arrive at site to commence the work not later than this time. Format- yyyy-MM-DDThh:mi:ss.mls+hh:mi."
+        }
+      }
+    }
+  }
+}

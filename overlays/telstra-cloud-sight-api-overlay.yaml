@@ -1,0 +1,27 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist agent overlay for Telstra Cloud Sight platform
+  version: 1.0.0
+extends: ../openapi/_original/telstra-cloud-sight-api-openapi.json
+x-generated: '2026-10-20'
+x-method: generated
+x-source: openapi/telstra-cloud-sight-api-openapi.yml
+x-rationale: Adds agent-facing annotations (tool / read-only / destructive flags and candidate MCP tool names, matching mcp/telstra-mcp.yml)
+  and provenance without mutating the original contract.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance for this contract.
+  update:
+    x-apievangelist:
+      provider: telstra
+      profiled: '2026-10-20'
+      original: openapi/_original/telstra-cloud-sight-api-openapi.json
+- target: $.info
+  description: Flag that the captured contract declares no servers[]; no base URL is invented here.
+  update:
+    x-apievangelist-servers-note: No servers[] in the provider contract. See apis.yml baseURL / provider docs for the endpoint.
+- target: $.paths['/'].get
+  description: Agent annotations for GET /.
+  update:
+    x-agent-tool: false
+    x-agent-note: No operationId in the provider contract; not exposed as a tool.
